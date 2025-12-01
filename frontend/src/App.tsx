@@ -1,3 +1,4 @@
+import { API_URL } from './config'
 import { useState, useEffect } from 'react'
 import { 
   searchRhymes,
@@ -547,7 +548,7 @@ function App() {
     setConceptLoading(true)
     try {
       // Call backend to extract themes and find matches
-      const response = await fetch('http://localhost:3001/api/find-matching-songs', {
+      const response = await fetch('${API_URL}/api/find-matching-songs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -669,7 +670,7 @@ function App() {
         ? `${nextLineConcept}\n\nLyrics so far:\n${existingLyrics}`
         : nextLineConcept
 
-      const response = await fetch('http://localhost:3001/api/find-matching-songs', {
+      const response = await fetch('${API_URL}/api/find-matching-songs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -713,7 +714,7 @@ function App() {
 
     setGeneratingNextLine(true)
     try {
-      const response = await fetch('http://localhost:3001/api/generate-next-line', {
+      const response = await fetch('${API_URL}/api/generate-next-line', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -757,7 +758,7 @@ function App() {
   const handleMoreLikeThis = async (baseLine: string) => {
     setGeneratingNextLine(true)
     try {
-      const response = await fetch('http://localhost:3001/api/generate-more-like-this', {
+      const response = await fetch('${API_URL}/api/generate-more-like-this', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -935,7 +936,7 @@ function App() {
     setFigurativeGenerating(true)
 
     try {
-      const response = await fetch('http://localhost:3001/api/generate-figurative-variations', {
+      const response = await fetch('${API_URL}/api/generate-figurative-variations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1351,7 +1352,7 @@ function App() {
         keyword: r.keyword
       }))
 
-      const response = await fetch('http://localhost:3001/api/filter-figurative-by-meaning', {
+      const response = await fetch('${API_URL}/api/filter-figurative-by-meaning', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1384,7 +1385,7 @@ function App() {
 
     setGeneratingTitles(true)
     try {
-      const response = await fetch('http://localhost:3001/api/generate-more-titles', {
+      const response = await fetch('${API_URL}/api/generate-more-titles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1421,13 +1422,13 @@ function App() {
   useEffect(() => {
     if (currentPage === 'realtalk') {
       // Fetch sources
-      fetch('http://localhost:3001/api/real-talk/sources')
+      fetch('${API_URL}/api/real-talk/sources')
         .then(res => res.json())
         .then(data => setRtSources(data.sources || []))
         .catch(err => console.error('Failed to fetch sources:', err))
 
       // Fetch tags
-      fetch('http://localhost:3001/api/real-talk/tags')
+      fetch('${API_URL}/api/real-talk/tags')
         .then(res => res.json())
         .then(data => {
           setRtSituationTags(data.situations || [])
@@ -1436,7 +1437,7 @@ function App() {
         .catch(err => console.error('Failed to fetch tags:', err))
 
       // Fetch initial entries
-      fetch('http://localhost:3001/api/real-talk/entries?limit=50')
+      fetch('${API_URL}/api/real-talk/entries?limit=50')
         .then(res => res.json())
         .then(data => setRtEntries(data.entries || []))
         .catch(err => console.error('Failed to fetch entries:', err))
@@ -1449,7 +1450,7 @@ function App() {
     
     setRtAddingSource(true)
     try {
-      const res = await fetch('http://localhost:3001/api/real-talk/sources', {
+      const res = await fetch('${API_URL}/api/real-talk/sources', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ source_identifier: rtNewSubreddit.trim() })
@@ -1478,7 +1479,7 @@ function App() {
     setRtAddingYoutube(true)
     try {
       // First create a source for this video
-      const sourceRes = await fetch('http://localhost:3001/api/real-talk/sources', {
+      const sourceRes = await fetch('${API_URL}/api/real-talk/sources', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -1497,7 +1498,7 @@ function App() {
       const sourceId = sourceData.source.id
       
       // Then scrape the video
-      const scrapeRes = await fetch('http://localhost:3001/api/real-talk/scrape-youtube', {
+      const scrapeRes = await fetch('${API_URL}/api/real-talk/scrape-youtube', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1512,12 +1513,12 @@ function App() {
         setRtNewYoutubeUrl('')
         
         // Refresh sources list
-        const sourcesRes = await fetch('http://localhost:3001/api/real-talk/sources')
+        const sourcesRes = await fetch('${API_URL}/api/real-talk/sources')
         const sourcesResData = await sourcesRes.json()
         setRtSources(sourcesResData.sources || [])
         
         // Refresh tags
-        const tagsRes = await fetch('http://localhost:3001/api/real-talk/tags')
+        const tagsRes = await fetch('${API_URL}/api/real-talk/tags')
         const tagsData = await tagsRes.json()
         setRtSituationTags(tagsData.situations || [])
         setRtEmotionTags(tagsData.emotions || [])
@@ -1544,7 +1545,7 @@ function App() {
     
     setRtScrapingChannel(true)
     try {
-      const sourceRes = await fetch('http://localhost:3001/api/real-talk/sources', {
+      const sourceRes = await fetch('${API_URL}/api/real-talk/sources', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -1561,7 +1562,7 @@ function App() {
       
       const sourceData = await sourceRes.json()
       
-      const scrapeRes = await fetch('http://localhost:3001/api/real-talk/scrape-youtube-channel', {
+      const scrapeRes = await fetch('${API_URL}/api/real-talk/scrape-youtube-channel', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1576,11 +1577,11 @@ function App() {
         alert(`✅ Channel done!\n\nTotal: ${scrapeData.total_videos}\nSaved: ${scrapeData.saved}\nFailed: ${scrapeData.failed}`)
         setRtNewChannelUrl('')
         
-        const sourcesRes = await fetch('http://localhost:3001/api/real-talk/sources')
+        const sourcesRes = await fetch('${API_URL}/api/real-talk/sources')
         const sourcesResData = await sourcesRes.json()
         setRtSources(sourcesResData.sources || [])
         
-        const tagsRes = await fetch('http://localhost:3001/api/real-talk/tags')
+        const tagsRes = await fetch('${API_URL}/api/real-talk/tags')
         const tagsData = await tagsRes.json()
         setRtSituationTags(tagsData.situations || [])
         setRtEmotionTags(tagsData.emotions || [])
@@ -1607,7 +1608,7 @@ function App() {
         return
       }
       
-      const res = await fetch(`http://localhost:3001/api/real-talk/scrape/${sourceId}`, {
+      const res = await fetch(`${API_URL}/api/real-talk/scrape/${sourceId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ limit: 50 })
@@ -1618,12 +1619,12 @@ function App() {
         alert(`Scraped ${data.scraped} posts, saved ${data.saved} new entries from r/${data.subreddit}`)
         
         // Refresh sources list
-        const sourcesRes = await fetch('http://localhost:3001/api/real-talk/sources')
+        const sourcesRes = await fetch('${API_URL}/api/real-talk/sources')
         const sourcesData = await sourcesRes.json()
         setRtSources(sourcesData.sources || [])
         
         // Refresh tags
-        const tagsRes = await fetch('http://localhost:3001/api/real-talk/tags')
+        const tagsRes = await fetch('${API_URL}/api/real-talk/tags')
         const tagsData = await tagsRes.json()
         setRtSituationTags(tagsData.situations || [])
         setRtEmotionTags(tagsData.emotions || [])
@@ -1643,7 +1644,7 @@ function App() {
   const handleScrapeAll = async () => {
     setRtScrapingAll(true)
     try {
-      const res = await fetch('http://localhost:3001/api/real-talk/scrape-all', {
+      const res = await fetch('${API_URL}/api/real-talk/scrape-all', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ limit: 50 })
@@ -1654,12 +1655,12 @@ function App() {
         alert(`Scraped ${data.sources_scraped} sources, saved ${data.total_saved} new entries`)
         
         // Refresh sources
-        const sourcesRes = await fetch('http://localhost:3001/api/real-talk/sources')
+        const sourcesRes = await fetch('${API_URL}/api/real-talk/sources')
         const sourcesData = await sourcesRes.json()
         setRtSources(sourcesData.sources || [])
         
         // Refresh tags
-        const tagsRes = await fetch('http://localhost:3001/api/real-talk/tags')
+        const tagsRes = await fetch('${API_URL}/api/real-talk/tags')
         const tagsData = await tagsRes.json()
         setRtSituationTags(tagsData.situations || [])
         setRtEmotionTags(tagsData.emotions || [])
@@ -1680,7 +1681,7 @@ function App() {
     if (!tagName.trim()) return
     
     try {
-      const res = await fetch('http://localhost:3001/api/real-talk/tags', {
+      const res = await fetch('${API_URL}/api/real-talk/tags', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tag_type: tagType, tag_name: tagName.trim() })
@@ -1709,7 +1710,7 @@ function App() {
     if (!confirm('Delete this tag?')) return
     
     try {
-      await fetch(`http://localhost:3001/api/real-talk/tags/${tagId}`, {
+      await fetch(`${API_URL}/api/real-talk/tags/${tagId}`, {
         method: 'DELETE'
       })
       setRtSituationTags(prev => prev.filter(t => t.id !== tagId))
@@ -1728,7 +1729,7 @@ function App() {
 
     setMelodySearching(true)
     try {
-      const res = await fetch('http://localhost:3001/api/melody/search', {
+      const res = await fetch('${API_URL}/api/melody/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1775,7 +1776,7 @@ function App() {
     try {
       const playlistName = melodyPlaylistName.trim() || `Mashup Discovery - ${new Date().toLocaleString()}`
       
-      const res = await fetch('http://localhost:3001/api/melody/playlist', {
+      const res = await fetch('${API_URL}/api/melody/playlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1803,7 +1804,7 @@ function App() {
 
   const checkMelodyTidalStatus = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/melody/tidal/status')
+      const res = await fetch('${API_URL}/api/melody/tidal/status')
       const data = await res.json()
       setMelodyTidalAuth(data.authenticated || false)
       return data.authenticated || false
@@ -1815,7 +1816,7 @@ function App() {
 
   const checkMelodyTidalAuthComplete = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/melody/tidal/check-complete')
+      const res = await fetch('${API_URL}/api/melody/tidal/check-complete')
       const data = await res.json()
       setMelodyTidalAuth(data.authenticated || false)
       return data.authenticated || false
@@ -1827,7 +1828,7 @@ function App() {
 
   const handleMelodyConnectTidal = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/melody/tidal/auth')
+      const res = await fetch('${API_URL}/api/melody/tidal/auth')
       const data = await res.json()
       
       if (data.verification_url) {
@@ -1856,7 +1857,7 @@ function App() {
     if (!confirm('Disconnect from Tidal?')) return
     
     try {
-      const res = await fetch('http://localhost:3001/api/melody/tidal/disconnect', {
+      const res = await fetch('${API_URL}/api/melody/tidal/disconnect', {
         method: 'POST'
       })
       
@@ -2482,7 +2483,7 @@ function App() {
                         ...concept
                       }
                       
-                      fetch('http://localhost:3001/api/export-concept', {
+                      fetch('${API_URL}/api/export-concept', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(conceptData)
@@ -3584,7 +3585,7 @@ function App() {
                           if (rtFilters.year) params.append('year', rtFilters.year)
                           if (rtFilters.sourceId) params.append('source_id', rtFilters.sourceId)
                           
-                          const res = await fetch(`http://localhost:3001/api/real-talk/entries?${params}`)
+                          const res = await fetch(`${API_URL}/api/real-talk/entries?${params}`)
                           const data = await res.json()
                           setRtEntries(data.entries || [])
                         } catch (err) {
@@ -3724,11 +3725,11 @@ function App() {
                             if (rtFilters.gender) params.append('gender', rtFilters.gender)
                             params.append('limit', '200')
                             
-                            const entriesRes = await fetch(`http://localhost:3001/api/real-talk/entries?${params}`)
+                            const entriesRes = await fetch(`${API_URL}/api/real-talk/entries?${params}`)
                             const entriesData = await entriesRes.json()
                             
                             // Then run AI search
-                            const aiRes = await fetch('http://localhost:3001/api/real-talk/intelligent-search', {
+                            const aiRes = await fetch('${API_URL}/api/real-talk/intelligent-search', {
                               method: 'POST',
                               headers: { 'Content-Type': 'application/json' },
                               body: JSON.stringify({
@@ -3941,7 +3942,7 @@ function App() {
                               checked={source.is_active}
                               onChange={async () => {
                                 try {
-                                  await fetch(`http://localhost:3001/api/real-talk/sources/${source.id}/toggle`, {
+                                  await fetch(`${API_URL}/api/real-talk/sources/${source.id}/toggle`, {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ is_active: !source.is_active })
@@ -3967,7 +3968,7 @@ function App() {
                             onClick={async () => {
                               if (!confirm(`Delete ${source.display_name} and all its entries?`)) return
                               try {
-                                await fetch(`http://localhost:3001/api/real-talk/sources/${source.id}`, {
+                                await fetch(`${API_URL}/api/real-talk/sources/${source.id}`, {
                                   method: 'DELETE'
                                 })
                                 setRtSources(prev => prev.filter(s => s.id !== source.id))
