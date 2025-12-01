@@ -1,0 +1,392 @@
+{
+  "metadata": {
+    "title": "Rhyme Types Database for Songwriting",
+    "version": "1.0",
+    "created": "2025",
+    "purpose": "AI music generation prompts, lyric analysis, songwriting tools"
+  },
+  
+  "rhyme_types_by_sound": {
+    "perfect_rhyme": {
+      "aliases": ["true rhyme", "full rhyme", "exact rhyme"],
+      "definition": "Words match exactly - same vowel sound AND same ending consonant",
+      "examples": ["cat/hat", "time/crime", "moon/June", "cry/lie", "blood/love/done"],
+      "strength": "strongest",
+      "effect": "Most satisfying resolution, conclusive",
+      "caution": "Can sound predictable if overused",
+      "best_for": ["hooks", "chorus payoffs", "conclusive moments"]
+    },
+    
+    "assonance_rhyme": {
+      "aliases": ["vowel rhyme"],
+      "definition": "Same vowel sounds, different consonants",
+      "examples": ["fate/save", "lake/pain", "bad/mad", "holes/show/cold", "me/weak/breathe/deep"],
+      "strength": "medium",
+      "effect": "Creates flowing vowel chains",
+      "best_for": ["verses", "building momentum", "natural conversation feel"]
+    },
+    
+    "consonance_rhyme": {
+      "aliases": [],
+      "definition": "Same consonant sounds, different vowels",
+      "examples": ["lamp/limp", "milk/walk", "this/trusted", "ruin/rusted"],
+      "strength": "weak-medium",
+      "effect": "Subtle sonic connection",
+      "best_for": ["sophisticated writing", "avoiding obvious rhymes"]
+    },
+    
+    "family_rhyme": {
+      "aliases": [],
+      "definition": "Words ending with consonants from same phonetic family (plosives, fricatives, nasals)",
+      "examples": ["crate/braid", "robe/hope"],
+      "phonetic_families": {
+        "plosives": ["p", "b", "t", "d", "k", "g"],
+        "fricatives": ["f", "v", "s", "z", "sh", "th"],
+        "nasals": ["m", "n", "ng"]
+      },
+      "strength": "weak-medium",
+      "effect": "Looser connection that avoids cliché"
+    },
+    
+    "additive_subtractive_rhyme": {
+      "aliases": [],
+      "definition": "Same vowels, plus or minus a consonant sound",
+      "examples": ["eve/believe", "seen/screen", "art/heart"],
+      "strength": "medium",
+      "effect": "Expands possibilities while keeping connection"
+    },
+    
+    "identical_rhyme": {
+      "aliases": ["identity rhyme"],
+      "definition": "Same word repeated or homophones",
+      "examples": {
+        "repetition": ["last/last", "back/back/back"],
+        "homophones": ["there/their", "know/no", "pane/pain", "sea/see"]
+      },
+      "strength": "variable",
+      "effect": "Emphasis, wordplay potential, chant-like quality"
+    },
+    
+    "slant_rhyme": {
+      "aliases": ["near rhyme", "half rhyme", "imperfect rhyme", "oblique rhyme"],
+      "definition": "Similar but not identical sounds",
+      "examples": ["worm/swarm", "fine/knife", "queen/afternoon"],
+      "strength": "weak-medium",
+      "effect": "Less predictable, more sophisticated"
+    },
+    
+    "eye_rhyme": {
+      "aliases": ["visual rhyme", "sight rhyme"],
+      "definition": "Words spelled similarly that look like they'd rhyme but don't",
+      "examples": ["love/move", "cough/through", "wind/wind"],
+      "strength": "visual only",
+      "effect": "Works in written lyrics, surprise when sung"
+    }
+  },
+  
+  "rhyme_types_by_position": {
+    "end_rhyme": {
+      "definition": "Rhyming words at end of lines",
+      "position": "final word",
+      "frequency": "most common",
+      "effect": "Establishes structure, expected by listeners"
+    },
+    
+    "internal_rhyme": {
+      "definition": "Rhyming words within same line or between middle positions",
+      "examples": ["I'm a verbal assassin, smashin' and slashin'"],
+      "effect": "Adds rhythm, less predictable",
+      "common_in": ["hip-hop", "sophisticated pop"]
+    },
+    
+    "off_centered_rhyme": {
+      "definition": "Rhyme words in different spots within bars",
+      "effect": "Creates interesting dynamics"
+    },
+    
+    "neighboring_rhyme": {
+      "definition": "Rhyme placed 1-2 beats before/after expected position",
+      "effect": "Syncopation feel"
+    },
+    
+    "cross_rhyme": {
+      "definition": "Rhymes connecting non-adjacent lines",
+      "example_scheme": "ABAB",
+      "effect": "Longer arcs of expectation"
+    }
+  },
+  
+  "rhyme_types_by_syllable": {
+    "masculine_rhyme": {
+      "syllables": 1,
+      "definition": "Rhyme on final stressed syllable only",
+      "examples": ["time/crime", "night/light", "cat/hat"],
+      "effect": "Punchy, direct, strong emphasis"
+    },
+    
+    "feminine_rhyme": {
+      "syllables": 2,
+      "definition": "Rhyme on final two syllables (stressed + unstressed)",
+      "examples": ["walking/talking", "thunder/wonder", "trusted/rusted"],
+      "effect": "Softer landing, more flowing"
+    },
+    
+    "triple_rhyme": {
+      "syllables": 3,
+      "definition": "Rhyme on final three syllables",
+      "examples": ["beautiful/dutiful", "glittering/twittering", "tornado/volcano"],
+      "effect": "Bouncy, playful, can be comedic"
+    },
+    
+    "dactylic_rhyme": {
+      "syllables": 3,
+      "pattern": "stressed + unstressed + unstressed",
+      "examples": ["merrily/verily", "prettily/wittily"],
+      "effect": "Light, musical quality"
+    }
+  },
+  
+  "hip_hop_techniques": {
+    "multisyllabic_rhyme": {
+      "aliases": ["multis", "compound rhymes", "polysyllable rhymes"],
+      "definition": "Rhymes containing 2+ syllables, often across multiple words",
+      "examples": [
+        {"text": "feels like / steel knife / windpipe", "artist": "Eminem"},
+        {"text": "top of me / monopoly", "artist": "Big Daddy Kane"},
+        {"text": "borderline schizo / sorta fine tits though", "artist": "MF DOOM"},
+        {"text": "tornado / volcano", "artist": "Eminem"}
+      ],
+      "effect": "Hallmark of advanced rapping",
+      "technique": "Break phrases into syllables, match vowel sounds across each position"
+    },
+    
+    "compound_rhyme": {
+      "definition": "Phrase-to-phrase rhyming where multiple words combine",
+      "examples": [
+        "problems / solve 'em",
+        "hit 'em / hurt 'em / spit 'em / bit 'em / pin 'em / in 'em",
+        "righteous / might just",
+        "honest with ya / father figure"
+      ],
+      "key_insight": "Word boundaries don't matter - sounds do",
+      "effect": "Longer rhythmic patterns, very satisfying"
+    },
+    
+    "chain_rhyme": {
+      "definition": "Single rhyme sound extended over multiple consecutive lines",
+      "examples": [
+        "tenfold/rental/essential/utensils/confidential/continental",
+        "sidewalk/talk/fault/eyeball/drywall"
+      ],
+      "effect": "Hypnotic, builds momentum"
+    },
+    
+    "mosaic_rhyme": {
+      "definition": "Corresponding syllables share similar vowel sounds throughout verses",
+      "associated_artist": "Eminem",
+      "effect": "Subliminal cohesion even when rhymes aren't obvious"
+    },
+    
+    "nested_rhymes": {
+      "aliases": ["rhyming inside of rhymes"],
+      "definition": "Multiple layers of rhyme patterns running simultaneously",
+      "example": {
+        "text": "I end careers gears peers ears fears and spears / they say I'm gifted get lifted like the beards and cheers",
+        "main_chain": ["careers", "gears", "peers", "ears", "fears", "spears", "beards", "cheers"],
+        "nested_chain": ["gifted", "lifted"]
+      },
+      "effect": "Extremely dense, rewards repeated listening"
+    },
+    
+    "stacked_rhymes": {
+      "definition": "Multiple half-rhymes combined to create full rhyme effect",
+      "example": "honest with ya + father figure",
+      "effect": "Tricks ear into hearing complete rhyme"
+    },
+    
+    "monorhyme": {
+      "definition": "Same rhyme sound repeated for 4+ consecutive lines",
+      "examples": ["'em / 'em / 'em / 'em"],
+      "scheme": "AAAA extended",
+      "effect": "Obsessive, urgent, hypnotic quality",
+      "caution": "Use strategically for tension"
+    },
+    
+    "embedded_rhyme": {
+      "definition": "Rhyme word hidden inside a longer word",
+      "example": {
+        "word": "apologize",
+        "contains": "lies",
+        "usage": "apologize rhymed with lies"
+      },
+      "effect": "Rewards close listening, clever wordplay"
+    },
+    
+    "homophone_pun": {
+      "definition": "Using words that sound identical but have different meanings",
+      "example": {
+        "surface": "windowpane",
+        "hidden": "window pain"
+      },
+      "effect": "Double meaning, memorable payoff"
+    }
+  },
+  
+  "rhyme_schemes": {
+    "four_line": {
+      "AABB": {
+        "name": "Couplets",
+        "pattern": "1-2 rhyme, 3-4 rhyme",
+        "feel": "Stable, resolved quickly"
+      },
+      "ABAB": {
+        "name": "Alternate",
+        "pattern": "1&3 rhyme, 2&4 rhyme",
+        "feel": "Balanced, common in pop"
+      },
+      "ABBA": {
+        "name": "Sandwich/Enclosed",
+        "pattern": "1&4 rhyme, 2&3 rhyme",
+        "feel": "Emotionally satisfying, unusual"
+      },
+      "AAAA": {
+        "name": "Monorhyme",
+        "pattern": "All four lines rhyme",
+        "feel": "Builds tension, hypnotic"
+      },
+      "XAXA": {
+        "name": "Half-alternate",
+        "pattern": "Only 2&4 rhyme",
+        "feel": "Conversational, natural"
+      },
+      "XXXX": {
+        "name": "No end rhyme",
+        "pattern": "Relies on internal rhyme",
+        "feel": "Freeform, flow-focused"
+      }
+    },
+    "six_line": {
+      "AABCCB": "Two couplets + connecting B",
+      "XXAXXA": "Only lines 3&6 rhyme - suspended tension",
+      "AAAXAX": "Three rhymes then break - surprise"
+    }
+  },
+  
+  "complexity_tiers": {
+    "tier_1_basic_pop": {
+      "level": 1,
+      "name": "Basic Pop",
+      "techniques": ["perfect rhymes only", "end-of-line position", "2-word chains max"],
+      "schemes": ["AABB", "ABAB"],
+      "syllables": "masculine (single)",
+      "example_artists": ["early Taylor Swift", "simple pop hooks"]
+    },
+    "tier_2_advanced_pop": {
+      "level": 2,
+      "name": "Advanced Pop",
+      "techniques": ["perfect + assonance", "some internal rhymes", "3-4 word chains"],
+      "syllables": "feminine (2-syllable)",
+      "additional": "occasional identity rhyme",
+      "example_artists": ["Ed Sheeran", "Bruno Mars"]
+    },
+    "tier_3_hip_hop_standard": {
+      "level": 3,
+      "name": "Hip-Hop Standard",
+      "techniques": ["compound rhymes", "4-5 word chains", "multisyllabic (2-3 syl)"],
+      "position": "mix of internal and end",
+      "schemes": ["XAXA", "varied"],
+      "example_artists": ["Drake", "J. Cole", "Kendrick Lamar"]
+    },
+    "tier_4_hip_hop_advanced": {
+      "level": 4,
+      "name": "Hip-Hop Advanced",
+      "techniques": ["5+ word compound chains", "multisyllabic (3-4 syl)", "nested rhymes", "pattern switching"],
+      "additional": "monorhyme sections",
+      "example_artists": ["Nas", "Big Pun", "early Eminem"]
+    },
+    "tier_5_elite": {
+      "level": 5,
+      "name": "Elite/Technical",
+      "techniques": [
+        "dual simultaneous chains",
+        "embedded rhymes",
+        "wordplay punchlines with setup",
+        "6+ word chains",
+        "mosaic rhyming throughout",
+        "homophone puns"
+      ],
+      "rhyme_density": "40%+ syllables rhymed",
+      "example_artists": ["Eminem", "MF DOOM", "Rakim", "Black Thought"]
+    }
+  },
+  
+  "analysis_examples": {
+    "pop_example": {
+      "song": "Bad Blood",
+      "artist": "Taylor Swift",
+      "techniques_found": {
+        "double_layer_hook": {
+          "text": "bad blood / mad love",
+          "layer_1": "bad/mad = assonance (short A)",
+          "layer_2": "blood/love = perfect rhyme (short U)"
+        },
+        "compound_in_pop": {
+          "text": "problems / solve 'em",
+          "note": "Hip-hop technique borrowed for pop"
+        },
+        "identity_bridge": "Repeated entire lines for anthem effect",
+        "vowel_throughline": "Short 'uh' sound throughout (blood/love/done/cut)"
+      },
+      "stats": {
+        "perfect_rhyme_sets": 6,
+        "assonance_chains": 5,
+        "consonance_pairs": 2,
+        "compound_rhymes": 1,
+        "multisyllabic": 1,
+        "identity_rhymes": "5+"
+      }
+    },
+    "hip_hop_example": {
+      "song": "Love The Way You Lie",
+      "artist": "Eminem ft. Rihanna",
+      "techniques_found": {
+        "6_word_multi_chain": {
+          "words": ["feels like", "steel knife", "windpipe", "fight", "feels right", "flight"],
+          "sound": "long I + consonant endings",
+          "lines": 4
+        },
+        "6_part_compound_chain": {
+          "words": ["hit 'em", "hurt 'em", "spit 'em", "bit 'em", "pin 'em", "in 'em"],
+          "pattern": "2 syllables ending in -it/in + 'em"
+        },
+        "dual_simultaneous_chains": {
+          "chain_a": ["rage", "say", "ways", "today", "yesterday", "day", "playin'"],
+          "chain_a_sound": "long A",
+          "chain_b": ["over", "both", "know", "over", "over"],
+          "chain_b_sound": "long O"
+        },
+        "homophone_pun": {
+          "surface": "windowpane",
+          "meaning": "window pain"
+        },
+        "embedded_rhyme": {
+          "word": "apologize",
+          "contains": "lies",
+          "rhymed_with": "lies"
+        },
+        "monorhyme_section": {
+          "sound": "'em",
+          "consecutive_lines": 4
+        }
+      },
+      "stats": {
+        "multisyllabic_rhymes": "8+",
+        "compound_chains": 6,
+        "assonance_chains": "12+",
+        "wordplay_puns": 2,
+        "monorhyme_sections": 3,
+        "dual_chains": 1
+      }
+    }
+  }
+}

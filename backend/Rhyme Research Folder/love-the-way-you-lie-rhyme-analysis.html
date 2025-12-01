@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love The Way You Lie - Rhyme Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #2d2d2d 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e8e8e8;
+        }
+        
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff4444, #ff8800, #ffcc00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .intro-note {
+            text-align: center;
+            color: #ff8800;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+        
+        .legend {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .legend h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #ff8800;
+        }
+        
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+        }
+        
+        .legend-color {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .lyrics-container {
+            background: rgba(255,255,255,0.02);
+            border-radius: 15px;
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-label {
+            font-size: 0.75rem;
+            color: #ff8800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-label .artist {
+            background: rgba(255,136,0,0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+        
+        .lyrics {
+            line-height: 2.4;
+            font-size: 1.05rem;
+        }
+        
+        /* ===== RHYME TYPE COLORS ===== */
+        
+        /* Perfect Rhymes - Reds/Oranges */
+        .perfect-1 { background: linear-gradient(90deg, #ff4444, #dd3333); color: white; padding: 2px 6px; border-radius: 4px; }
+        .perfect-2 { background: linear-gradient(90deg, #ff6b35, #e85d28); color: white; padding: 2px 6px; border-radius: 4px; }
+        .perfect-3 { background: linear-gradient(90deg, #ff8c00, #e67e00); color: white; padding: 2px 6px; border-radius: 4px; }
+        .perfect-4 { background: linear-gradient(90deg, #cc4444, #aa3333); color: white; padding: 2px 6px; border-radius: 4px; }
+        
+        /* Assonance Chains - Yellows/Golds */
+        .assonance-1 { background: linear-gradient(90deg, #ffd700, #e6c200); color: #333; padding: 2px 6px; border-radius: 4px; }
+        .assonance-2 { background: linear-gradient(90deg, #ffeb3b, #e6d435); color: #333; padding: 2px 6px; border-radius: 4px; }
+        .assonance-3 { background: linear-gradient(90deg, #fff176, #e6d96a); color: #333; padding: 2px 6px; border-radius: 4px; }
+        .assonance-4 { background: linear-gradient(90deg, #ffe082, #e6ca75); color: #333; padding: 2px 6px; border-radius: 4px; }
+        
+        /* Multisyllabic - Cyans/Teals */
+        .multi-1 { background: linear-gradient(90deg, #00bcd4, #00a5bb); color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        .multi-2 { background: linear-gradient(90deg, #26c6da, #20b0c2); color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        .multi-3 { background: linear-gradient(90deg, #4dd0e1, #42bac9); color: #333; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        
+        /* Compound Rhymes - Purples */
+        .compound-1 { background: linear-gradient(90deg, #9c27b0, #7b1fa2); color: white; padding: 2px 6px; border-radius: 4px; }
+        .compound-2 { background: linear-gradient(90deg, #ab47bc, #8e24aa); color: white; padding: 2px 6px; border-radius: 4px; }
+        .compound-3 { background: linear-gradient(90deg, #ba68c8, #9c4dcc); color: white; padding: 2px 6px; border-radius: 4px; }
+        
+        /* Chain Rhymes - Greens */
+        .chain-1 { background: linear-gradient(90deg, #4caf50, #43a047); color: white; padding: 2px 6px; border-radius: 4px; }
+        .chain-2 { background: linear-gradient(90deg, #66bb6a, #5cb860); color: white; padding: 2px 6px; border-radius: 4px; }
+        .chain-3 { background: linear-gradient(90deg, #81c784, #72b975); color: #333; padding: 2px 6px; border-radius: 4px; }
+        
+        /* Internal Rhymes - Blues */
+        .internal-1 { background: linear-gradient(90deg, #2196f3, #1e88e5); color: white; padding: 2px 6px; border-radius: 4px; }
+        .internal-2 { background: linear-gradient(90deg, #42a5f5, #3d9ee8); color: white; padding: 2px 6px; border-radius: 4px; }
+        
+        /* Identity/Monorhyme - Pinks */
+        .identity { background: linear-gradient(90deg, #e91e63, #c2185b); color: white; padding: 2px 6px; border-radius: 4px; text-decoration: underline; }
+        .mono { background: linear-gradient(90deg, #f06292, #e84a80); color: white; padding: 2px 6px; border-radius: 4px; }
+        
+        /* Consonance - Browns/Tans */
+        .consonance-1 { background: linear-gradient(90deg, #8d6e63, #7d5f55); color: white; padding: 2px 6px; border-radius: 4px; }
+        .consonance-2 { background: linear-gradient(90deg, #a1887f, #917a71); color: white; padding: 2px 6px; border-radius: 4px; }
+        
+        /* Wordplay/Puns - Special gradient */
+        .wordplay { background: linear-gradient(90deg, #ff00ff, #00ffff); color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        
+        /* Alliteration */
+        .alliteration { border-bottom: 3px dotted #ff8800; }
+        
+        /* Analysis boxes */
+        .analysis-box {
+            background: rgba(255,136,0,0.08);
+            border-left: 4px solid #ff8800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+        }
+        
+        .analysis-box strong {
+            color: #ff8800;
+        }
+        
+        .analysis-box .technique {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+        
+        .highlight-box {
+            background: rgba(255,0,255,0.1);
+            border: 2px solid #ff00ff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        .highlight-box h4 {
+            color: #ff00ff;
+            margin-bottom: 10px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stat-box {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #ff4444, #ff8800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .comparison-box {
+            background: linear-gradient(135deg, rgba(255,68,68,0.1), rgba(255,136,0,0.1));
+            border: 1px solid rgba(255,136,0,0.3);
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 12px;
+        }
+        
+        .comparison-box h3 {
+            color: #ff8800;
+            margin-bottom: 15px;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .comparison-col h4 {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            color: #ccc;
+        }
+        
+        .comparison-col ul {
+            list-style: none;
+            font-size: 0.85rem;
+        }
+        
+        .comparison-col li {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        @media (max-width: 600px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 "Love The Way You Lie" — Rhyme Analysis</h1>
+        <p class="subtitle">Eminem ft. Rihanna • Advanced Hip-Hop Rhyme Breakdown</p>
+        <p class="intro-note">⚠️ This song demonstrates why Eminem is considered one of the greatest technical lyricists ever</p>
+        
+        <div class="legend">
+            <h2>🎨 Rhyme Type Legend</h2>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(90deg, #ff4444, #dd3333);"></div>
+                    <span><strong>Perfect Rhyme</strong> — exact sound match</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(90deg, #ffd700, #e6c200);"></div>
+                    <span><strong>Assonance Chain</strong> — shared vowel sounds</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(90deg, #00bcd4, #00a5bb);"></div>
+                    <span><strong>Multisyllabic</strong> — 2+ syllables rhyming</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(90deg, #9c27b0, #7b1fa2);"></div>
+                    <span><strong>Compound Rhyme</strong> — phrase-to-phrase</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(90deg, #4caf50, #43a047);"></div>
+                    <span><strong>Chain Rhyme</strong> — extended sequences</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(90deg, #2196f3, #1e88e5);"></div>
+                    <span><strong>Internal Rhyme</strong> — within lines</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(90deg, #e91e63, #c2185b);"></div>
+                    <span><strong>Identity/Mono</strong> — same word/sound repeated</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(90deg, #8d6e63, #7d5f55);"></div>
+                    <span><strong>Consonance</strong> — shared consonants</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(90deg, #ff00ff, #00ffff);"></div>
+                    <span><strong>Wordplay/Pun</strong> — double meaning</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="lyrics-container">
+            
+            <!-- CHORUS -->
+            <div class="section">
+                <div class="section-label">🔁 Chorus <span class="artist">Rihanna</span></div>
+                <div class="lyrics">
+                    Just gonna <span class="internal-1">stand</span> there and watch me <span class="assonance-1">burn</span>?<br>
+                    Well, that's alright because I like the way it <span class="assonance-1">hurts</span><br>
+                    Just gonna <span class="internal-1">stand</span> there and hear me <span class="perfect-1">cry</span>?<br>
+                    Well, that's alright because I love the way you <span class="perfect-1">lie</span><br>
+                    I love the way you <span class="identity">lie</span>
+                </div>
+                <div class="analysis-box">
+                    <strong>Analysis:</strong> The hook is deceptively simple but effective:<br>
+                    • <span class="technique">Assonance</span> "burn/hurts" — shared "ur" sound (not perfect, but close)<br>
+                    • <span class="technique">Perfect Rhyme</span> "cry/lie" — exact match, emotional payoff<br>
+                    • <span class="technique">Internal</span> "stand/stand" — repetition creates parallelism<br>
+                    • <span class="technique">Identity</span> "lie/lie" — emphasis through repetition
+                </div>
+            </div>
+            
+            <!-- VERSE 1 -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 1 <span class="artist">Eminem</span></div>
+                <div class="lyrics">
+                    I can't tell you what it really <span class="assonance-2">is</span>, I can only tell you what it <span class="multi-1">feels like</span><br>
+                    And right now, there's a <span class="multi-1">steel knife</span> in my <span class="multi-1">windpipe</span><br>
+                    I can't <span class="internal-2">breathe</span>, but I still <span class="multi-1">fight</span> while I can <span class="identity">fight</span><br>
+                    As long as the wrong <span class="multi-1">feels right</span>, it's like I'm in <span class="multi-1">flight</span>
+                </div>
+                <div class="analysis-box">
+                    <strong>🔥 MASSIVE MULTISYLLABIC CHAIN:</strong><br>
+                    <span class="technique">feels like → steel knife → windpipe → fight → feels right → flight</span><br><br>
+                    This is a <strong>6-word chain</strong> where the long "i" sound + ending consonants create continuous sonic connection across 4 lines. Notice:<br>
+                    • "steel/feels" share "eel" internally<br>
+                    • "knife/pipe/fight/right/flight" all share "-i(consonant)" pattern<br>
+                    • "breathe" connects to "steel/feels" with long "ee"<br>
+                    <em>This level of density is extremely rare in songwriting.</em>
+                </div>
+            </div>
+            
+            <!-- VERSE 1 CONTINUED -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 1 (continued)</div>
+                <div class="lyrics">
+                    <span class="chain-1">High</span> off of love, drunk from my <span class="chain-1">hate</span>, it's like I'm huffin' <span class="chain-1">paint</span><br>
+                    And I love her the more I <span class="alliteration">suffer</span>, I <span class="chain-1 alliteration">suffocate</span><br>
+                    And right before I'm about to <span class="assonance-3">drown</span>, she <span class="chain-1">resuscitates</span> me<br>
+                    She fuckin' <span class="chain-1">hates</span> me, and I love it
+                </div>
+                <div class="analysis-box">
+                    <strong>Analysis:</strong> Another chain, this time on the long "A" sound:<br>
+                    <span class="technique">high → hate → paint → suffocate → resuscitates → hates</span><br><br>
+                    • <span class="technique">Alliteration</span> "suffer/suffocate" — same beginning, builds intensity<br>
+                    • "drown" breaks the chain momentarily, then "resuscitates" brings it back — <em>the word literally rescues the rhyme scheme!</em><br>
+                    • The meaning mirrors the technique: chaos → rescue → hate
+                </div>
+            </div>
+            
+            <!-- DIALOGUE + VERSE -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 1 (climax)</div>
+                <div class="lyrics">
+                    "Wait! Where you goin'?" "I'm leavin' you"<br>
+                    "No, you ain't, come <span class="chain-2">back</span>," we're runnin' right <span class="identity">back</span>, here we go <span class="chain-2">again</span><br>
+                    It's so <span class="chain-2">insane</span> 'cause when it's goin' good, it's goin' <span class="chain-2">great</span><br>
+                    I'm Super<span class="chain-2">man</span> with the wind at his <span class="identity">back</span>, she's Lois <span class="chain-2">Lane</span>
+                </div>
+                <div class="analysis-box">
+                    <strong>Analysis:</strong> Short "A" assonance chain across dialogue and narrative:<br>
+                    <span class="technique">back → back → again → insane → great → man → back → Lane</span><br><br>
+                    • <span class="technique">Identity</span> "back" appears 3 times — obsessive return motif<br>
+                    • "Superman/Lane" = pop culture reference that also rhymes<br>
+                    • The dialogue format adds rhythmic variety without losing the rhyme
+                </div>
+            </div>
+            
+            <!-- VERSE 1 FINAL -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 1 (finale)</div>
+                <div class="lyrics">
+                    But when it's <span class="assonance-1">bad</span>, it's awful, I feel so <span class="chain-3">ashamed</span><br>
+                    I <span class="assonance-1">snapped</span>, "Who's that dude?" I don't even know his <span class="chain-3">name</span><br>
+                    I laid <span class="assonance-1">hands</span> on her, I'll never stoop so low <span class="chain-3">again</span><br>
+                    I guess I don't know my own <span class="consonance-1">strength</span>
+                </div>
+                <div class="analysis-box">
+                    <strong>Analysis:</strong> Dual chains running simultaneously:<br>
+                    • <span class="technique">Long A chain</span>: ashamed → name → again<br>
+                    • <span class="technique">Short A chain</span>: bad → snapped → hands (internal positions)<br>
+                    • "strength" is a <span class="technique">slant/consonance</span> ending — the "-ength" doesn't perfectly match but the N sound connects to "again"<br>
+                    • Ending on an imperfect rhyme creates unresolved tension — <em>mirrors the unresolved situation</em>
+                </div>
+            </div>
+            
+            <!-- VERSE 2 -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 2 <span class="artist">Eminem</span></div>
+                <div class="lyrics">
+                    You ever loved somebody so <span class="assonance-4">much</span><br>
+                    You can barely <span class="internal-2">breathe</span> when you're with <span class="mono">'em</span>?<br>
+                    You <span class="internal-2">meet</span> and neither one of you even know what hit <span class="mono">'em</span><br>
+                    Got that warm fuzzy <span class="internal-2">feelin'</span>, yeah, them chills, used to get <span class="mono">'em</span><br>
+                    Now you're gettin' fuckin' sick of lookin' at <span class="mono">'em</span>
+                </div>
+                <div class="analysis-box">
+                    <strong>🔥 MONORHYME TECHNIQUE:</strong><br>
+                    <span class="technique">'em → 'em → 'em → 'em</span> — Four consecutive lines with identical endings!<br><br>
+                    • This is <span class="technique">monorhyme</span> — same rhyme sound repeated<br>
+                    • Creates a hypnotic, obsessive quality that matches the lyric content<br>
+                    • Internal "ee" sounds: breathe → meet → feelin' → gettin' — secondary chain underneath<br>
+                    • Hip-hop technique: using contracted pronouns as rhyme anchors
+                </div>
+            </div>
+            
+            <!-- VERSE 2 CONTINUED -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 2 (continued)</div>
+                <div class="lyrics">
+                    You swore you'd never <span class="compound-1">hit 'em</span>, never do nothin' to <span class="compound-1">hurt 'em</span><br>
+                    Now you're in each other's <span class="assonance-2">face</span><br>
+                    Spewin' <span class="consonance-2">venom</span> in your words when you <span class="compound-1">spit 'em</span><br>
+                    You push, pull each other's hair, scratch, claw, <span class="compound-1">bit 'em</span><br>
+                    Throw 'em down, <span class="compound-1">pin 'em</span>, so lost in the moments when you're <span class="compound-1">in 'em</span>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>🏆 LEGENDARY COMPOUND RHYME CHAIN</h4>
+                    <strong>hit 'em → hurt 'em → spit 'em → bit 'em → pin 'em → in 'em</strong><br><br>
+                    This is a <strong>6-part compound rhyme chain</strong> — each phrase has 2 syllables ending in "-it/in + 'em"<br>
+                    • "venom" sneaks in as internal consonance (shares the "-em" ending)<br>
+                    • "face" provides a breath/break without derailing the chain<br>
+                    • This technique requires planning the entire passage in advance — pure technical mastery
+                </div>
+            </div>
+            
+            <!-- VERSE 2 - DUAL CHAINS -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 2 (dual chains)</div>
+                <div class="lyrics">
+                    It's the <span class="chain-1">rage</span> that took <span class="chain-2">over</span>, it controls you <span class="chain-2">both</span><br>
+                    So they <span class="chain-1">say</span>, yeah, best to go your separate <span class="chain-1">ways</span><br>
+                    Guess that they don't <span class="chain-2">know</span> you 'cause to<span class="chain-1">day</span>, that was yester<span class="chain-1">day</span><br>
+                    Yesterday is <span class="chain-2">over</span>, it's a different <span class="chain-1">day</span><br>
+                    Sound like broken records <span class="chain-1">playin'</span> <span class="chain-2">over</span>
+                </div>
+                <div class="analysis-box">
+                    <strong>🎯 DUAL ASSONANCE CHAINS (Simultaneous!):</strong><br>
+                    • <span class="technique">Long A chain</span>: rage → say → ways → today → yesterday → day → playin'<br>
+                    • <span class="technique">Long O chain</span>: over → both → know → over → over<br><br>
+                    These two chains <strong>interweave</strong> — while your ear catches one, the other creates subliminal cohesion. This is "mosaic rhyming" at its finest.
+                </div>
+            </div>
+            
+            <!-- THE WINDOWPANE PUNCHLINE -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 2 (THE PUNCHLINE)</div>
+                <div class="lyrics">
+                    But you promised her next time, you'll show <span class="chain-3">restraint</span><br>
+                    You don't get another chance, life is no Ninten<span class="chain-3">do</span> <span class="chain-3">game</span><br>
+                    But you <span class="assonance-1">lied</span> a<span class="chain-3">gain</span>, now you get to watch her leave out the <span class="wordplay">window</span><br>
+                    Guess that's why they call it <span class="wordplay">windowpane</span>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>💎 MASTERCLASS WORDPLAY</h4>
+                    <strong>"window" + "windowpane" = "window pain"</strong><br><br>
+                    This is a <span class="technique">homophone pun</span> — "pane" (glass) sounds identical to "pain" (suffering)<br><br>
+                    The entire verse builds to this moment:<br>
+                    • restraint → game → again → window → windowpane<br>
+                    • The rhyme scheme sets up the expectation, then the pun delivers the knockout<br>
+                    • <em>This line is considered one of Eminem's most celebrated wordplay moments</em>
+                </div>
+            </div>
+            
+            <!-- VERSE 3 -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 3 <span class="artist">Eminem</span></div>
+                <div class="lyrics">
+                    Now I <span class="chain-2">know</span> we said <span class="assonance-2">things</span>, did <span class="identity">things</span> that we didn't <span class="chain-1">mean</span><br>
+                    And we fall back into the same <span class="consonance-1">patterns</span>, same rou<span class="chain-1">tine</span><br>
+                    But your <span class="consonance-1">temper's</span> just as bad as <span class="multi-2">mine is</span><br>
+                    You're the same as <span class="chain-1">me</span>, when it comes to love, you're just as <span class="multi-2">blinded</span>
+                </div>
+                <div class="analysis-box">
+                    <strong>Analysis:</strong><br>
+                    • <span class="technique">Perfect rhyme</span>: mean → routine<br>
+                    • <span class="technique">Consonance</span>: patterns → temper's (shared T and R sounds)<br>
+                    • <span class="technique">Compound rhyme</span>: "mine is" → "blinded" — 2-syllable match across different word structures<br>
+                    • "things/things" identity rhyme for emphasis
+                </div>
+            </div>
+            
+            <!-- VERSE 3 - TORNADO/VOLCANO -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 3 (continued)</div>
+                <div class="lyrics">
+                    "Baby, please come <span class="assonance-3">back</span>, it wasn't you, baby, it was <span class="chain-1">me</span>"<br>
+                    Maybe our relationship isn't as <span class="chain-1">crazy</span> as it <span class="chain-1">seems</span><br>
+                    Maybe that's what happens when a tor<span class="multi-1">nado</span> meets a vol<span class="multi-1">cano</span><br>
+                    All I <span class="chain-2">know</span> is I love you too much to walk a<span class="assonance-1">way</span>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>🌪️ PERFECT MULTISYLLABIC</h4>
+                    <strong>"tornado" / "volcano"</strong><br><br>
+                    This is a <span class="technique">3-syllable perfect rhyme</span>:<br>
+                    • tor-<strong>NA</strong>-<strong>DO</strong> / vol-<strong>CA</strong>-<strong>NO</strong><br>
+                    • The stressed syllables match exactly (-a-do / -a-no)<br>
+                    • Metaphor and rhyme work together — two destructive forces<br>
+                    • This pairing has become iconic in hip-hop lyric analysis
+                </div>
+            </div>
+            
+            <!-- VERSE 3 - AWL CHAIN -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 3 (AWL chain)</div>
+                <div class="lyrics">
+                    "Wait up, come inside, pick up your bags off the <span class="chain-3">sidewalk</span>"<br>
+                    Don't you hear sincerity in my voice when I <span class="chain-3">talk</span>?<br>
+                    Told you this is my <span class="chain-3">fault</span>, look me in the <span class="chain-3">eyeball</span><br>
+                    Next time I'm pissed, I'll aim my fist at the <span class="chain-3">drywall</span>
+                </div>
+                <div class="analysis-box">
+                    <strong>🔥 5-WORD PERFECT CHAIN:</strong><br>
+                    <span class="technique">sidewalk → talk → fault → eyeball → drywall</span><br><br>
+                    All share the "AWL" sound — this is an exceptionally clean chain:<br>
+                    • sidewalk/talk = perfect<br>
+                    • fault/eyeball/drywall = perfect (all end in "-all" sound)<br>
+                    • 4 lines, 5 rhymes, zero filler words
+                </div>
+            </div>
+            
+            <!-- VERSE 3 - FINALE -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 3 (finale)</div>
+                <div class="lyrics">
+                    "Next time? There will be no next <span class="chain-1">time</span>"<br>
+                    I apolo<span class="chain-1">gize</span>, even though I know it's <span class="chain-1">lies</span><br>
+                    I'm tired of the <span class="assonance-3">games</span>, I just want her <span class="assonance-3">back</span><br>
+                    I know I'm a <span class="perfect-1">liar</span>, if she ever tries to fuckin' leave again<br>
+                    I'ma tie her to the bed and set this house on <span class="perfect-1">fire</span>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>🎭 EMBEDDED RHYME + DARK PAYOFF</h4>
+                    <strong>"apologize" contains "lies"</strong><br><br>
+                    • The word "lies" is literally hidden inside "apolo-<strong>gize</strong>"<br>
+                    • Then he rhymes it with actual "lies" — the deception is in the word itself<br>
+                    • <span class="technique">Perfect rhyme finale</span>: "liar/fire" — the darkest possible ending<br>
+                    • The long "i" chain (time → gize → lies → liar → fire) builds to destruction
+                </div>
+            </div>
+            
+            <!-- STATS -->
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number">8+</div>
+                    <div class="stat-label">Multisyllabic Rhymes</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Compound Chains</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">12+</div>
+                    <div class="stat-label">Assonance Chains</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Wordplay/Puns</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Monorhyme Sections</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Dual Chain (Simultaneous)</div>
+                </div>
+            </div>
+            
+            <!-- COMPARISON BOX -->
+            <div class="comparison-box">
+                <h3>📊 Comparison: Pop vs. Hip-Hop Rhyming</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-col">
+                        <h4>🎀 "Bad Blood" (Taylor Swift)</h4>
+                        <ul>
+                            <li>• Primary technique: Perfect rhymes</li>
+                            <li>• Rhyme position: Mostly end-of-line</li>
+                            <li>• Chain length: 2-4 words typical</li>
+                            <li>• Syllables per rhyme: 1-2</li>
+                            <li>• Wordplay: Minimal</li>
+                            <li>• Dual chains: No</li>
+                            <li>• Goal: Catchiness, singability</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-col">
+                        <h4>🔥 "Love The Way You Lie" (Eminem)</h4>
+                        <ul>
+                            <li>• Primary technique: Multisyllabic + compound</li>
+                            <li>• Rhyme position: Everywhere (internal, end, cross)</li>
+                            <li>• Chain length: 5-8 words common</li>
+                            <li>• Syllables per rhyme: 2-4</li>
+                            <li>• Wordplay: Critical (windowpane, apologize/lies)</li>
+                            <li>• Dual chains: Yes (simultaneous)</li>
+                            <li>• Goal: Technical mastery, density, meaning</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FINAL TAKEAWAYS -->
+            <div class="analysis-box" style="margin-top: 30px; border-left-color: #ff4444;">
+                <strong>🎯 Key Techniques for Your Suno Templates:</strong><br><br>
+                
+                <strong>1. Compound Rhyme Chains:</strong> Plan entire sections where "-it 'em" or "-ound" endings repeat across 4-6 lines. Creates hypnotic flow.<br><br>
+                
+                <strong>2. Dual Assonance:</strong> Run two vowel sounds simultaneously (long A + long O). One catches attention, the other creates subliminal cohesion.<br><br>
+                
+                <strong>3. Build to Wordplay:</strong> Use 3-4 lines of setup rhymes, then land a pun or double-meaning as the payoff (like "windowpane").<br><br>
+                
+                <strong>4. Monorhyme for Intensity:</strong> 4+ lines ending in the same sound creates obsessive, urgent energy.<br><br>
+                
+                <strong>5. Embedded Rhymes:</strong> Hide rhyme words inside longer words ("apologize" contains "lies"). Rewards close listening.<br><br>
+                
+                <strong>6. Imperfect Endings:</strong> End a verse on a slant rhyme to create unresolved tension that carries into the next section.
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+
+================================================================================
+RE-ANALYZING ALL SONGS WITH SONNET 4.5
+================================================================================
+
+Found 10 songs to analyze
+
+[1/10] All I Want For Christmas Is You by Mariah Carey...
+  ✓ Success! (44 rhyme pairs)
+[2/10] Rockin' Around The Christmas Tree by Brenda Lee...
+  ✓ Success! (14 rhyme pairs)
+[3/10] Die With A Smile by Lady Gaga & Bruno Mars...
+  ✓ Success! (23 rhyme pairs)
+[4/10] A Bar Song (Tipsy) by Shaboozey...
+  ✓ Success! (43 rhyme pairs)
+[5/10] Luther by Kendrick Lamar & SZA...
+  ✓ Success! (56 rhyme pairs)
+[6/10] Squabble Up by Kendrick Lamar...
+  ✓ Success! (50 rhyme pairs)
+[7/10] I Had Some Help by Post Malone Featuring Morgan Wallen...
+  ✓ Success! (33 rhyme pairs)
+[8/10] Love Somebody by Morgan Wallen...
+  ✓ Success! (37 rhyme pairs)
+[9/10] Lose Control by Teddy Swims...
+  ✓ Success! (31 rhyme pairs)
+[10/10] Too Sweet by Hozier...
+  ✓ Success! (49 rhyme pairs)
+
+================================================================================
+COMPLETE!
+  ✓ Success: 10
+  ✗ Failed:  0
+  Total:     10
+================================================================================
+

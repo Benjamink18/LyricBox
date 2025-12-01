@@ -1,0 +1,32 @@
+📋 Loaded 682 songs
+============================================================
+🧪 TESTING 500 SONGS IN ONE BATCH
+============================================================
+📊 Current database: 1322 songs
+📈 Remaining to import: ~1936 songs
+⏱️  Estimated time: ~2 hours
+🎯 Testing if Claude can handle 500 at once...
+============================================================
+
+🚀 Starting at 14:47:11
+
+
+============================================================
+Testing batch size: 500
+============================================================
+
+⚠️  Ran out of songs to test
+
+============================================================
+✅ 500 SONGS WORKED!
+============================================================
+  Duration: 0.0 minutes (0.0 hours)
+  Songs processed: 0
+  Success rate: 0.0%
+
+💡 500 works! Could potentially try 1000 next...
+   Full import (~1936 songs) would take ~0.0 hours at this rate
+
+============================================================
+📝 Results saved to test_500_result.json
+============================================================

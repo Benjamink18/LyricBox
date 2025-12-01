@@ -1,0 +1,261 @@
+
+================================================================================
+FULL 673-SONG IMPORT WITH PARALLEL PROCESSING + PROMPT CACHING
+================================================================================
+
+📋 Loaded 682 songs from Billboard 2025 list
+🧪 TEST MODE: Processing first 50 songs only (10 batches × 5 songs)
+⚡ NO WAIT between batches - testing if we can get away with it!
+💰 Array format + prompt caching + NO line_patterns
+⏱️  Test time: ~5-10 minutes
+📝 If this works, we'll run the full 682 songs!
+
+Starting test import...
+
+
+================================================================================
+BATCH 1/10 - Processing songs 1 to 5
+================================================================================
+
+
+[1/50] Good News by Shaboozey
+
+[2/50] Who by Jimin
+
+[3/50] Cry For Me by The Weeknd
+
+[4/50] Guess by Charli xcx Featuring Billie Eilish
+
+[5/50] Nobody's Son by Sabrina Carpenter
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  → Fetching lyrics...
+  ↷ Already in database, skipping
+  ✗ Error: API error 401: Authentication failed - check your API key
+
+✅ Batch 1 complete in 0.9s - NO WAIT, moving to next batch! (45 songs remaining)
+
+
+================================================================================
+BATCH 2/10 - Processing songs 6 to 10
+================================================================================
+
+
+[6/50] Honey by Taylor Swift
+
+[7/50] Travelin' Soldier by Cody Johnson
+
+[9/50] Abracadabra by Lady Gaga
+
+[10/50] Bed Chem by Sabrina Carpenter
+
+[8/50] Peekaboo by Kendrick Lamar Featuring AzChike
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+
+✅ Batch 2 complete in 0.3s - NO WAIT, moving to next batch! (40 songs remaining)
+
+
+================================================================================
+BATCH 3/10 - Processing songs 11 to 15
+================================================================================
+
+
+[11/50] Messy by Lola Young
+
+[12/50] Dancing In The Flames by The Weeknd
+
+[13/50] I Am Not Okay by Jelly Roll
+
+[14/50] Christmas (Baby Please Come Home) by Darlene Love
+
+[15/50] Blue Strips by jessie murph
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+
+✅ Batch 3 complete in 0.2s - NO WAIT, moving to next batch! (35 songs remaining)
+
+
+================================================================================
+BATCH 4/10 - Processing songs 16 to 20
+================================================================================
+
+
+[16/50] What It Sounds Like by HUNTR/X: EJAE, Audrey Nuna & REI AMI
+
+[17/50] My Man On Willpower by Sabrina Carpenter
+
+[18/50] Jingle Bells by Frank Sinatra With The Orchestra & Chorus Of Gordon Jenkins
+
+[20/50] Rudolph The Red-Nosed Reindeer by Gene Autry & The Pinafores
+
+[19/50] Deck The Halls by Nat King Cole
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+
+✅ Batch 4 complete in 0.2s - NO WAIT, moving to next batch! (30 songs remaining)
+
+
+================================================================================
+BATCH 5/10 - Processing songs 21 to 25
+================================================================================
+
+
+[21/50] 25 by Rod Wave
+
+[22/50] Dum, Dumb, And Dumber by Lil Baby, Young Thug & Future
+
+[23/50] Sports Car by Tate McRae
+
+[25/50] Eternity by Alex Warren
+
+[24/50] Undressed by sombr
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+
+✅ Batch 5 complete in 0.1s - NO WAIT, moving to next batch! (25 songs remaining)
+
+
+================================================================================
+BATCH 6/10 - Processing songs 26 to 30
+================================================================================
+
+
+[26/50] It Depends by Chris Brown Featuring Bryson Tiller
+
+[27/50] Choosin' Texas by Ella Langley
+
+[28/50] Whatchu Kno About Me by Glorilla & Sexyy Red
+
+[30/50] Guy For That by Post Malone Featuring Luke Combs
+
+[29/50] Wildflower by Billie Eilish
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+
+✅ Batch 6 complete in 0.1s - NO WAIT, moving to next batch! (20 songs remaining)
+
+
+================================================================================
+BATCH 7/10 - Processing songs 31 to 35
+================================================================================
+
+
+[31/50] Voy A Llevarte Pa PR by Bad Bunny
+
+[32/50] Fat Juicy & Wet by Sexyy Red & Bruno Mars
+
+[33/50] Good Credit by Playboi Carti & Kendrick Lamar
+
+[34/50] I'm A Little Crazy by Morgan Wallen
+
+[35/50] Mystical Magical by Benson Boone
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+
+✅ Batch 7 complete in 0.1s - NO WAIT, moving to next batch! (15 songs remaining)
+
+
+================================================================================
+BATCH 8/10 - Processing songs 36 to 40
+================================================================================
+
+
+[36/50] Yukon by Justin Bieber
+
+[37/50] When Did You Get Hot? by Sabrina Carpenter
+
+[38/50] Blue Christmas by Elvis Presley
+
+[40/50] Happy Holiday / The Holiday Season by Andy Williams
+
+[39/50] Please Come Home For Christmas by Eagles
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+
+✅ Batch 8 complete in 0.1s - NO WAIT, moving to next batch! (10 songs remaining)
+
+
+================================================================================
+BATCH 9/10 - Processing songs 41 to 45
+================================================================================
+
+
+[41/50] Weren't For The Wind by Ella Langley
+
+[42/50] CN Tower by PARTYNEXTDOOR & Drake
+
+[44/50] Go Baby by Justin Bieber
+
+[45/50] So Easy (To Fall In Love) by Olivia Dean
+
+[43/50] Twilight Zone by Ariana Grande
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+
+✅ Batch 9 complete in 0.3s - NO WAIT, moving to next batch! (5 songs remaining)
+
+
+================================================================================
+BATCH 10/10 - Processing songs 46 to 50
+================================================================================
+
+
+[46/50] Stargazing by Myles Smith
+
+[47/50] I Love You, I'm Sorry by Gracie Abrams
+
+[48/50] Sorry I'm Here For Someone Else by Benson Boone
+
+[50/50] It's Ok I'm Ok by Tate McRae
+
+[49/50] Santa Baby by Eartha Kitt With Henri Rene And His Orchestra
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+  ↷ Already in database, skipping
+
+✅ Batch 10 complete in 0.2s - NO WAIT, moving to next batch! (0 songs remaining)
+
+
+================================================================================
+TEST COMPLETE!
+  ⏱️  Time: 0m 2s
+  ✓ Success: 0
+  ↷ Skipped: 49 (already in DB)
+  ✗ Failed:  1
+  📊 Total rhyme pairs: 0
+  🎵 Songs tested: 50 of 682
+
+❌ Failed songs (1):
+  - Nobody's Son: API error 401: Authentication failed - check your API key
+================================================================================
+
+📝 Detailed results saved to: import_673_results.json
+

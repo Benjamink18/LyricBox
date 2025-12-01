@@ -1,0 +1,902 @@
+======================================================================
+CREATING 2025 BILLBOARD HOT 100 LIST
+======================================================================
+Using: MusicBrainz (free, no key needed)
+
+1️⃣  Initializing genre client...
+   ✓ Genre client ready
+
+2️⃣  Determining chart dates...
+   ✓ Found 48 chart weeks
+   • First: 2025-01-04
+   • Last: 2025-11-29
+
+3️⃣  Fetching Billboard charts...
+   [ 1/48] 2025-01-04... ✓ 100 songs
+   [ 2/48] 2025-01-11... ✓ 100 songs
+   [ 3/48] 2025-01-18... ✓ 100 songs
+   [ 4/48] 2025-01-25... ✓ 100 songs
+   [ 5/48] 2025-02-01... ✓ 100 songs
+   [ 6/48] 2025-02-08... ✓ 100 songs
+   [ 7/48] 2025-02-15... ✓ 100 songs
+   [ 8/48] 2025-02-22... ✓ 100 songs
+   [ 9/48] 2025-03-01... ✓ 100 songs
+   [10/48] 2025-03-08... ✓ 100 songs
+   [11/48] 2025-03-15... ✓ 100 songs
+   [12/48] 2025-03-22... ✓ 100 songs
+   [13/48] 2025-03-29... ✓ 100 songs
+   [14/48] 2025-04-05... ✓ 100 songs
+   [15/48] 2025-04-12... ✓ 100 songs
+   [16/48] 2025-04-19... ✓ 100 songs
+   [17/48] 2025-04-26... ✓ 100 songs
+   [18/48] 2025-05-03... ✓ 100 songs
+   [19/48] 2025-05-10... ✓ 100 songs
+   [20/48] 2025-05-17... ✓ 100 songs
+   [21/48] 2025-05-24... ✓ 100 songs
+   [22/48] 2025-05-31... ✓ 100 songs
+   [23/48] 2025-06-07... ✓ 100 songs
+   [24/48] 2025-06-14... ✓ 100 songs
+   [25/48] 2025-06-21... ✓ 100 songs
+   [26/48] 2025-06-28... ✓ 100 songs
+   [27/48] 2025-07-05... ✓ 100 songs
+   [28/48] 2025-07-12... ✓ 100 songs
+   [29/48] 2025-07-19... ✓ 100 songs
+   [30/48] 2025-07-26... ✓ 100 songs
+   [31/48] 2025-08-02... ✓ 100 songs
+   [32/48] 2025-08-09... ✓ 100 songs
+   [33/48] 2025-08-16... ✓ 100 songs
+   [34/48] 2025-08-23... ✓ 100 songs
+   [35/48] 2025-08-30... ✓ 100 songs
+   [36/48] 2025-09-06... ✓ 100 songs
+   [37/48] 2025-09-13... ✓ 100 songs
+   [38/48] 2025-09-20... ✓ 100 songs
+   [39/48] 2025-09-27... ✓ 100 songs
+   [40/48] 2025-10-04... ✓ 100 songs
+   [41/48] 2025-10-11... ✓ 100 songs
+   [42/48] 2025-10-18... ✓ 100 songs
+   [43/48] 2025-10-25... ✓ 100 songs
+   [44/48] 2025-11-01... ✓ 100 songs
+   [45/48] 2025-11-08... ✓ 100 songs
+   [46/48] 2025-11-15... ✓ 100 songs
+   [47/48] 2025-11-22... ✓ 100 songs
+   [48/48] 2025-11-29... ✓ 100 songs
+
+   ✓ Total unique songs: 683
+
+4️⃣  Enriching with genre metadata...
+   (This will take 5-10 minutes due to MusicBrainz rate limits)
+
+   [   1/683] All I Want For Christmas Is You     Mariah Carey         ✓ R&B
+   [   2/683] Rockin' Around The Christmas Tree   Brenda Lee           ✓ Country
+   [   3/683] Last Christmas                      Wham!                MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Pop
+   [   4/683] Jingle Bell Rock                    Bobby Helms          MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Pop
+   [   5/683] Santa Tell Me                       Ariana Grande        MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ R&B
+   [   6/683] A Holly Jolly Christmas             Burl Ives            ✓ Rock
+   [   7/683] It's The Most Wonderful Time Of The Andy Williams        ✓ Jazz/Blues
+   [   8/683] Let It Snow! Let It Snow! Let It Sn Dean Martin          ✓ Country
+   [   9/683] Underneath The Tree                 Kelly Clarkson       ✓ Rock
+   [  10/683] The Christmas Song (Merry Christmas Nat "King" Cole      ✓ Pop
+   [  11/683] Feliz Navidad                       Jose Feliciano       ✓ Pop
+   [  12/683] It's Beginning To Look A Lot Like C Michael Buble        ✓ Easy Listening
+   [  13/683] Sleigh Ride                         The Ronettes         ✓ Pop
+   [  14/683] Run Rudolph Run                     Chuck Berry          ✓ Rock
+   [  15/683] Christmas (Baby Please Come Home)   Darlene Love         ✓ Pop
+   [  16/683] It's Beginning To Look A Lot Like C Perry Como And The F ✓ Rock
+   [  17/683] Die With A Smile                    Lady Gaga & Bruno Ma ✓ Rock
+   [  18/683] Jingle Bells                        Frank Sinatra With T ✓ No genre
+   [  19/683] White Christmas (1947)              Bing Crosby With Ken ✓ No genre
+   [  20/683] Deck The Halls                      Nat King Cole        ✓ Pop
+   [  21/683] Blue Christmas                      Elvis Presley        ✓ Country
+   [  22/683] Santa Baby                          Eartha Kitt With Hen ✓ Jazz/Blues
+   [  23/683] Here Comes Santa Claus (Right Down  Gene Autry           ✓ Christmas
+   [  24/683] A Bar Song (Tipsy)                  Shaboozey            ✓ Hip Hop/Rap
+   [  25/683] Little Saint Nick                   The Beach Boys       ✓ Rock
+   [  26/683] Wonderful Christmastime             Paul McCartney       ✓ Rock
+   [  27/683] Luther                              Kendrick Lamar & SZA MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [  28/683] Birds Of A Feather                  Billie Eilish        MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Rock
+   [  29/683] Please Come Home For Christmas      Eagles               ✓ Country
+   [  30/683] Rudolph The Red-Nosed Reindeer      Gene Autry & The Pin MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [  31/683] Christmastime Is Here               Vince Guaraldi Trio  ✓ Jazz/Blues
+   [  32/683] TV Off                              Kendrick Lamar Featu ✓ No genre
+   [  33/683] That's So True                      Gracie Abrams        ✓ Pop
+   [  34/683] APT.                                ROSE & Bruno Mars    ✓ Pop
+   [  35/683] This Christmas                      Donny Hathaway       ✓ R&B
+   [  36/683] Baby It's Cold Outside              Dean Martin          MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [  37/683] Holly Jolly Christmas               Michael Buble        MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Jazz/Blues
+   [  38/683] Merry Christmas                     Ed Sheeran & Elton J ✓ Rock
+   [  39/683] Like It's Christmas                 Jonas Brothers       MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [  40/683] You're A Mean One, Mr. Grinch       Thurl Ravenscroft    ✓ No genre
+   [  41/683] Taste                               Sabrina Carpenter    ✓ Pop
+   [  42/683] Mistletoe                           Justin Bieber        ✓ Pop
+   [  43/683] Snowman                             Sia                  ✓ Pop
+   [  44/683] Squabble Up                         Kendrick Lamar       ✓ Hip Hop/Rap
+   [  45/683] 30 For 30                           SZA With Kendrick La ✓ R&B
+   [  46/683] Espresso                            Sabrina Carpenter    ✓ Pop
+   [  47/683] I Had Some Help                     Post Malone Featurin ✓ No genre
+   [  48/683] Winter Wonderland                   Darlene Love         ✓ Pop
+   [  49/683] Happy Holiday / The Holiday Season  Andy Williams        ✓ Jazz/Blues
+   [  50/683] You Make It Feel Like Christmas     Gwen Stefani Featuri ✓ No genre
+   [  51/683] Timeless                            The Weeknd & Playboi MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [  52/683] Sticky                              Tyler, the Creator F MusicBrainz error: ('Connection aborted.', BrokenPipeError(32, 'Broken pipe'))
+✓ No genre
+   [  53/683] Love Somebody                       Morgan Wallen        ✓ Country
+   [  54/683] Whatchu Kno About Me                Glorilla & Sexyy Red ✓ Hip Hop/Rap
+   [  55/683] BMF                                 SZA                  ✓ R&B
+   [  56/683] Christmas Magic                     Laufey               MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [  57/683] High Road                           Koe Wetzel & jessie  ✓ Country
+   [  58/683] Sailor Song                         Gigi Perez           MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Rock
+   [  59/683] Drive                               SZA                  MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Hip Hop/Rap
+   [  60/683] Bed Chem                            Sabrina Carpenter    ✓ Pop
+   [  61/683] Messy                               Lola Young           ✓ R&B
+   [  62/683] Diamond Boy (DTM)                   SZA                  MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Hip Hop/Rap
+   [  63/683] Scorsese Baby Daddy                 SZA                  MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ R&B
+   [  64/683] What Do I Do                        SZA                  ✓ R&B
+   [  65/683] Wind Up Missin' You                 Tucker Wetmore       ✓ Country
+   [  66/683] Like Him                            Tyler, the Creator F ✓ No genre
+   [  67/683] Pink Pony Club                      Chappell Roan        MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Rock
+   [  68/683] Tu Boda                             Oscar Maydon & Fuerz ✓ No genre
+   [  69/683] No More Hiding                      SZA                  ✓ R&B
+   [  70/683] Crybaby                             SZA                  ✓ R&B
+   [  71/683] Kitchen                             SZA                  MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ R&B
+   [  72/683] I Never Lie                         Zach Top             ✓ Country
+   [  73/683] Another Life                        SZA                  ✓ R&B
+   [  74/683] No One Noticed                      The Marias           ✓ Pop
+   [  75/683] Defying Gravity                     Cynthia Erivo Featur MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [  76/683] It's Ok I'm Ok                      Tate McRae           MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Pop
+   [  77/683] Indigo                              Sam Barber Featuring ✓ No genre
+   [  78/683] Run Rudolph Run                     Mark Ambor           ✓ No genre
+   [  79/683] Love Me 4 Me                        SZA                  MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [  80/683] Chill Baby                          SZA                  MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ R&B
+   [  81/683] My Turn                             SZA                  MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [  82/683] Hey Now                             Kendrick Lamar Featu ✓ No genre
+   [  83/683] Que Pasaria...                      Rauw Alejandro & Bad MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [  84/683] Liar                                Jelly Roll           ✓ Hip Hop/Rap
+   [  85/683] Residuals                           Chris Brown          ✓ R&B
+   [  86/683] Help Me                             Real Boston Richey   ✓ No genre
+   [  87/683] I'm Gonna Love You                  Cody Johnson & Carri ✓ Country
+   [  88/683] Holiday Road                        Kesha                MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [  89/683] Santa Baby                          Laufey               ✓ Pop
+   [  90/683] Wacced Out Murals                   Kendrick Lamar       ✓ Hip Hop/Rap
+   [  91/683] Dancing In The Flames               The Weeknd           MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Pop
+   [  92/683] Empty Out Your Pockets              Juice WRLD           ✓ Hip Hop/Rap
+   [  93/683] Heart Of A Woman                    Summer Walker        MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ R&B
+   [  94/683] 4x4xU                               Lainey Wilson        ✓ Country
+   [  95/683] Good News                           Shaboozey            ✓ Hip Hop/Rap
+   [  96/683] Dos Dias                            Tito Double P & Peso ✓ Latin
+   [  97/683] 25                                  Rod Wave             MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [  98/683] Popular                             Ariana Grande        ✓ Hip Hop/Rap
+   [  99/683] Think I'm In Love With You          Chris Stapleton      ✓ Country
+   [ 100/683] Peekaboo                            Kendrick Lamar Featu ✓ No genre
+   [ 101/683] Lose Control                        Teddy Swims          ✓ Rock
+   [ 102/683] Beautiful Things                    Benson Boone         ✓ Rock
+   [ 103/683] Too Sweet                           Hozier               ✓ R&B
+   [ 104/683] Good Luck, Babe!                    Chappell Roan        MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Rock
+   [ 105/683] Stargazing                          Myles Smith          ✓ Pop
+   [ 106/683] Not Like Us                         Kendrick Lamar       ✓ Hip Hop/Rap
+   [ 107/683] Who                                 Jimin                MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Pop
+   [ 108/683] Please Please Please                Sabrina Carpenter    MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Country
+   [ 109/683] Smile                               Morgan Wallen        MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 110/683] I Am Not Okay                       Jelly Roll           ✓ Country
+   [ 111/683] Million Dollar Baby                 Tommy Richman        ✓ Electronic/Dance
+   [ 112/683] Lies Lies Lies                      Morgan Wallen        MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 113/683] Wildflower                          Billie Eilish        ✓ Electronic/Dance
+   [ 114/683] I Love You, I'm Sorry               Gracie Abrams        ✓ Pop
+   [ 115/683] Loco                                Neton Vega           ✓ Corrido Tumbado
+   [ 116/683] Guy For That                        Post Malone Featurin ✓ No genre
+   [ 117/683] Am I Okay?                          Megan Moroney        ✓ Country
+   [ 118/683] I Ain't Sayin'                      Jordan Davis         ✓ Country
+   [ 119/683] Bad Dreams                          Teddy Swims          ✓ Pop
+   [ 120/683] No Pole                             Don Toliver          ✓ Hip Hop/Rap
+   [ 121/683] Close To You                        Gracie Abrams        ✓ Pop
+   [ 122/683] Diet Pepsi                          Addison Rae          ✓ Pop
+   [ 123/683] Apple                               Charli xcx           MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Electronic/Dance
+   [ 124/683] Boys Back Home                      Dylan Marlowe & Dyla ✓ Country
+   [ 125/683] Burning Down                        Alex Warren          ✓ Pop
+   [ 126/683] Disease                             Lady Gaga            MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Electronic/Dance
+   [ 127/683] Shake Dat Ass (Twerk Song)          BossMan Dlow         MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 128/683] Gang Baby                           NLE Choppa           MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Hip Hop/Rap
+   [ 129/683] Khe?                                Rauw Alejandro & Rom ✓ Hip Hop/Rap
+   [ 130/683] Brokey                              Latto                ✓ Hip Hop/Rap
+   [ 131/683] Rosones                             Tito Double P        ✓ Latin
+   [ 132/683] Juno                                Sabrina Carpenter    ✓ Pop
+   [ 133/683] Nadie                               Tito Double P        ✓ Latin
+   [ 134/683] What Is This Feeling?               Ariana Grande & Cynt MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 135/683] El Club                             Bad Bunny            MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 136/683] Dodger Blue                         Kendrick Lamar Featu MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 137/683] Pitorro de Coco                     Bad Bunny            MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Latin
+   [ 138/683] The Largest                         BigXthaPlug          ✓ Hip Hop/Rap
+   [ 139/683] Wondering Why                       The Red Clay Strays  ✓ Country
+   [ 140/683] Ends Of The Earth                   Ty Myers             ✓ No genre
+   [ 141/683] Holy Smokes                         Bailey Zimmerman     ✓ Country
+   [ 142/683] High Road                           Zach Bryan           ✓ Country
+   [ 143/683] On One Tonight                      Gunna                ✓ Hip Hop/Rap
+   [ 144/683] St. Chroma                          Tyler, the Creator F ✓ No genre
+   [ 145/683] Cowboy Songs                        George Birge         ✓ No genre
+   [ 146/683] Dum, Dumb, And Dumber               Lil Baby, Young Thug MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 147/683] Nuevayol                            Bad Bunny            ✓ Hip Hop/Rap
+   [ 148/683] Baile Inolvidable                   Bad Bunny            MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Pop
+   [ 149/683] Tweaker                             GELO                 MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 150/683] Voy A Llevarte Pa PR                Bad Bunny            ✓ Hip Hop/Rap
+   [ 151/683] DTMF                                Bad Bunny            MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Pop
+   [ 152/683] Velda                               Bad Bunny, Omar Cour ✓ No genre
+   [ 153/683] By Myself                           Lil Baby & Rylo Rodr ✓ No genre
+   [ 154/683] Perfumito Nuevo                     Bad Bunny & RaiNao   ✓ No genre
+   [ 155/683] Outfit                              Lil Baby & 21 Savage ✓ Hip Hop/Rap
+   [ 156/683] Stuff                               Lil Baby Featuring T ✓ No genre
+   [ 157/683] Weltita                             Bad Bunny & Chuwi    MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 158/683] Redbone                             Lil Baby & Glorilla  ✓ Hip Hop/Rap
+   [ 159/683] EOO                                 Bad Bunny            MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Pop
+   [ 160/683] F U 2x                              Lil Baby             MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 161/683] Ketu Tecre                          Bad Bunny            ✓ Hip Hop/Rap
+   [ 162/683] Listen Up                           Lil Baby             MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 163/683] Kloufrens                           Bad Bunny            ✓ Hip Hop/Rap
+   [ 164/683] Bokete                              Bad Bunny            ✓ Hip Hop/Rap
+   [ 165/683] I Promise                           Lil Baby             ✓ Hip Hop/Rap
+   [ 166/683] Due 4A Win                          Lil Baby             ✓ Hip Hop/Rap
+   [ 167/683] So Sorry                            Lil Baby             MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 168/683] Denial Is A River                   Doechii              ✓ Hip Hop/Rap
+   [ 169/683] Turista                             Bad Bunny            MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Hip Hop/Rap
+   [ 170/683] Cafe Con Ron                        Bad Bunny & Los Plen ✓ No genre
+   [ 171/683] Stiff Gang                          Lil Baby             ✓ Hip Hop/Rap
+   [ 172/683] Lo Que Le Paso A Hawaii             Bad Bunny            ✓ Hip Hop/Rap
+   [ 173/683] La Mudanza                          Bad Bunny            ✓ Latin
+   [ 174/683] Free Promo                          Lil Baby             MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 175/683] Are You Even Real                   Teddy Swims & GIVEON ✓ R&B
+   [ 176/683] Bigger Houses                       Dan + Shay           ✓ Jazz/Blues
+   [ 177/683] The Days                            CHRYSTAL             ✓ Electronic/Dance
+   [ 178/683] Forever Young                       David Guetta, Alphav ✓ Electronic/Dance
+   [ 179/683] Headlock                            Imogen Heap          ✓ Rock
+   [ 180/683] Funny Papers                        Mac Miller           ✓ Hip Hop/Rap
+   [ 181/683] 5 Dollar Pony Rides                 Mac Miller           MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 182/683] Push 2 Start                        Tyla                 ✓ R&B
+   [ 183/683] GBP                                 Central Cee Featurin MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 184/683] DJ's Chord Organ                    Mac Miller Featuring ✓ No genre
+   [ 185/683] Stoned                              Mac Miller           ✓ Hip Hop/Rap
+   [ 186/683] 4X4                                 Travis Scott         ✓ Hip Hop/Rap
+   [ 187/683] Fat Juicy & Wet                     Sexyy Red & Bruno Ma ✓ Hip Hop/Rap
+   [ 188/683] Sports Car                          Tate McRae           ✓ R&B
+   [ 189/683] Haunted                             Kane Brown With Jell ✓ No genre
+   [ 190/683] Blue Jean Baby                      Zach Bryan           ✓ Country
+   [ 191/683] Backseat Driver                     Kane Brown           ✓ Country
+   [ 192/683] Weren't For The Wind                Ella Langley         ✓ Country
+   [ 193/683] Me Jalo                             Fuerza Regida & Grup MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 194/683] Mutt                                Leon Thomas          MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Hip Hop/Rap
+   [ 195/683] I'm The Problem                     Morgan Wallen        MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Country
+   [ 196/683] Cry For Me                          The Weeknd           ✓ R&B
+   [ 197/683] Abracadabra                         Lady Gaga            ✓ Rock
+   [ 198/683] Again                               Fetty Wap            ✓ Hip Hop/Rap
+   [ 199/683] Sao Paulo                           The Weeknd & Anitta  ✓ R&B
+   [ 200/683] Wake Me Up                          The Weeknd & Justice MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 201/683] Baptized In Fear                    The Weeknd           ✓ Hip Hop/Rap
+   [ 202/683] Open Hearts                         The Weeknd           ✓ Hip Hop/Rap
+   [ 203/683] Reflections Laughing                The Weeknd, Travis S MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 204/683] Enjoy The Show                      The Weeknd & Future  ✓ Hip Hop/Rap
+   [ 205/683] Niagara Falls                       The Weeknd           MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ R&B
+   [ 206/683] The Abyss                           The Weeknd & Lana De ✓ Hip Hop/Rap
+   [ 207/683] Take Me Back To LA                  The Weeknd           MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ R&B
+   [ 208/683] Given Up On Me                      The Weeknd           ✓ Hip Hop/Rap
+   [ 209/683] Opening Night                       The Weeknd           ✓ Hip Hop/Rap
+   [ 210/683] I Can't Wait To Get There           The Weeknd           ✓ Hip Hop/Rap
+   [ 211/683] 7 Dias                              Gabito Ballesteros & ✓ No genre
+   [ 212/683] Nissan Altima                       Doechii              ✓ Hip Hop/Rap
+   [ 213/683] Love Hangover                       JENNIE & Dominic Fik MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 214/683] Worst Way                           Riley Green          ✓ No genre
+   [ 215/683] All The Stars                       Kendrick Lamar & SZA ✓ Hip Hop/Rap
+   [ 216/683] Humble.                             Kendrick Lamar       ✓ Hip Hop/Rap
+   [ 217/683] Like That                           Future, Metro Boomin ✓ Hip Hop/Rap
+   [ 218/683] Twenties                            Giveon               ✓ R&B
+   [ 219/683] Ordinary                            Alex Warren          MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Pop
+   [ 220/683] Hard Fought Hallelujah              Brandon Lake X Jelly ✓ No genre
+   [ 221/683] Born Again                          LISA Featuring Doja  ✓ No genre
+   [ 222/683] Euphoria                            Kendrick Lamar       MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Hip Hop/Rap
+   [ 223/683] Guess                               Charli xcx Featuring MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 224/683] The Greatest                        Billie Eilish        ✓ R&B
+   [ 225/683] Gimme A Hug                         Drake                ✓ Hip Hop/Rap
+   [ 226/683] Nokia                               Drake                ✓ Hip Hop/Rap
+   [ 227/683] CN Tower                            PARTYNEXTDOOR & Drak MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 228/683] Die Trying                          PARTYNEXTDOOR, Drake ✓ R&B
+   [ 229/683] Something About You                 PARTYNEXTDOOR & Drak MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 230/683] Busy Woman                          Sabrina Carpenter    ✓ Pop
+   [ 231/683] Moth Balls                          PARTYNEXTDOOR & Drak MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 232/683] Somebody Loves Me                   PARTYNEXTDOOR, Drake MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 233/683] Deeper                              PARTYNEXTDOOR        MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Hip Hop/Rap
+   [ 234/683] Spider-Man Superman                 PARTYNEXTDOOR & Drak MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 235/683] Crying In Chanel                    Drake                ✓ Hip Hop/Rap
+   [ 236/683] Small Town Fame                     Drake                ✓ Hip Hop/Rap
+   [ 237/683] Raining In Houston                  Drake                ✓ Hip Hop/Rap
+   [ 238/683] Pimmie's Dilemma                    Pimmie, PARTYNEXTDOO ✓ No genre
+   [ 239/683] Brian Steel                         Drake                ✓ Hip Hop/Rap
+   [ 240/683] Lasers                              PARTYNEXTDOOR & Drak ✓ Hip Hop/Rap
+   [ 241/683] Meet Your Padre                     PARTYNEXTDOOR, Drake ✓ Hip Hop/Rap
+   [ 242/683] Celibacy                            PARTYNEXTDOOR & Drak ✓ Hip Hop/Rap
+   [ 243/683] 15 Minutes                          Sabrina Carpenter    MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Rock
+   [ 244/683] Greedy                              PARTYNEXTDOOR & Drak ✓ Hip Hop/Rap
+   [ 245/683] When He's Gone                      PARTYNEXTDOOR & Drak ✓ Hip Hop/Rap
+   [ 246/683] OMW                                 PARTYNEXTDOOR & Drak MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 247/683] Glorious                            PARTYNEXTDOOR & Drak ✓ Hip Hop/Rap
+   [ 248/683] Couldn't Make It Any Harder         Sabrina Carpenter    MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 249/683] Por Esos Ojos                       Fuerza Regida        ✓ Regional Mexicano
+   [ 250/683] Bad Reviews                         Sabrina Carpenter    ✓ Pop
+   [ 251/683] Revolving Door                      Tate McRae           ✓ R&B
+   [ 252/683] I Know Love                         Tate McRae Feataurin MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 253/683] Dear God                            Tate McRae           ✓ Pop
+   [ 254/683] Purple Lace Bra                     Tate McRae           ✓ R&B
+   [ 255/683] Miss Possessive                     Tate McRae           MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 256/683] Call Me When You Break Up           Selena Gomez, Benny  MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 257/683] bloodonmyhands                      Tate McRae Featuring MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 258/683] cLOUDs                              J. Cole              ✓ Hip Hop/Rap
+   [ 259/683] Signs                               Tate McRae           MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 260/683] ExtraL                              JENNIE & Doechii     MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 261/683] 2 Hands                             Tate McRae           ✓ R&B
+   [ 262/683] LV Bag                              Don Toliver, J-Hope, ✓ No genre
+   [ 263/683] Little Things                       Ella Mai             ✓ Hip Hop/Rap
+   [ 264/683] Like I Do                           Tate McRae           ✓ R&B
+   [ 265/683] Greenlight                          Tate McRae           ✓ R&B
+   [ 266/683] Sorry I'm Here For Someone Else     Benson Boone         ✓ Rock
+   [ 267/683] A N X I E T Y                       Sleepy Hallow Featur MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 268/683] Ms. Whitman                         Bhad Bhabie          ✓ Hip Hop/Rap
+   [ 269/683] Tattoo                              Tito Double P        ✓ Latin
+   [ 270/683] Anxiety                             Doechii              ✓ Hip Hop/Rap
+   [ 271/683] Garden Of Eden                      Lady Gaga            ✓ Rock
+   [ 272/683] Vanish Into You                     Lady Gaga            MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Pop
+   [ 273/683] Sweet Dreams                        J-Hope Featuring Mig MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 274/683] How Bad Do U Want Me                Lady Gaga            MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Pop
+   [ 275/683] Handlebars                          JENNIE & Dua Lipa    MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 276/683] Perfect Celebrity                   Lady Gaga            ✓ Rock
+   [ 277/683] like JENNIE                         JENNIE               MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Funk Mandelao
+   [ 278/683] Zombieboy                           Lady Gaga            MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Pop
+   [ 279/683] Proud Of Me                         Fridayy & Meek Mill  ✓ R&B
+   [ 280/683] Killah                              Lady Gaga Featuring  ✓ No genre
+   [ 281/683] LoveDrug                            Lady Gaga            ✓ Rock
+   [ 282/683] Texas                               Blake Shelton        ✓ Country
+   [ 283/683] Te Queria Ver                       Aleman X Neton Vega  ✓ No genre
+   [ 284/683] Evil J0rdan                         Playboi Carti        ✓ Hip Hop/Rap
+   [ 285/683] Rather Lie                          Playboi Carti & The  ✓ Hip Hop/Rap
+   [ 286/683] The Giver                           Chappell Roan        ✓ Pop
+   [ 287/683] Good Credit                         Playboi Carti & Kend MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 288/683] Crush                               Playboi Carti & Trav MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 289/683] Backd00r                            Playboi Carti Featur ✓ No genre
+   [ 290/683] Mojo Jojo                           Playboi Carti        MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Hip Hop/Rap
+   [ 291/683] Philly                              Playboi Carti & Trav ✓ Hip Hop/Rap
+   [ 292/683] Fine Shit                           Playboi Carti        MusicBrainz error: ('Connection aborted.', BrokenPipeError(32, 'Broken pipe'))
+✓ Hip Hop/Rap
+   [ 293/683] Toxic                               Playboi Carti & Skep MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 294/683] K Pop                               Playboi Carti        ✓ Hip Hop/Rap
+   [ 295/683] Pop Out                             Playboi Carti        MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Hip Hop/Rap
+   [ 296/683] Radar                               Playboi Carti        ✓ Hip Hop/Rap
+   [ 297/683] Dark Thoughts                       Lil Tecca            MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Hip Hop/Rap
+   [ 298/683] Trim                                Playboi Carti & Futu ✓ Hip Hop/Rap
+   [ 299/683] HBA                                 Playboi Carti        ✓ Hip Hop/Rap
+   [ 300/683] Charge Dem Hoes A Fee               Playboi Carti, Futur MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 301/683] Wake Up F1lthy                      Playboi Carti & Trav ✓ Hip Hop/Rap
+   [ 302/683] Jumpin                              Playboi Carti & Lil  MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 303/683] I Seeeeee You Baby Boi              Playboi Carti        ✓ Hip Hop/Rap
+   [ 304/683] Crank                               Playboi Carti        ✓ Hip Hop/Rap
+   [ 305/683] Like Weezy                          Playboi Carti        ✓ Hip Hop/Rap
+   [ 306/683] Emergence                           Sleep Token          ✓ R&B
+   [ 307/683] Twin Trim                           Playboi Carti & Lil  MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 308/683] Olympian                            Playboi Carti        ✓ Hip Hop/Rap
+   [ 309/683] Munyun                              Playboi Carti        ✓ Hip Hop/Rap
+   [ 310/683] We Need All Da Vibes                Playboi Carti, Young ✓ Hip Hop/Rap
+   [ 311/683] OPM Babi                            Playboi Carti        ✓ Hip Hop/Rap
+   [ 312/683] Cocaine Nose                        Playboi Carti        ✓ Hip Hop/Rap
+   [ 313/683] Dis 1 Got It                        Playboi Carti        ✓ Hip Hop/Rap
+   [ 314/683] Overly                              Playboi Carti        ✓ Hip Hop/Rap
+   [ 315/683] South Atlanta Baby                  Playboi Carti        ✓ Hip Hop/Rap
+   [ 316/683] Walk                                Playboi Carti        ✓ Hip Hop/Rap
+   [ 317/683] Just In Case                        Morgan Wallen        ✓ Country
+   [ 318/683] I'm A Little Crazy                  Morgan Wallen        ✓ Country
+   [ 319/683] Just Us                             Jack Harlow & Doja C ✓ Hip Hop/Rap
+   [ 320/683] Ojos Tristes                        Selena Gomez, Benny  ✓ No genre
+   [ 321/683] Mona Lisa                           J-Hope               ✓ Hip Hop/Rap
+   [ 322/683] This Town's Been Too Good To Us     Dylan Scott          ✓ Country
+   [ 323/683] How Does It Feel To Be Forgotten    Selena Gomez & Benny ✓ Electronic/Dance
+   [ 324/683] Somethin' 'Bout A Woman             Thomas Rhett Featuri ✓ No genre
+   [ 325/683] Friends Like That                   John Morgan Featurin ✓ No genre
+   [ 326/683] Sunset Blvd                         Selena Gomez & Benny ✓ Electronic/Dance
+   [ 327/683] Twilight Zone                       Ariana Grande        ✓ Hip Hop/Rap
+   [ 328/683] Dandelion                           Ariana Grande        ✓ Electronic/Dance
+   [ 329/683] Intro (End Of The World)            Ariana Grande        ✓ Hip Hop/Rap
+   [ 330/683] Past Life                           Ariana Grande        ✓ Hip Hop/Rap
+   [ 331/683] Warm                                Ariana Grande        ✓ Electronic/Dance
+   [ 332/683] Hampstead                           Ariana Grande        ✓ Hip Hop/Rap
+   [ 333/683] Vanish Mode                         Lil Durk             ✓ Hip Hop/Rap
+   [ 334/683] They Want To Be You                 Lil Durk Featuring F MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 335/683] Love Me Not                         Ravyn Lenae          ✓ R&B
+   [ 336/683] 1000 Times                          Lil Durk Featuring L ✓ No genre
+   [ 337/683] Can't Hide It                       Lil Durk Featuring J ✓ No genre
+   [ 338/683] Feel It                             d4vd                 ✓ R&B
+   [ 339/683] Back To Friends                     sombr                ✓ Rock
+   [ 340/683] Hometown Home                       LoCash               ✓ Country
+   [ 341/683] Morena                              Neton Vega & Peso Pl ✓ Corrido Tumbado
+   [ 342/683] Shaking When I Pray                 Lil Durk             MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 343/683] Fix What You Didn't Break           Nate Smith           ✓ Country
+   [ 344/683] Keep On Sippin'                     Lil Durk             ✓ Hip Hop/Rap
+   [ 345/683] All The Way                         BigXthaPlug Featurin ✓ No genre
+   [ 346/683] Azizam                              Ed Sheeran           MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Pop
+   [ 347/683] Caramel                             Sleep Token          ✓ Rock
+   [ 348/683] End Of The World                    Miley Cyrus          ✓ Rock
+   [ 349/683] Chest Pain (I Love)                 Malcolm Todd         ✓ R&B
+   [ 350/683] Back To Me                          The Marias           ✓ Pop
+   [ 351/683] Undressed                           sombr                ✓ Pop
+   [ 352/683] Fortnight                           Taylor Swift Featuri ✓ Rock
+   [ 353/683] Blue Strips                         jessie murph         ✓ Country
+   [ 354/683] Henry, Come On                      Lana Del Rey         ✓ Electronic/Dance
+   [ 355/683] Hands Of Time                       Eric Church          ✓ Country
+   [ 356/683] Not At This Party                   Dasha                ✓ Country
+   [ 357/683] Whiskey Drink                       Jason Aldean         ✓ Country
+   [ 358/683] I Ain't Coming Back                 Morgan Wallen Featur ✓ No genre
+   [ 359/683] Happen To Me                        Russell Dickerson    ✓ No genre
+   [ 360/683] Your Way's Better                   Forrest Frank        ✓ Contemporary Christian
+   [ 361/683] Steve's Lava Chicken                Jack Black           ✓ Rock
+   [ 362/683] Headphones On                       Addison Rae          ✓ Pop
+   [ 363/683] Forever To Me                       Cole Swindell        ✓ Jazz/Blues
+   [ 364/683] Whim Whamiee                        PLUTO & YKNIECE      ✓ No genre
+   [ 365/683] Party 4 U                           Charli xcx           ✓ Electronic/Dance
+   [ 366/683] Actin Up                            Tommy Richman        ✓ Electronic/Dance
+   [ 367/683] House Again                         Hudson Westbrook     ✓ No genre
+   [ 368/683] What Was That                       Lorde                ✓ Pop
+   [ 369/683] Money On Money                      Young Thug Featuring ✓ No genre
+   [ 370/683] Mystical Magical                    Benson Boone         ✓ Rock
+   [ 371/683] Damocles                            Sleep Token          ✓ Rock
+   [ 372/683] After All The Bars Are Closed       Thomas Rhett         ✓ Country
+   [ 373/683] Amen                                Shaboozey & Jelly Ro MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 374/683] My World                            Chuckyy              ✓ No genre
+   [ 375/683] 3,2,1                               Tucker Wetmore       MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 376/683] Ribs                                Lorde                ✓ Pop
+   [ 377/683] Burning Blue                        Mariah the Scientist ✓ R&B
+   [ 378/683] Backup Plan                         Bailey Zimmerman & L MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 379/683] Priceless                           Maroon 5 & LISA      MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 380/683] Thought It Was Love                 Ty Myers             MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 381/683] Old Phone                           Ed Sheeran           ✓ Pop
+   [ 382/683] Gnarly                              KATSEYE              ✓ Pop
+   [ 383/683] Me Prometi                          Ivan Cornejo         ✓ Regional Mexicano
+   [ 384/683] Superman                            Morgan Wallen        ✓ Country
+   [ 385/683] Dangerous                           Sleep Token          ✓ R&B
+   [ 386/683] Even In Arcadia                     Sleep Token          ✓ Rock
+   [ 387/683] Look To Windward                    Sleep Token          ✓ R&B
+   [ 388/683] Past Self                           Sleep Token          ✓ Hip Hop/Rap
+   [ 389/683] Marlboro Rojo                       Fuerza Regida        ✓ Regional Mexicano
+   [ 390/683] Gethsemane                          Sleep Token          ✓ R&B
+   [ 391/683] Provider                            Sleep Token          ✓ Rock
+   [ 392/683] You Had To Be There                 Megan Moroney & Kenn ✓ Country
+   [ 393/683] Nope Your Too Late I Already Died   wifiskeleton & i wan ✓ Hip Hop/Rap
+   [ 394/683] Infinite Baths                      Sleep Token          ✓ Rock
+   [ 395/683] What I Want                         Morgan Wallen Featur ✓ No genre
+   [ 396/683] I Got Better                        Morgan Wallen        ✓ Country
+   [ 397/683] 20 Cigarettes                       Morgan Wallen        ✓ Country
+   [ 398/683] Kick Myself                         Morgan Wallen        ✓ Country
+   [ 399/683] Eyes Are Closed                     Morgan Wallen        ✓ Country
+   [ 400/683] Falling Apart                       Morgan Wallen        ✓ Country
+   [ 401/683] Skoal, Chevy, And Browning          Morgan Wallen        ✓ Country
+   [ 402/683] TN                                  Morgan Wallen        ✓ Country
+   [ 403/683] Where'd That Girl Go                Morgan Wallen        ✓ Country
+   [ 404/683] Kiss Her In Front Of You            Morgan Wallen        ✓ Country
+   [ 405/683] If You Were Mine                    Morgan Wallen        ✓ Country
+   [ 406/683] Missing                             Morgan Wallen        ✓ Country
+   [ 407/683] Genesis                             Morgan Wallen        ✓ Country
+   [ 408/683] Don't We                            Morgan Wallen        ✓ Country
+   [ 409/683] Dark Til Daylight                   Morgan Wallen        ✓ Country
+   [ 410/683] Interlude                           Morgan Wallen        ✓ Country
+   [ 411/683] Number 3 And Number 7               Morgan Wallen Featur ✓ No genre
+   [ 412/683] Revelation                          Morgan Wallen        ✓ Country
+   [ 413/683] Jack And Jill                       Morgan Wallen        ✓ Country
+   [ 414/683] Come Back As A Redneck              Morgan Wallen Featur ✓ No genre
+   [ 415/683] Miami                               Morgan Wallen Featur ✓ No genre
+   [ 416/683] The Dealer                          Morgan Wallen Featur ✓ No genre
+   [ 417/683] Leavin's The Least I Could Do       Morgan Wallen        MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 418/683] Drinking Til It Does                Morgan Wallen        MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 419/683] Nothin' Left                        Morgan Wallen        MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 420/683] LA Night                            Morgan Wallen        ✓ Country
+   [ 421/683] Whiskey In Reverse                  Morgan Wallen        ✓ Country
+   [ 422/683] Working Man's Song                  Morgan Wallen        ✓ Country
+   [ 423/683] Crazy Eyes                          Morgan Wallen        ✓ Country
+   [ 424/683] Don't Say You Love Me               Jin                  ✓ Pop
+   [ 425/683] Shake It To The Max (Fly)           MOLIY, Silent Addy,  ✓ No genre
+   [ 426/683] Bloodline                           Alex Warren With Jel ✓ Pop
+   [ 427/683] Cliche                              MGK                  ✓ Hip Hop/Rap
+   [ 428/683] Latina Foreva                       Karol G              ✓ Pop
+   [ 429/683] Somewhere Over Laredo               Lainey Wilson        MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 430/683] Just Keep Watching                  Tate McRae           MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 431/683] OWA OWA                             Lil Tecca            ✓ Hip Hop/Rap
+   [ 432/683] Tu Sancho                           Fuerza Regida        ✓ Regional Mexicano
+   [ 433/683] Easy Lover                          Miley Cyrus          ✓ Rock
+   [ 434/683] Fame Is A Gun                       Addison Rae          ✓ Pop
+   [ 435/683] Better Me For You (Brown Eyes)      Max McNown           ✓ No genre
+   [ 436/683] Nice To Meet You                    Myles Smith          ✓ Pop
+   [ 437/683] Manchild                            Sabrina Carpenter    ✓ Pop
+   [ 438/683] Hip-Hop                             Lil Wayne & BigXthaP ✓ No genre
+   [ 439/683] Typa                                Glorilla             ✓ Hip Hop/Rap
+   [ 440/683] Sharks                              Lil Wayne, Jelly Rol ✓ Hip Hop/Rap
+   [ 441/683] Touch Me Like A Gangster            jessie murph         ✓ Country
+   [ 442/683] Banned From NO                      Lil Wayne            ✓ Hip Hop/Rap
+   [ 443/683] Welcome To Tha Carter               Lil Wayne            ✓ Hip Hop/Rap
+   [ 444/683] Bells                               Lil Wayne            ✓ Hip Hop/Rap
+   [ 445/683] Sapphire                            Ed Sheeran           ✓ Pop
+   [ 446/683] Cotton Candy                        Lil Wayne & 2 Chainz ✓ Hip Hop/Rap
+   [ 447/683] Type Dangerous                      Mariah Carey         ✓ Hip Hop/Rap
+   [ 448/683] King Carter                         Lil Wayne            ✓ Hip Hop/Rap
+   [ 449/683] Killin' It Girl                     J-Hope & Glorilla    ✓ No genre
+   [ 450/683] Lemon Drop                          ATEEZ                ✓ Pop
+   [ 451/683] Won't Stop                          Gunna                ✓ Hip Hop/Rap
+   [ 452/683] Folded                              Kehlani              ✓ R&B
+   [ 453/683] Half The Plot                       Lil Tecca            ✓ Hip Hop/Rap
+   [ 454/683] Holy Blindfold                      Chris Brown          ✓ R&B
+   [ 455/683] Sparks                              Coldplay             MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Rock
+   [ 456/683] Single Again                        Josh Ross            MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 457/683] Outside                             Cardi B              ✓ Hip Hop/Rap
+   [ 458/683] 6 Months Later                      Megan Moroney        ✓ Country
+   [ 459/683] Bodies                              Offset & JID         MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 460/683] Mr Electric Blue                    Benson Boone         ✓ Rock
+   [ 461/683] Papasito                            Karol G              ✓ Pop
+   [ 462/683] Your Idol                           Saja Boys: Andrew Ch MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 463/683] Bottle Rockets                      Scotty McCreery & Ho ✓ Country
+   [ 464/683] Golden                              HUNTR/X: EJAE, Audre ✓ Pop
+   [ 465/683] This Heart                          Corey Kent           ✓ Country
+   [ 466/683] Gabriela                            KATSEYE              MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Pop
+   [ 467/683] Verano Rosa                         Karol G & Feid       ✓ R&B
+   [ 468/683] How It's Done                       HUNTR/X: EJAE, Audre ✓ Pop
+   [ 469/683] Soda Pop                            Saja Boys: Andrew Ch ✓ Pop
+   [ 470/683] What It Sounds Like                 HUNTR/X: EJAE, Audre ✓ Pop
+   [ 471/683] Free                                Rumi, JINU, EJAE & A ✓ No genre
+   [ 472/683] On My Mind                          Alex Warren & ROSE   ✓ Pop
+   [ 473/683] Takedown                            HUNTR/X: EJAE, Audre ✓ Pop
+   [ 474/683] Home                                BigXthaPlug Featurin ✓ No genre
+   [ 475/683] FWU                                 Don Toliver          ✓ Hip Hop/Rap
+   [ 476/683] Went West                           BabyChiefDoit        ✓ Hip Hop/Rap
+   [ 477/683] Went Legit                          G Herbo              ✓ Hip Hop/Rap
+   [ 478/683] Bar None                            Jordan Davis         ✓ Country
+   [ 479/683] What Did I Miss?                    Drake                ✓ Hip Hop/Rap
+   [ 480/683] Courtesy Of The Red, White And Blue Toby Keith           ✓ Country
+   [ 481/683] River Washed Hair                   Zach Bryan           ✓ Country
+   [ 482/683] Takedown                            JEONGYEON, JIHYO & C ✓ No genre
+   [ 483/683] Illegal                             PinkPantheress       ✓ Electronic/Dance
+   [ 484/683] Country House                       Sam Hunt             ✓ Country
+   [ 485/683] No Broke Boys                       Disco Lines & Tinash ✓ No genre
+   [ 486/683] Daisies                             Justin Bieber        ✓ Rock
+   [ 487/683] Yukon                               Justin Bieber        ✓ R&B
+   [ 488/683] Go Baby                             Justin Bieber        ✓ R&B
+   [ 489/683] All I Can Take                      Justin Bieber        ✓ R&B
+   [ 490/683] Jump                                BLACKPINK            ✓ Electronic/Dance
+   [ 491/683] Way It Is                           Justin Bieber & Gunn ✓ R&B
+   [ 492/683] Things You Do                       Justin Bieber        ✓ Pop
+   [ 493/683] Walking Away                        Justin Bieber        ✓ Pop
+   [ 494/683] Chains & Whips                      Clipse Featuring Ken MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 495/683] Butterflies                         Justin Bieber        ✓ Pop
+   [ 496/683] Kick Out                            Travis Scott         ✓ Hip Hop/Rap
+   [ 497/683] Champain & Vacay                    Travis Scott & Don T ✓ Hip Hop/Rap
+   [ 498/683] Dumbo                               Travis Scott         ✓ Hip Hop/Rap
+   [ 499/683] Devotion                            Justin Bieber & Dijo ✓ R&B
+   [ 500/683] Sweet Spot                          Justin Bieber & Sexy ✓ Pop
+   [ 501/683] First Place                         Justin Bieber        MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 502/683] So Be It                            Clipse               ✓ Hip Hop/Rap
+   [ 503/683] P.O.V.                              Clipse Featuring Tyl ✓ No genre
+   [ 504/683] In Your Fantasy                     ATEEZ                ✓ Pop
+   [ 505/683] Swag                                Justin Bieber, Cash  ✓ Hip Hop/Rap
+   [ 506/683] 2000 Excursion                      Travis Scott, Sheck  ✓ Hip Hop/Rap
+   [ 507/683] Where Was You                       Travis Scott, Playbo ✓ No genre
+   [ 508/683] Ace Trumpets                        Clipse               MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ Hip Hop/Rap
+   [ 509/683] Too Long                            Justin Bieber        ✓ Pop
+   [ 510/683] Glory Voice Memo                    Justin Bieber        ✓ R&B
+   [ 511/683] Dadz Love                           Justin Bieber & Lil  MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 512/683] 405                                 Justin Bieber        ✓ R&B
+   [ 513/683] The Birds Don't Sing                Clipse Featuring Joh ✓ No genre
+   [ 514/683] Shyne                               Travis Scott & Glori ✓ No genre
+   [ 515/683] M.T.B.T.T.F.                        Clipse               ✓ Hip Hop/Rap
+   [ 516/683] Eternity                            Alex Warren          ✓ Offizielle Charts
+   [ 517/683] Big Poe                             Tyler, the Creator F ✓ No genre
+   [ 518/683] Sugar On My Tongue                  Tyler, the Creator   ✓ Hip Hop/Rap
+   [ 519/683] Ring Ring Ring                      Tyler, the Creator   ✓ Hip Hop/Rap
+   [ 520/683] Crazy Train                         Ozzy Osbourne        ✓ Rock
+   [ 521/683] Sucka Free                          Tyler, the Creator   ✓ Hip Hop/Rap
+   [ 522/683] Mama, I'm Coming Home               Ozzy Osbourne        ✓ Rock
+   [ 523/683] Stop Playing With Me                Tyler, the Creator   ✓ Hip Hop/Rap
+   [ 524/683] Mommanem                            Tyler, the Creator   ✓ Hip Hop/Rap
+   [ 525/683] I'll Take Care Of You               Tyler, the Creator F ✓ No genre
+   [ 526/683] Don't Tap That Glass / Tweakin'     Tyler, the Creator   ✓ Hip Hop/Rap
+   [ 527/683] Don't You Worry Baby                Tyler, the Creator F ✓ No genre
+   [ 528/683] Madeline                            Zach Bryan Featuring ✓ No genre
+   [ 529/683] Tell Me What It Is                  Tyler, the Creator   ✓ Hip Hop/Rap
+   [ 530/683] 1965                                jessie murph         ✓ Country
+   [ 531/683] Strategy                            Twice                ✓ Pop
+   [ 532/683] Frecuencia                          Dareyes de La Sierra ✓ Latin
+   [ 533/683] Which One                           Drake & Central Cee  ✓ Hip Hop/Rap
+   [ 534/683] Back In The Saddle                  Luke Combs           ✓ Country
+   [ 535/683] It Depends                          Chris Brown Featurin ✓ No genre
+   [ 536/683] Park                                Tyler Hubbard        ✓ Country
+   [ 537/683] The Subway                          Chappell Roan        ✓ Pop
+   [ 538/683] Napoleon                            $uicideboy$          ✓ Hip Hop/Rap
+   [ 539/683] Is It A Crime                       Mariah the Scientist ✓ R&B
+   [ 540/683] Don't Mind If I Do                  Riley Green Featurin ✓ No genre
+   [ 541/683] Lemonade                            Forrest Frank & The  ✓ Contemporary Christian
+   [ 542/683] So Far So Fake                      Pierce the Veil      MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 543/683] Count Your Blessings                $uicideboy$          ✓ Hip Hop/Rap
+   [ 544/683] Oh, What A Wretched Man I Am!       $uicideboy$          MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 545/683] 12 To 12                            sombr                MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ Rock
+   [ 546/683] A Lot More Free                     Max McNown           ✓ No genre
+   [ 547/683] Country Song Came On                Luke Bryan           MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 548/683] Somebody                            Latto                ✓ Hip Hop/Rap
+   [ 549/683] Now And At The Hour Of Our Death..  $uicideboy$ X BONES  ✓ No genre
+   [ 550/683] Just Say Dat                        Gunna                MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 551/683] Hell At Night                       BigXthaPlug Featurin ✓ No genre
+   [ 552/683] Forever Be Mine                     Gunna Featuring Wizk ✓ No genre
+   [ 553/683] Sakpase                             Gunna                ✓ Hip Hop/Rap
+   [ 554/683] At My Purest                        Gunna Featuring Offs ✓ No genre
+   [ 555/683] Let That Sink In                    Gunna                ✓ Hip Hop/Rap
+   [ 556/683] Bowery                              Zach Bryan Featuring ✓ No genre
+   [ 557/683] Lost                                Bailey Zimmerman & T ✓ No genre
+   [ 558/683] gp                                  Gunna                ✓ Hip Hop/Rap
+   [ 559/683] wgft                                Gunna Featuring Burn ✓ No genre
+   [ 560/683] Many Nights                         Gunna                ✓ Hip Hop/Rap
+   [ 561/683] Imaginary Playerz                   Cardi B              ✓ Hip Hop/Rap
+   [ 562/683] Last One To Know                    Gavin Adcock         ✓ Country
+   [ 563/683] Heart Of Stone                      Jelly Roll           ✓ Country
+   [ 564/683] Let Down                            Radiohead            ✓ Rock
+   [ 565/683] What Kinda Man                      Parker McCollum      ✓ Country
+   [ 566/683] Jealous Type                        Doja Cat             ✓ Hip Hop/Rap
+   [ 567/683] Ceremony                            Stray Kids           ✓ Pop
+   [ 568/683] Box Me Up                           BigXthaPlug Featurin ✓ No genre
+   [ 569/683] Different Species                   Offset & Gunna       ✓ Hip Hop/Rap
+   [ 570/683] Man I Need                          Olivia Dean          ✓ R&B
+   [ 571/683] Sacrifice                           Mariah the Scientist ✓ R&B
+   [ 572/683] Lover Girl                          Laufey               ✓ Pop
+   [ 573/683] Holy Water                          Marshmello x Jelly R ✓ No genre
+   [ 574/683] Tears                               Sabrina Carpenter    ✓ Pop
+   [ 575/683] Nobody's Son                        Sabrina Carpenter    ✓ Pop
+   [ 576/683] My Man On Willpower                 Sabrina Carpenter    ✓ Pop
+   [ 577/683] When Did You Get Hot?               Sabrina Carpenter    ✓ Pop
+   [ 578/683] Sugar Talking                       Sabrina Carpenter    ✓ Pop
+   [ 579/683] Go Go Juice                         Sabrina Carpenter    ✓ Pop
+   [ 580/683] House Tour                          Sabrina Carpenter    ✓ R&B
+   [ 581/683] Never Getting Laid                  Sabrina Carpenter    ✓ Rock
+   [ 582/683] We Almost Broke Up Again Last Night Sabrina Carpenter    MusicBrainz error: ('Connection aborted.', OSError(22, 'Invalid argument'))
+✓ No genre
+   [ 583/683] Goodbye                             Sabrina Carpenter    ✓ Pop
+   [ 584/683] Don't Worry I'll Make You Worry     Sabrina Carpenter    ✓ Country
+   [ 585/683] Good Times & Tan Lines              Zach Top             MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ No genre
+   [ 586/683] She Ready                           Key Glock            ✓ Hip Hop/Rap
+   [ 587/683] South Of Sanity                     Zach Top             ✓ Country
+   [ 588/683] The Dead Dance                      Lady Gaga            ✓ Rock
+   [ 589/683] Speed Demon                         Justin Bieber        ✓ R&B
+   [ 590/683] Sienna                              The Marias           ✓ Pop
+   [ 591/683] Tiramisu                            Don Toliver          ✓ Hip Hop/Rap
+   [ 592/683] Love Song                           Justin Bieber        ✓ R&B
+   [ 593/683] Dog House                           Drake, Julia Wolf &  ✓ Hip Hop/Rap
+   [ 594/683] Camera                              Ed Sheeran           ✓ Pop
+   [ 595/683] Charlie                             Tom MacDonald        ✓ Hip Hop/Rap
+   [ 596/683] City Walls                          Twenty One Pilots    ✓ Rock
+   [ 597/683] Breakin' Dishes                     Rihanna              MusicBrainz error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+✓ R&B
+   [ 598/683] How Far Does A Goodbye Go           Jason Aldean         ✓ Country
+   [ 599/683] Shot Callin                         YoungBoy Never Broke ✓ Hip Hop/Rap
+   [ 600/683] Safe                                Cardi B Featuring Ke ✓ No genre
+   [ 601/683] Magnet                              Cardi B              ✓ Hip Hop/Rap
+   [ 602/683] Romantic Homicide                   d4vd                 ✓ R&B
+   [ 603/683] Pretty & Petty                      Cardi B              ✓ Hip Hop/Rap
+   [ 604/683] Pick It Up                          Cardi B Featuring Se ✓ No genre
+   [ 605/683] Hello                               Cardi B              ✓ Hip Hop/Rap
+   [ 606/683] Dead                                Cardi B Featuring Su ✓ No genre
+   [ 607/683] Bodega Baddie                       Cardi B              ✓ Hip Hop/Rap
+   [ 608/683] What's Goin On                      Cardi B Featuring Li ✓ No genre
+   [ 609/683] ErrTime                             Cardi B              ✓ Hip Hop/Rap
+   [ 610/683] Man Of Your Word                    Cardi B Featuring Do ✓ No genre
+   [ 611/683] Salute                              Cardi B              ✓ Hip Hop/Rap
+   [ 612/683] Shower Tears                        Cardi B Featuring Su ✓ No genre
+   [ 613/683] Better Than You                     Cardi B Featuring Ca ✓ No genre
+   [ 614/683] Principal                           Cardi B Featuring Ja ✓ No genre
+   [ 615/683] Darlin'                             Chase Matthew        ✓ Country
+   [ 616/683] Tit For Tat                         Tate McRae           ✓ R&B
+   [ 617/683] Dracula                             Tame Impala          ✓ Rock
+   [ 618/683] Gorgeous                            Doja Cat             ✓ Hip Hop/Rap
+   [ 619/683] Ninja                               Young Thug           ✓ Hip Hop/Rap
+   [ 620/683] The Fall                            Cody Johnson         ✓ Country
+   [ 621/683] Where Is My Husband!                RAYE                 ✓ Offizielle Charts
+   [ 622/683] Nice To Each Other                  Olivia Dean          ✓ R&B
+   [ 623/683] So Easy (To Fall In Love)           Olivia Dean          ✓ R&B
+   [ 624/683] Take Me Thru Dere                   Metro Boomin, Quavo, ✓ No genre
+   [ 625/683] What An Awesome God                 Phil Wickham         ✓ Contemporary Christian
+   [ 626/683] The Fate Of Ophelia                 Taylor Swift         ✓ Country
+   [ 627/683] Opalite                             Taylor Swift         ✓ Rock
+   [ 628/683] Elizabeth Taylor                    Taylor Swift         ✓ Country
+   [ 629/683] Father Figure                       Taylor Swift         ✓ Country
+   [ 630/683] Wood                                Taylor Swift         ✓ Country
+   [ 631/683] Wi$h Li$t                           Taylor Swift         ✓ Country
+   [ 632/683] Actually Romantic                   Taylor Swift         ✓ Country
+   [ 633/683] The Life Of A Showgirl              Taylor Swift Featuri ✓ No genre
+   [ 634/683] Eldest Daughter                     Taylor Swift         ✓ Country
+   [ 635/683] Cancelled!                          Taylor Swift         ✓ Country
+   [ 636/683] Ruin The Friendship                 Taylor Swift         ✓ Country
+   [ 637/683] Honey                               Taylor Swift         ✓ Country
+   [ 638/683] Wish                                Diplo Featuring Trip ✓ No genre
+   [ 639/683] What You Is                         YoungBoy Never Broke ✓ Hip Hop/Rap
+   [ 640/683] Part Of Me                          A Boogie wit da Hood ✓ Hip Hop/Rap
+   [ 641/683] Leavin                              Rod Wave             ✓ Hip Hop/Rap
+   [ 642/683] Maui Wowie                          Kid Cudi             ✓ Hip Hop/Rap
+   [ 643/683] Eyes Closed                         JISOO & ZAYN         ✓ Pop
+   [ 644/683] Pixelated Kisses                    Joji                 ✓ Hip Hop/Rap
+   [ 645/683] Days Like These                     Luke Combs           ✓ Country
+   [ 646/683] Choosin' Texas                      Ella Langley         ✓ Country
+   [ 647/683] Graveyard Whistling                 Morgan Wallen        ✓ Country
+   [ 648/683] My Old Ways                         Tame Impala          ✓ Rock
+   [ 649/683] Loser                               Tame Impala          ✓ Rock
+   [ 650/683] Dusty Bibles                        Josiah Queen         ✓ Contemporary Christian
+   [ 651/683] Heavens To Betsy                    Jackson Dean         ✓ Country
+   [ 652/683] 3am                                 Loe Shimmy & Don Tol ✓ No genre
+   [ 653/683] Thriller                            Michael Jackson      ✓ R&B
+   [ 654/683] Lover Girl                          Megan Thee Stallion  ✓ Hip Hop/Rap
+   [ 655/683] This Is Halloween                   The Citizens of Hall ✓ Electronic/Dance
+   [ 656/683] Spaghetti                           Le Sserafim & J-Hope ✓ Pop
+   [ 657/683] Beautiful Things                    Megan Moroney        ✓ Country
+   [ 658/683] I'm Not There For You               jessie murph         ✓ Country
+   [ 659/683] A Couple Minutes                    Olivia Dean          ✓ R&B
+   [ 660/683] Amor                                Emmanuel Cortes      ✓ No genre
+   [ 661/683] Favorite Country Song               HARDY                ✓ Country
+   [ 662/683] Monster Mash                        Bobby "Boris" Picket ✓ Halloween
+   [ 663/683] Ghostbusters                        Ray Parker Jr.       ✓ R&B
+   [ 664/683] Somebody's Watching Me              Rockwell             ✓ Rock
+   [ 665/683] Come N Go                           Yeat                 ✓ Hip Hop/Rap
+   [ 666/683] Travelin' Soldier                   Cody Johnson         ✓ Country
+   [ 667/683] Out The Window                      Kehlani              ✓ R&B
+   [ 668/683] Past Won't Leave My Bed             Joji                 ✓ Hip Hop/Rap
+   [ 669/683] La Perla                            ROSALIA & Yahritza y ✗ Classical
+   [ 670/683] Fear                                NF                   ✓ Offizielle Charts
+   [ 671/683] Robbed You                          Summer Walker & Mari ✓ Hip Hop/Rap
+   [ 672/683] Go Girl                             Summer Walker, Latto ✓ R&B
+   [ 673/683] Who I Was                           NF & MGK             ✓ Hip Hop/Rap
+   [ 674/683] Baby                                Summer Walker & Chri ✓ Hip Hop/Rap
+   [ 675/683] No                                  Summer Walker        ✓ Hip Hop/Rap
+   [ 676/683] Sorry                               NF With James Arthur ✓ Hip Hop/Rap
+   [ 677/683] FMT                                 Summer Walker        ✓ Hip Hop/Rap
+   [ 678/683] 1-800 Heartbreak                    Summer Walker & Ande ✓ R&B
+   [ 679/683] Give Me A Reason                    NF                   ✓ Hip Hop/Rap
+   [ 680/683] Home                                NF                   ✓ Hip Hop/Rap
+   [ 681/683] Baller                              Summer Walker, Glori ✓ Hip Hop/Rap
+   [ 682/683] Let Alone The One You Love          Olivia Dean          ✓ R&B
+   [ 683/683] Losin' Streak                       Blake Roman          ✓ Soundtrack
+
+   ✓ Processed: 682 songs
+   • Filtered out (classical): 1
+   • No genre data found: 170
+
+5️⃣  Saving to CSV...
+   ✓ Saved to: billboard_2025_clean.csv
+
+======================================================================
+✅ COMPLETE! READY FOR MANUAL VERIFICATION
+======================================================================
+
+📊 Summary:
+   • Total songs in CSV: 682
+   • Date range: Jan 1 - Nov 29, 2025
+   • Genre source: MusicBrainz (+ Last.fm fallback)
+   • Filters: No classical, no duplicates
+
+📝 Next Steps:
+   1. Open: billboard_2025_clean.csv
+   2. Manually verify the data
+   3. Songs with 'Unknown' genre can be categorized manually
+
+======================================================================

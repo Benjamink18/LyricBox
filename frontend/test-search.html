@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Rhyme Search</title>
+    <script type="module">
+        import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+        
+        // Get from your .env
+        const SUPABASE_URL = prompt('Enter SUPABASE_URL:')
+        const SUPABASE_KEY = prompt('Enter SUPABASE_ANON_KEY:')
+        
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+        
+        async function testSearch() {
+            console.log('Testing rhyme_pairs query...')
+            
+            // Test 1: Get all rhyme pairs
+            const { data: allPairs, error: allError } = await supabase
+                .from('rhyme_pairs')
+                .select('*')
+                .limit(5)
+            
+            console.log('All pairs test:', allPairs, allError)
+            
+            // Test 2: Search for 'love'
+            const searchWord = 'love'
+            const { data: pairs, error } = await supabase
+                .from('rhyme_pairs')
+                .select(`
+                    id,
+                    word,
+                    rhymes_with,
+                    rhyme_type,
+                    songs!inner (
+                        id,
+                        title,
+                        artist
+                    )
+                `)
+                .or(`word.ilike.${searchWord},rhymes_with.ilike.${searchWord}`)
+                .limit(10)
+            
+            console.log('Search for "love":', pairs, error)
+            
+            document.body.innerHTML = `
+                <h1>Test Results</h1>
+                <h2>All Pairs (first 5):</h2>
+                <pre>${JSON.stringify(allPairs, null, 2)}</pre>
+                <h2>Search for "love":</h2>
+                <pre>${JSON.stringify(pairs, null, 2)}</pre>
+                ${error ? `<p style="color: red">Error: ${JSON.stringify(error)}</p>` : ''}
+            `
+        }
+        
+        window.addEventListener('load', testSearch)
+    </script>
+</head>
+<body>
+    <h1>Loading...</h1>
+</body>
+</html>
+

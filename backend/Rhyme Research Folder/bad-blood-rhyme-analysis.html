@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bad Blood - Rhyme Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e8e8e8;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .legend {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .legend h2 {
+            grid-column: 1 / -1;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #feca57;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .lyrics-container {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section-label {
+            font-size: 0.8rem;
+            color: #feca57;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .lyrics {
+            line-height: 2.2;
+            font-size: 1.1rem;
+        }
+        
+        /* Rhyme Type Colors */
+        .perfect-1 { background: linear-gradient(90deg, #ff6b6b, #ee5a5a); color: white; padding: 2px 6px; border-radius: 4px; }
+        .perfect-2 { background: linear-gradient(90deg, #ff9f43, #ee8c35); color: white; padding: 2px 6px; border-radius: 4px; }
+        .perfect-3 { background: linear-gradient(90deg, #00d2d3, #00b8b9); color: white; padding: 2px 6px; border-radius: 4px; }
+        .perfect-4 { background: linear-gradient(90deg, #5f27cd, #4e1fad); color: white; padding: 2px 6px; border-radius: 4px; }
+        
+        .assonance-1 { background: linear-gradient(90deg, #ffeaa7, #fdcb6e); color: #333; padding: 2px 6px; border-radius: 4px; }
+        .assonance-2 { background: linear-gradient(90deg, #81ecec, #00cec9); color: #333; padding: 2px 6px; border-radius: 4px; }
+        .assonance-3 { background: linear-gradient(90deg, #fab1a0, #e17055); color: white; padding: 2px 6px; border-radius: 4px; }
+        .assonance-4 { background: linear-gradient(90deg, #a29bfe, #6c5ce7); color: white; padding: 2px 6px; border-radius: 4px; }
+        .assonance-5 { background: linear-gradient(90deg, #fd79a8, #e84393); color: white; padding: 2px 6px; border-radius: 4px; }
+        
+        .consonance-1 { background: linear-gradient(90deg, #55efc4, #00b894); color: #333; padding: 2px 6px; border-radius: 4px; }
+        .consonance-2 { background: linear-gradient(90deg, #74b9ff, #0984e3); color: white; padding: 2px 6px; border-radius: 4px; }
+        
+        .multisyllabic-1 { background: linear-gradient(90deg, #dfe6e9, #b2bec3); color: #333; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        .multisyllabic-2 { background: linear-gradient(90deg, #636e72, #2d3436); color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        
+        .internal { border-bottom: 3px solid #feca57; }
+        
+        .compound { background: linear-gradient(90deg, #e056fd, #be2edd); color: white; padding: 2px 6px; border-radius: 4px; }
+        
+        .identity { background: linear-gradient(90deg, #ff7675, #d63031); color: white; padding: 2px 6px; border-radius: 4px; text-decoration: underline; }
+        
+        /* Analysis boxes */
+        .analysis-box {
+            background: rgba(255,255,255,0.05);
+            border-left: 4px solid #feca57;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+        
+        .analysis-box strong {
+            color: #feca57;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stat-box {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .note {
+            font-size: 0.85rem;
+            color: #888;
+            font-style: italic;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 "Bad Blood" — Rhyme Analysis</h1>
+        <p class="subtitle">Taylor Swift ft. Kendrick Lamar • Complete rhyme breakdown</p>
+        
+        <div class="legend">
+            <h2>🎨 Rhyme Type Legend</h2>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #ff6b6b, #ee5a5a);"></div>
+                <span><strong>Perfect Rhyme A</strong> — blood/love/done (short "uh")</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #ff9f43, #ee8c35);"></div>
+                <span><strong>Perfect Rhyme B</strong> — past/last</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #00d2d3, #00b8b9);"></div>
+                <span><strong>Perfect Rhyme C</strong> — through/you</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #5f27cd, #4e1fad);"></div>
+                <span><strong>Perfect Rhyme D</strong> — won't/don't</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #ffeaa7, #fdcb6e);"></div>
+                <span><strong>Assonance</strong> — bad/mad (short "a" vowel)</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #81ecec, #00cec9);"></div>
+                <span><strong>Assonance</strong> — me/weak/breathe/deep (long "ee")</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #fab1a0, #e17055);"></div>
+                <span><strong>Assonance</strong> — fine/knife (long "i")</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #a29bfe, #6c5ce7);"></div>
+                <span><strong>Assonance</strong> — holes/show/ghosts/cold (long "o")</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #fd79a8, #e84393);"></div>
+                <span><strong>Assonance</strong> — times/I (long "i")</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #55efc4, #00b894);"></div>
+                <span><strong>Consonance</strong> — this/trusted (st ending)</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #74b9ff, #0984e3);"></div>
+                <span><strong>Consonance</strong> — ruin/rusted (r + st sounds)</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #dfe6e9, #b2bec3);"></div>
+                <span><strong>Multisyllabic</strong> — trusted/rusted (2-syl)</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #e056fd, #be2edd);"></div>
+                <span><strong>Compound</strong> — problems/solve 'em</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(90deg, #ff7675, #d63031);"></div>
+                <span><strong>Identity Rhyme</strong> — repeated words</span>
+            </div>
+        </div>
+        
+        <div class="lyrics-container">
+            
+            <!-- CHORUS 1 -->
+            <div class="section">
+                <div class="section-label">🔁 Chorus</div>
+                <div class="lyrics">
+                    'Cause, baby, now we got <span class="assonance-1">bad</span> <span class="perfect-1">blood</span><br>
+                    You know it used to be <span class="assonance-1">mad</span> <span class="perfect-1">love</span><br>
+                    So take a look what you've <span class="perfect-1">done</span><br>
+                    'Cause baby, now we got <span class="assonance-1">bad</span> <span class="perfect-1">blood</span> (hey!)
+                </div>
+                <div class="analysis-box">
+                    <strong>Analysis:</strong> The hook uses <em>assonance</em> with "bad/mad" (short "a") paired with a <em>perfect rhyme chain</em> on "blood/love/done/blood" (short "uh" sound). This creates a double-layer of sonic connection — vowel harmony on the adjectives AND the nouns.
+                </div>
+            </div>
+            
+            <!-- VERSE-LIKE SECTION -->
+            <div class="section">
+                <div class="section-label">📝 Post-Chorus</div>
+                <div class="lyrics">
+                    Now we got <span class="compound">problems</span><br>
+                    And I don't think we can <span class="compound">solve 'em</span><br>
+                    You made a really deep <span class="perfect-1">cut</span><br>
+                    And, baby, now we got <span class="assonance-1">bad</span> <span class="perfect-1">blood</span> (hey!)
+                </div>
+                <div class="analysis-box">
+                    <strong>Analysis:</strong> "Problems/solve 'em" is a <em>compound rhyme</em> — "solve them" is compressed to match the syllable count and "-em/-em" ending of "problems." This is a classic hip-hop technique. Then "cut/blood" continues the short "uh" chain.
+                </div>
+            </div>
+            
+            <!-- VERSE 1 -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 1</div>
+                <div class="lyrics">
+                    Did you have to do <span class="consonance-1">this</span>?<br>
+                    I was thinking that you could be <span class="consonance-1 multisyllabic-1">trusted</span><br>
+                    Did you have to <span class="consonance-2">ruin</span><br>
+                    What was shiny? Now it's all <span class="consonance-2 multisyllabic-1">rusted</span><br>
+                    Did you have to hit <span class="assonance-2">me</span><br>
+                    Where I'm <span class="assonance-2">weak</span>? Baby, I couldn't <span class="assonance-2">breathe</span><br>
+                    And rub it in so <span class="assonance-2">deep</span><br>
+                    Salt in the wound like you're laughing right at <span class="assonance-2">me</span>
+                </div>
+                <div class="analysis-box">
+                    <strong>Analysis:</strong> This verse showcases multiple techniques:<br>
+                    • <em>Consonance</em>: "this/trusted" share the "st" sound<br>
+                    • <em>Consonance</em>: "ruin/rusted" share the "r" sound and connect to the previous rhyme<br>
+                    • <em>Multisyllabic rhyme</em>: "trusted/rusted" is a 2-syllable feminine rhyme<br>
+                    • <em>Assonance chain</em>: "me/weak/breathe/deep/me" — 5 words sharing the long "ee" sound across 4 lines. This is sophisticated internal + end rhyming.
+                </div>
+            </div>
+            
+            <!-- PRE-CHORUS -->
+            <div class="section">
+                <div class="section-label">🌉 Pre-Chorus</div>
+                <div class="lyrics">
+                    Oh, it's so sad to think about the good <span class="assonance-5">times</span><br>
+                    You and <span class="assonance-5">I</span>
+                </div>
+                <div class="analysis-box">
+                    <strong>Analysis:</strong> Simple but effective <em>assonance</em> with "times/I" — both share the long "i" diphthong. The short second line creates emotional emphasis.
+                </div>
+            </div>
+            
+            <!-- CHORUS 2 (abbreviated reference) -->
+            <div class="section">
+                <div class="section-label">🔁 Chorus (repeats)</div>
+                <div class="lyrics" style="color: #666; font-style: italic;">
+                    [Same rhyme structure as above]
+                </div>
+            </div>
+            
+            <!-- VERSE 2 -->
+            <div class="section">
+                <div class="section-label">🎤 Verse 2</div>
+                <div class="lyrics">
+                    Did you think we'd be <span class="assonance-3">fine</span>?<br>
+                    Still got scars on my back from your <span class="assonance-3">knife</span><br>
+                    So don't think it's in the <span class="perfect-2">past</span><br>
+                    These kind of wounds, they <span class="perfect-2">last</span> and they <span class="identity">last</span><br>
+                    Now did you think it all <span class="perfect-3">through</span>?<br>
+                    All these things will catch up to <span class="perfect-3">you</span><br>
+                    And time can heal, but this <span class="perfect-4">won't</span><br>
+                    So, if you're coming my way, just <span class="perfect-4">don't</span>
+                </div>
+                <div class="analysis-box">
+                    <strong>Analysis:</strong> Verse 2 is more traditional with cleaner rhyme schemes:<br>
+                    • <em>Assonance</em>: "fine/knife" — long "i" sound (imperfect but strong)<br>
+                    • <em>Perfect rhyme</em>: "past/last" — exact match<br>
+                    • <em>Identity rhyme</em>: "last and they last" — same word repeated for emphasis<br>
+                    • <em>Perfect rhyme</em>: "through/you" — exact match<br>
+                    • <em>Perfect rhyme</em>: "won't/don't" — exact match<br>
+                    The scheme here is: AABB CCDD — very clean couplets.
+                </div>
+            </div>
+            
+            <!-- PRE-CHORUS 2 -->
+            <div class="section">
+                <div class="section-label">🌉 Pre-Chorus (repeats)</div>
+                <div class="lyrics">
+                    Oh, it's so sad to think about the good <span class="assonance-5">times</span><br>
+                    You and <span class="assonance-5">I</span>
+                </div>
+            </div>
+            
+            <!-- BRIDGE -->
+            <div class="section">
+                <div class="section-label">🌟 Bridge</div>
+                <div class="lyrics">
+                    Band-aids don't fix bullet <span class="assonance-4">holes</span><br>
+                    You say sorry just for <span class="assonance-4">show</span><br>
+                    If you live like that, you live with <span class="assonance-4">ghosts</span> (ghosts)<br>
+                    Band-aids don't fix bullet <span class="identity">holes</span> (hey!)<br>
+                    You say sorry just for <span class="identity">show</span> (hey!)<br>
+                    If you live like that, you live with <span class="identity">ghosts</span> (hey!)<br>
+                    Hm, if you love like that, blood runs <span class="assonance-4">cold</span>
+                </div>
+                <div class="analysis-box">
+                    <strong>Analysis:</strong> The bridge is built on a long "o" <em>assonance chain</em>: "holes/show/ghosts/cold." Note:<br>
+                    • The first three lines establish the pattern<br>
+                    • Lines 4-6 are <em>identity rhymes</em> (exact repetition) — creates a chant-like, anthem quality<br>
+                    • "Cold" at the end ties back to the chain while providing a fresh word<br>
+                    • The phrase "live like that / love like that" uses <em>internal assonance</em> with the short "i" sound
+                </div>
+            </div>
+            
+            <!-- FINAL CHORUSES -->
+            <div class="section">
+                <div class="section-label">🔁 Final Choruses (x2)</div>
+                <div class="lyrics">
+                    'Cause, baby, now we got <span class="assonance-1">bad</span> <span class="perfect-1">blood</span><br>
+                    You know it used to be <span class="assonance-1">mad</span> <span class="perfect-1">love</span><br>
+                    So take a look what you've <span class="perfect-1">done</span> (look what you've <span class="identity">done</span>)<br>
+                    'Cause baby, now we got <span class="assonance-1">bad</span> <span class="perfect-1">blood</span> (hey!)<br><br>
+                    
+                    Now we got <span class="compound">problems</span><br>
+                    And I don't think we can <span class="compound">solve 'em</span> (think we can <span class="identity">solve 'em</span>)<br>
+                    You made a really deep <span class="perfect-1">cut</span><br>
+                    And, baby, now we got <span class="assonance-1">bad</span> <span class="perfect-1">blood</span> (hey!)
+                </div>
+                <div class="analysis-box">
+                    <strong>Analysis:</strong> The final choruses add <em>identity rhyme echoes</em> in the background vocals ("look what you've done" / "think we can solve 'em") — reinforcing the hooks through repetition.
+                </div>
+            </div>
+            
+            <!-- STATS -->
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Perfect Rhyme Sets</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Assonance Chains</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Consonance Pairs</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Compound Rhyme</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Multisyllabic</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">5+</div>
+                    <div class="stat-label">Identity Rhymes</div>
+                </div>
+            </div>
+            
+            <div class="analysis-box" style="margin-top: 30px; border-left-color: #ff6b6b;">
+                <strong>🎯 Overall Songwriting Takeaways:</strong><br><br>
+                
+                <strong>1. The "Double Hook" Technique:</strong> "Bad blood / mad love" layers TWO rhyme types simultaneously (assonance on bad/mad + perfect rhyme on blood/love). This makes the hook twice as catchy.<br><br>
+                
+                <strong>2. Rhyme Scheme Contrast:</strong> Verse 1 uses looser consonance and assonance chains (more conversational), while Verse 2 switches to clean AABB perfect rhymes (more impactful, conclusive).<br><br>
+                
+                <strong>3. The Bridge Chant:</strong> Repeating entire lines (identity rhyme) transforms the bridge into a crowd singalong moment — smart arena-pop writing.<br><br>
+                
+                <strong>4. Short "uh" Throughline:</strong> The words "blood/love/done/cut" carry the same vowel sound throughout the entire song, creating subliminal cohesion even when they're not adjacent.<br><br>
+                
+                <strong>5. Compound Rhyme for Flow:</strong> "Problems/solve 'em" shows pop borrowing from hip-hop — compressing "solve them" keeps the syllable count tight and the rhythm punchy.
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,260 @@
+{
+  "total": 682,
+  "success": 49,
+  "failed": 1,
+  "skipped": 49,
+  "total_pairs": 0,
+  "elapsed_seconds": 2.4207441806793213,
+  "results": [
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Good News"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Who"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Cry For Me"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Guess"
+    },
+    {
+      "success": false,
+      "error": "API error 401: Authentication failed - check your API key",
+      "song": "Nobody's Son"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Honey"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Travelin' Soldier"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Peekaboo"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Abracadabra"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Bed Chem"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Messy"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Dancing In The Flames"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "I Am Not Okay"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Christmas (Baby Please Come Home)"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Blue Strips"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "What It Sounds Like"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "My Man On Willpower"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Jingle Bells"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Deck The Halls"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Rudolph The Red-Nosed Reindeer"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "25"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Dum, Dumb, And Dumber"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Sports Car"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Undressed"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Eternity"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "It Depends"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Choosin' Texas"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Whatchu Kno About Me"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Wildflower"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Guy For That"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Voy A Llevarte Pa PR"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Fat Juicy & Wet"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Good Credit"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "I'm A Little Crazy"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Mystical Magical"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Yukon"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "When Did You Get Hot?"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Blue Christmas"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Please Come Home For Christmas"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Happy Holiday / The Holiday Season"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Weren't For The Wind"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "CN Tower"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Twilight Zone"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Go Baby"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "So Easy (To Fall In Love)"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Stargazing"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "I Love You, I'm Sorry"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Sorry I'm Here For Someone Else"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "Santa Baby"
+    },
+    {
+      "success": true,
+      "skipped": true,
+      "song": "It's Ok I'm Ok"
+    }
+  ]
+}
