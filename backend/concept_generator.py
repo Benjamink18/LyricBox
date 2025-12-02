@@ -77,7 +77,7 @@ class ConceptGenerator:
         print(f"Extracting themes from: {user_idea}")
         
         response = anthropic.messages.create(
-            model="claude-3-5-sonnet-20241022",
+            model="claude-sonnet-4-5-20250929",
             max_tokens=500,
             messages=[{
                 "role": "user",
@@ -240,7 +240,7 @@ Tone: {song_data.get('tone', 'N/A')}
         
         # Generate concept
         response = anthropic.messages.create(
-            model="claude-3-5-sonnet-20241022",
+            model="claude-sonnet-4-5-20250929",
             max_tokens=4000,
             system=[{
                 "type": "text",
