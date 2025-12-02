@@ -3475,3 +3475,33 @@ body {
   border-color: #555;
   transform: translateY(-1px);
 }
+
+.rt-search-button-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.rt-search-button-container .rt-search-btn {
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.rt-search-button-container .rt-search-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.rt-search-button-container .rt-search-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
