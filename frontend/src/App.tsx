@@ -217,7 +217,8 @@ function App() {
     ageMin: undefined as number | undefined,
     ageMax: undefined as number | undefined,
     gender: '' as string,
-    year: '' as string,
+    yearMin: undefined as number | undefined,
+    yearMax: undefined as number | undefined,
     sourceId: '' as string
   })
   const [rtSortOrder, setRtSortOrder] = useState<Array<{id: string, field: string, direction: 'asc' | 'desc', label: string}>>([])
@@ -3749,14 +3750,25 @@ function App() {
                           <option value="F">Female</option>
                         </select>
                         <select 
-                          value={rtFilters.year}
-                          onChange={(e) => setRtFilters({...rtFilters, year: e.target.value})}
+                          value={rtFilters.yearMin || ''}
+                          onChange={(e) => setRtFilters({...rtFilters, yearMin: e.target.value ? parseInt(e.target.value) : undefined})}
                           className="rt-year-select"
                         >
-                          <option value="">Any Year</option>
-                          <option value="2025">2025</option>
-                          <option value="2024">2024</option>
-                          <option value="2023">2023</option>
+                          <option value="">Year min</option>
+                          {Array.from({length: 2025 - 2020 + 1}, (_, i) => 2025 - i).map(year => (
+                            <option key={year} value={year}>{year}</option>
+                          ))}
+                        </select>
+                        <span>-</span>
+                        <select 
+                          value={rtFilters.yearMax || ''}
+                          onChange={(e) => setRtFilters({...rtFilters, yearMax: e.target.value ? parseInt(e.target.value) : undefined})}
+                          className="rt-year-select"
+                        >
+                          <option value="">Year max</option>
+                          {Array.from({length: 2025 - 2020 + 1}, (_, i) => 2025 - i).map(year => (
+                            <option key={year} value={year}>{year}</option>
+                          ))}
                         </select>
                       </div>
                     </div>
@@ -3774,7 +3786,8 @@ function App() {
                           if (rtFilters.ageMin) params.append('age_min', rtFilters.ageMin.toString())
                           if (rtFilters.ageMax) params.append('age_max', rtFilters.ageMax.toString())
                           if (rtFilters.gender) params.append('gender', rtFilters.gender)
-                          if (rtFilters.year) params.append('year', rtFilters.year)
+                          if (rtFilters.yearMin) params.append('year_min', rtFilters.yearMin.toString())
+                          if (rtFilters.yearMax) params.append('year_max', rtFilters.yearMax.toString())
                           if (rtFilters.sourceId) params.append('source_id', rtFilters.sourceId)
                           
                           const res = await fetch(`${API_URL}/api/real-talk/entries?${params}`)
@@ -3825,6 +3838,8 @@ function App() {
                             if (rtFilters.ageMin) params.append('age_min', rtFilters.ageMin.toString())
                             if (rtFilters.ageMax) params.append('age_max', rtFilters.ageMax.toString())
                             if (rtFilters.gender) params.append('gender', rtFilters.gender)
+                            if (rtFilters.yearMin) params.append('year_min', rtFilters.yearMin.toString())
+                            if (rtFilters.yearMax) params.append('year_max', rtFilters.yearMax.toString())
                             // Use the selected limit (50, 100, or 200) - searches ALL entries if no filters
                             params.append('limit', rtAiLimit.toString())
                             

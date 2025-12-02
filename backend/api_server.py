@@ -1177,7 +1177,8 @@ def get_real_talk_entries():
     - age_min: Minimum poster age
     - age_max: Maximum poster age
     - gender: Poster gender (M/F)
-    - year: Filter by year posted
+    - year_min: Minimum year posted
+    - year_max: Maximum year posted
     - limit: Max results (default 50)
     - offset: Pagination offset
     """
@@ -1226,9 +1227,13 @@ def get_real_talk_entries():
         if gender:
             query = query.eq('poster_gender', gender)
         
-        year = request.args.get('year')
-        if year:
-            query = query.gte('posted_at', f'{year}-01-01').lte('posted_at', f'{year}-12-31')
+        year_min = request.args.get('year_min')
+        if year_min:
+            query = query.gte('posted_at', f'{year_min}-01-01')
+        
+        year_max = request.args.get('year_max')
+        if year_max:
+            query = query.lte('posted_at', f'{year_max}-12-31')
         
         # Pagination
         limit = int(request.args.get('limit', 50))
