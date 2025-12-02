@@ -136,7 +136,7 @@ class YouTubeScraper:
             # Note: We ignore exit codes because yt-dlp sometimes returns non-zero even on success
             cmd = [
                 'yt-dlp',
-                '-f', '140',  # Format 140 is m4a audio on YouTube (reliable)
+                '-f', 'bestaudio',  # Download best available audio format
                 '-o', audio_path,
                 '--no-playlist',
                 '--no-warnings',  # Suppress warnings
