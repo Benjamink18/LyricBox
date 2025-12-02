@@ -1048,21 +1048,13 @@ def add_real_talk_source():
         
         data = request.json
         source_identifier = data.get('source_identifier', '').strip()
-        source_type = data.get('source_type', 'reddit')
+        source_type = data.get('source_type', 'youtube_video')
         
         if not source_identifier:
             return jsonify({'error': 'source_identifier is required'}), 400
         
-        # Handle Reddit sources
-        if source_type == 'reddit':
-            # Remove r/ prefix if present
-            if source_identifier.lower().startswith('r/'):
-                source_identifier = source_identifier[2:]
-            source_identifier = source_identifier.lower()
-            display_name = f"r/{source_identifier}"
-        
         # Handle YouTube video sources
-        elif source_type == 'youtube_video':
+        if source_type == 'youtube_video':
             # Extract video ID if it's a URL
             from youtube_scraper import YouTubeScraper
             scraper = YouTubeScraper()
@@ -1152,96 +1144,6 @@ def toggle_real_talk_source(source_id):
     
     except Exception as e:
         print(f"Error toggling source: {e}")
-        traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
-
-
-@app.route('/api/real-talk/scrape/<source_id>', methods=['POST'])
-def scrape_real_talk_source(source_id):
-    """Scrape a specific Real Talk source."""
-    try:
-        from supabase import create_client
-        from reddit_scraper import RedditScraper
-        import os
-        from dotenv import load_dotenv
-        load_dotenv()
-        
-        supabase = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
-        
-        data = request.json or {}
-        limit = data.get('limit', 50)
-        
-        # Get source info
-        source_result = supabase.table('real_talk_sources').select('*').eq('id', source_id).execute()
-        if not source_result.data:
-            return jsonify({'error': 'Source not found'}), 404
-        
-        source = source_result.data[0]
-        subreddit_name = source['source_identifier']
-        
-        # Scrape
-        scraper = RedditScraper()
-        entries = scraper.scrape_subreddit(subreddit_name, limit=limit, source_id=source_id)
-        saved = scraper.save_entries(entries, source_id)
-        
-        return jsonify({
-            'scraped': len(entries),
-            'saved': saved,
-            'subreddit': subreddit_name
-        })
-    
-    except Exception as e:
-        print(f"Error scraping source: {e}")
-        traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
-
-
-@app.route('/api/real-talk/scrape-all', methods=['POST'])
-def scrape_all_real_talk_sources():
-    """Scrape all active Real Talk sources."""
-    try:
-        from supabase import create_client
-        from reddit_scraper import RedditScraper
-        import os
-        from dotenv import load_dotenv
-        load_dotenv()
-        
-        supabase = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
-        
-        data = request.json or {}
-        limit = data.get('limit', 50)
-        
-        # Get all active sources
-        sources_result = supabase.table('real_talk_sources').select('*').eq('is_active', True).execute()
-        
-        if not sources_result.data:
-            return jsonify({'error': 'No active sources found'}), 404
-        
-        scraper = RedditScraper()
-        results = []
-        
-        for source in sources_result.data:
-            subreddit_name = source['source_identifier']
-            entries = scraper.scrape_subreddit(subreddit_name, limit=limit, source_id=source['id'])
-            saved = scraper.save_entries(entries, source['id'])
-            results.append({
-                'subreddit': subreddit_name,
-                'scraped': len(entries),
-                'saved': saved
-            })
-        
-        total_scraped = sum(r['scraped'] for r in results)
-        total_saved = sum(r['saved'] for r in results)
-        
-        return jsonify({
-            'sources_scraped': len(results),
-            'total_scraped': total_scraped,
-            'total_saved': total_saved,
-            'results': results
-        })
-    
-    except Exception as e:
-        print(f"Error scraping all sources: {e}")
         traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
@@ -1431,7 +1333,7 @@ def real_talk_intelligent_search():
     }
     """
     try:
-        from reddit_scraper import intelligent_search
+        from real_talk_utils import intelligent_search
         
         data = request.json
         query = data.get('query', '')

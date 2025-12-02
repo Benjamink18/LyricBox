@@ -164,11 +164,9 @@ function App() {
     total_entries: number,
     created_at: string
   }>>([])
-  const [rtNewSubreddit, setRtNewSubreddit] = useState('')
   const [rtNewYoutubeUrl, setRtNewYoutubeUrl] = useState('')
   const [rtScraping, setRtScraping] = useState<string | null>(null) // source_id being scraped
   const [rtScrapingAll, setRtScrapingAll] = useState(false)
-  const [rtAddingSource, setRtAddingSource] = useState(false)
   const [rtAddingYoutube, setRtAddingYoutube] = useState(false)
   const [rtNewChannelUrl, setRtNewChannelUrl] = useState('')
   const [rtChannelLimit, setRtChannelLimit] = useState(50)
@@ -1451,34 +1449,6 @@ function App() {
         .catch(err => console.error('Failed to fetch entries:', err))
     }
   }, [currentPage])
-
-  // Add a new subreddit source
-  const handleAddSource = async () => {
-    if (!rtNewSubreddit.trim()) return
-    
-    setRtAddingSource(true)
-    try {
-      const res = await fetch('http://localhost:3001/api/real-talk/sources', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ source_identifier: rtNewSubreddit.trim() })
-      })
-      
-      if (res.ok) {
-        const data = await res.json()
-        setRtSources(prev => [data.source, ...prev])
-        setRtNewSubreddit('')
-      } else {
-        const error = await res.json()
-        alert(error.error || 'Failed to add source')
-      }
-    } catch (err) {
-      console.error('Failed to add source:', err)
-      alert('Failed to add source')
-    } finally {
-      setRtAddingSource(false)
-    }
-  }
 
   // Add and scrape a YouTube video
   const handleAddYoutubeVideo = async () => {
@@ -3893,26 +3863,6 @@ function App() {
             {/* Manage Tab */}
             {rtTab === 'manage' && (
               <div className="rt-manage">
-                {/* Add Source Section */}
-                <div className="rt-section">
-                  <h2>Add Subreddit</h2>
-                  <div className="rt-add-source">
-                    <input
-                      type="text"
-                      placeholder="e.g., relationships, BreakUps, dating_advice"
-                      value={rtNewSubreddit}
-                      onChange={(e) => setRtNewSubreddit(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && !rtAddingSource && handleAddSource()}
-                    />
-                    <button 
-                      onClick={handleAddSource}
-                      disabled={rtAddingSource || !rtNewSubreddit.trim()}
-                    >
-                      {rtAddingSource ? 'Adding...' : 'Add Subreddit'}
-                    </button>
-                  </div>
-                </div>
-
                 {/* Add YouTube Video Section */}
                 <div className="rt-section">
                   <h2>Add YouTube Video</h2>
