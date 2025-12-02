@@ -3818,20 +3818,21 @@ function App() {
                           if (!rtAiQuery.trim()) return
                           setRtAiSearching(true)
                           try {
-                            // First get filtered entries
+                            // Get entries with optional filters, limit by rtAiLimit
                             const params = new URLSearchParams()
                             if (rtFilters.situations.length) params.append('situations', rtFilters.situations.join(','))
                             if (rtFilters.emotions.length) params.append('emotions', rtFilters.emotions.join(','))
                             if (rtFilters.ageMin) params.append('age_min', rtFilters.ageMin.toString())
                             if (rtFilters.ageMax) params.append('age_max', rtFilters.ageMax.toString())
                             if (rtFilters.gender) params.append('gender', rtFilters.gender)
-                            params.append('limit', '200')
+                            // Use the selected limit (50, 100, or 200) - searches ALL entries if no filters
+                            params.append('limit', rtAiLimit.toString())
                             
-                            const entriesRes = await fetch(`http://localhost:3001/api/real-talk/entries?${params}`)
+                            const entriesRes = await fetch(`${API_URL}/api/real-talk/entries?${params}`)
                             const entriesData = await entriesRes.json()
                             
                             // Then run AI search
-                            const aiRes = await fetch('http://localhost:3001/api/real-talk/intelligent-search', {
+                            const aiRes = await fetch(`${API_URL}/api/real-talk/intelligent-search`, {
                               method: 'POST',
                               headers: { 'Content-Type': 'application/json' },
                               body: JSON.stringify({
