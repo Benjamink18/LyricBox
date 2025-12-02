@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import { API_URL } from '../config'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -313,7 +314,7 @@ export async function generateCustomConcept(
   manualSongIds?: string[]
 ): Promise<Concept | null> {
   try {
-    const response = await fetch('http://localhost:3001/api/generate-custom-concept', {
+    const response = await fetch(`${API_URL}/api/generate-custom-concept`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
