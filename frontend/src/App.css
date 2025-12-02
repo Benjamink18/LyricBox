@@ -2363,18 +2363,25 @@ body {
   border-color: #4a9eff;
 }
 
+.rt-search-button-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
 .rt-search-btn {
   padding: 12px 24px;
-  background: linear-gradient(135deg, #4a9eff, #2a7edf);
+  background: #4a9eff;
   border: none;
   border-radius: 8px;
-  color: #fff;
+  color: white;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 .rt-search-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #5aaeFF, #3a8eef);
+  background: #6ab7ff;
 }
 
 .rt-search-btn:disabled {
