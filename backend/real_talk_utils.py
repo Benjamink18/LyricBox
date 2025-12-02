@@ -55,7 +55,7 @@ Be selective - only high-relevance matches."""
 
     try:
         response = anthropic.messages.create(
-            model="claude-sonnet-4-5",
+            model="claude-sonnet-4-20250514",
             max_tokens=1000,
             messages=[{"role": "user", "content": prompt}]
         )
@@ -84,4 +84,7 @@ Be selective - only high-relevance matches."""
         print(f"⚠️  Intelligent search failed: {e}")
     
     return []
+
+
+
 
