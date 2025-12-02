@@ -1708,6 +1708,14 @@ function App() {
       if (res.ok) {
         const data = await res.json()
         setRtTranscriptText(data.transcript)
+        
+        // Auto-scroll to highlighted quote after modal renders
+        setTimeout(() => {
+          const highlightedElement = document.querySelector('.rt-highlighted-quote')
+          if (highlightedElement) {
+            highlightedElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          }
+        }, 100)
       } else {
         setRtTranscriptText('Failed to load transcript')
       }
@@ -4498,27 +4506,32 @@ function App() {
                 <div className="rt-transcript-loading">Loading transcript...</div>
               ) : (
                 <div className="rt-transcript-text">
-                  {rtTranscriptText.split('\n').map((paragraph, idx) => {
-                    // Check if this paragraph contains the quote
-                    const quoteIndex = paragraph.toLowerCase().indexOf(rtTranscriptQuote.toLowerCase())
+                  {(() => {
+                    // Find the quote in the full transcript (case-insensitive)
+                    const lowerTranscript = rtTranscriptText.toLowerCase()
+                    const lowerQuote = rtTranscriptQuote.toLowerCase().trim()
+                    const quoteIndex = lowerTranscript.indexOf(lowerQuote)
                     
                     if (quoteIndex !== -1) {
-                      // Highlight the quote within the paragraph
-                      const before = paragraph.slice(0, quoteIndex)
-                      const quote = paragraph.slice(quoteIndex, quoteIndex + rtTranscriptQuote.length)
-                      const after = paragraph.slice(quoteIndex + rtTranscriptQuote.length)
+                      // Split transcript into before/quote/after
+                      const before = rtTranscriptText.slice(0, quoteIndex)
+                      const quote = rtTranscriptText.slice(quoteIndex, quoteIndex + rtTranscriptQuote.length)
+                      const after = rtTranscriptText.slice(quoteIndex + rtTranscriptQuote.length)
                       
                       return (
-                        <p key={idx}>
-                          {before}
-                          <mark className="rt-highlighted-quote">{quote}</mark>
-                          {after}
-                        </p>
+                        <div>
+                          <p style={{ whiteSpace: 'pre-wrap' }}>
+                            {before}
+                            <mark className="rt-highlighted-quote">{quote}</mark>
+                            {after}
+                          </p>
+                        </div>
                       )
                     }
                     
-                    return <p key={idx}>{paragraph || '\u00A0'}</p>
-                  })}
+                    // Quote not found - just show transcript
+                    return <p style={{ whiteSpace: 'pre-wrap' }}>{rtTranscriptText}</p>
+                  })()}
                 </div>
               )}
             </div>
