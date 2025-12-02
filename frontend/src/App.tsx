@@ -203,6 +203,7 @@ function App() {
   }>>([])
   const [rtLoading, setRtLoading] = useState(false)
   const [rtExpandedEntry, setRtExpandedEntry] = useState<string | null>(null)
+  const [rtSearchPerformed, setRtSearchPerformed] = useState(false)
   
   // Real Talk filters
   // Progress tracking
@@ -3779,6 +3780,7 @@ function App() {
                     <button 
                       onClick={async () => {
                         setRtLoading(true)
+                        setRtSearchPerformed(true)
                         try {
                           const params = new URLSearchParams()
                           if (rtFilters.situations.length) params.append('situations', rtFilters.situations.join(','))
@@ -3830,6 +3832,7 @@ function App() {
                         onClick={async () => {
                           if (!rtAiQuery.trim()) return
                           setRtAiSearching(true)
+                          setRtSearchPerformed(true)
                           try {
                             // Get entries with optional filters, limit by rtAiLimit
                             const params = new URLSearchParams()
@@ -3875,15 +3878,21 @@ function App() {
 
                 {/* Results */}
                 <div className="rt-results">
-                  {rtLoading && <div className="rt-loading">Loading conversations...</div>}
-                  
-                  {!rtLoading && rtEntries.length === 0 && (
+                  {!rtSearchPerformed && (
                     <div className="rt-empty">
-                      <p>No conversations yet. Add some subreddits in the Manage Sources tab to get started!</p>
+                      <p>👆 Use the filters above and click "🔍 Search" or "✨ Find with AI" to discover conversations!</p>
+                    </div>
+                  )}
+                  
+                  {rtSearchPerformed && rtLoading && <div className="rt-loading">Loading conversations...</div>}
+                  
+                  {rtSearchPerformed && !rtLoading && rtEntries.length === 0 && (
+                    <div className="rt-empty">
+                      <p>No conversations found matching your search. Try different filters or AI query!</p>
                     </div>
                   )}
 
-                  {!rtLoading && rtEntries.map(entry => (
+                  {rtSearchPerformed && !rtLoading && rtEntries.map(entry => (
                     <div 
                       key={entry.id} 
                       className={`rt-entry-card ${rtExpandedEntry === entry.id ? 'expanded' : ''}`}
