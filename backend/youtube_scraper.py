@@ -176,7 +176,38 @@ class YouTubeScraper:
                 os.unlink(audio_path)
                 return None
             
-            print(f"✅ Audio downloaded ({os.path.getsize(audio_path) / 1024 / 1024:.1f} MB)")
+            original_size = os.path.getsize(audio_path) / 1024 / 1024
+            print(f"✅ Audio downloaded ({original_size:.1f} MB)")
+            
+            # Compress audio if larger than 20MB to stay under Whisper's 25MB limit
+            if os.path.getsize(audio_path) > 20 * 1024 * 1024:
+                print(f"🗜️  Compressing audio (>20MB)...")
+                compressed_path = audio_path.replace('.m4a', '_compressed.mp3').replace('.webm', '_compressed.mp3')
+                
+                # Use ffmpeg to compress: 64kbps mono is perfect for speech transcription
+                compress_cmd = [
+                    'ffmpeg',
+                    '-i', audio_path,
+                    '-vn',  # No video
+                    '-ar', '16000',  # 16kHz sample rate (Whisper optimized)
+                    '-ac', '1',  # Mono
+                    '-b:a', '64k',  # 64kbps bitrate
+                    '-y',  # Overwrite
+                    compressed_path
+                ]
+                
+                try:
+                    subprocess.run(compress_cmd, capture_output=True, timeout=60, check=True)
+                    
+                    # Replace original with compressed
+                    os.unlink(audio_path)
+                    audio_path = compressed_path
+                    compressed_size = os.path.getsize(audio_path) / 1024 / 1024
+                    print(f"✅ Compressed {original_size:.1f}MB → {compressed_size:.1f}MB")
+                except Exception as compress_error:
+                    print(f"⚠️  Compression failed, using original: {compress_error}")
+                    # Continue with original file if compression fails
+            
             print(f"🎙️  Transcribing with Whisper...")
             
             # Transcribe with OpenAI Whisper
