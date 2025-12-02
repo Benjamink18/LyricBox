@@ -1427,13 +1427,13 @@ function App() {
   useEffect(() => {
     if (currentPage === 'realtalk') {
       // Fetch sources
-      fetch('http://localhost:3001/api/real-talk/sources')
+      fetch(`${API_URL}/api/real-talk/sources`)
         .then(res => res.json())
         .then(data => setRtSources(data.sources || []))
         .catch(err => console.error('Failed to fetch sources:', err))
 
       // Fetch tags
-      fetch('http://localhost:3001/api/real-talk/tags')
+      fetch(`${API_URL}/api/real-talk/tags`)
         .then(res => res.json())
         .then(data => {
           setRtSituationTags(data.situations || [])
@@ -1442,7 +1442,7 @@ function App() {
         .catch(err => console.error('Failed to fetch tags:', err))
 
       // Fetch initial entries
-      fetch('http://localhost:3001/api/real-talk/entries?limit=50')
+      fetch(`${API_URL}/api/real-talk/entries?limit=50`)
         .then(res => res.json())
         .then(data => setRtEntries(data.entries || []))
         .catch(err => console.error('Failed to fetch entries:', err))
