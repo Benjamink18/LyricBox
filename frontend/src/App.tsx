@@ -1480,45 +1480,40 @@ function App() {
       const sourceData = await sourceRes.json()
       const sourceId = sourceData.source.id
       
-      // Then scrape the video with SSE for real-time progress
+      // Then scrape the video with traditional POST (more reliable)
       setRtProgressMessages(prev => [...prev, {text: '🚀 Starting scrape...', type: 'info'}])
+      setRtProgressMessages(prev => [...prev, {text: '🎙️ Downloading audio...', type: 'info'}])
+      setRtProgressMessages(prev => [...prev, {text: '📝 Transcribing with Whisper...', type: 'info'}])
+      setRtProgressMessages(prev => [...prev, {text: '🤖 Extracting quotes with Claude...', type: 'info'}])
       
-      const eventSource = new EventSource(
-        `${API_URL}/api/real-talk/scrape-youtube?` + new URLSearchParams({
+      const scrapeRes = await fetch(`${API_URL}/api/real-talk/scrape-youtube`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           video_url: rtNewYoutubeUrl.trim(),
           source_id: sourceId
         })
-      )
+      })
       
-      eventSource.onmessage = (event) => {
-        const data = JSON.parse(event.data)
+      if (scrapeRes.ok) {
+        const scrapeData = await scrapeRes.json()
+        setRtProgressMessages(prev => [...prev, {text: `✅ Success! Extracted ${scrapeData.quotes_extracted} quotes`, type: 'success'}])
+        setRtProgressMessages(prev => [...prev, {text: `📖 Title: ${scrapeData.title}`, type: 'success'}])
+        setRtNewYoutubeUrl('')
         
-        if (data.status) {
-          // Progress update
-          setRtProgressMessages(prev => [...prev, {text: data.status, type: 'info'}])
-        } else if (data.success) {
-          // Success
-          setRtProgressMessages(prev => [...prev, {text: `✅ Success! Extracted ${data.quotes_extracted} quotes`, type: 'success'}])
-          setRtProgressMessages(prev => [...prev, {text: `📖 Title: ${data.title}`, type: 'success'}])
-          setRtNewYoutubeUrl('')
-          eventSource.close()
-          
-          // Refresh sources and tags
-          fetch(`${API_URL}/api/real-talk/sources`).then(r => r.json()).then(d => setRtSources(d.sources || []))
-          fetch(`${API_URL}/api/real-talk/tags`).then(r => r.json()).then(d => {
-            setRtSituationTags(d.situations || [])
-            setRtEmotionTags(d.emotions || [])
-          })
-        } else if (data.error) {
-          // Error
-          setRtProgressMessages(prev => [...prev, {text: `❌ ${data.error}`, type: 'error'}])
-          eventSource.close()
-        }
-      }
-      
-      eventSource.onerror = () => {
-        setRtProgressMessages(prev => [...prev, {text: '❌ Connection error', type: 'error'}])
-        eventSource.close()
+        // Refresh sources list
+        const sourcesRes = await fetch(`${API_URL}/api/real-talk/sources`)
+        const sourcesResData = await sourcesRes.json()
+        setRtSources(sourcesResData.sources || [])
+        
+        // Refresh tags
+        const tagsRes = await fetch(`${API_URL}/api/real-talk/tags`)
+        const tagsData = await tagsRes.json()
+        setRtSituationTags(tagsData.situations || [])
+        setRtEmotionTags(tagsData.emotions || [])
+      } else {
+        const error = await scrapeRes.json()
+        setRtProgressMessages(prev => [...prev, {text: `❌ ${error.error || 'Failed to scrape'}`, type: 'error'}])
       }
       
     } catch (err) {
@@ -1563,48 +1558,41 @@ function App() {
       
       const sourceData = await sourceRes.json()
       
-      // Scrape channel with SSE for real-time progress
+      // Scrape channel with traditional POST (more reliable than SSE)
       setRtProgressMessages(prev => [...prev, {text: '🚀 Starting channel scrape...', type: 'info'}])
+      setRtProgressMessages(prev => [...prev, {text: '⏳ This may take several minutes...', type: 'info'}])
+      setRtProgressMessages(prev => [...prev, {text: '📹 Processing videos in background...', type: 'info'}])
       
-      const eventSource = new EventSource(
-        `${API_URL}/api/real-talk/scrape-youtube-channel?` + new URLSearchParams({
+      const scrapeRes = await fetch(`${API_URL}/api/real-talk/scrape-youtube-channel`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           channel_url: rtNewChannelUrl.trim(),
           source_id: sourceData.source.id,
-          limit: rtChannelLimit.toString()
+          limit: rtChannelLimit
         })
-      )
+      })
       
-      eventSource.onmessage = (event) => {
-        const data = JSON.parse(event.data)
+      if (scrapeRes.ok) {
+        const scrapeData = await scrapeRes.json()
+        setRtProgressMessages(prev => [...prev, {
+          text: `✅ Complete! ${scrapeData.scraped} videos, ${scrapeData.saved} quotes, ${scrapeData.failed} failed`,
+          type: 'success'
+        }])
+        setRtNewChannelUrl('')
         
-        if (data.status) {
-          // Progress update
-          setRtProgressMessages(prev => [...prev, {text: data.status, type: 'info'}])
-        } else if (data.success) {
-          // Success
-          setRtProgressMessages(prev => [...prev, {
-            text: `✅ Complete! ${data.scraped} videos, ${data.saved} quotes, ${data.failed} failed`,
-            type: 'success'
-          }])
-          setRtNewChannelUrl('')
-          eventSource.close()
-          
-          // Refresh sources and tags
-          fetch(`${API_URL}/api/real-talk/sources`).then(r => r.json()).then(d => setRtSources(d.sources || []))
-          fetch(`${API_URL}/api/real-talk/tags`).then(r => r.json()).then(d => {
-            setRtSituationTags(d.situations || [])
-            setRtEmotionTags(d.emotions || [])
-          })
-        } else if (data.error) {
-          // Error
-          setRtProgressMessages(prev => [...prev, {text: `❌ ${data.error}`, type: 'error'}])
-          eventSource.close()
-        }
-      }
-      
-      eventSource.onerror = () => {
-        setRtProgressMessages(prev => [...prev, {text: '❌ Connection error', type: 'error'}])
-        eventSource.close()
+        // Refresh sources and tags
+        const sourcesRes = await fetch(`${API_URL}/api/real-talk/sources`)
+        const sourcesResData = await sourcesRes.json()
+        setRtSources(sourcesResData.sources || [])
+        
+        const tagsRes = await fetch(`${API_URL}/api/real-talk/tags`)
+        const tagsData = await tagsRes.json()
+        setRtSituationTags(tagsData.situations || [])
+        setRtEmotionTags(tagsData.emotions || [])
+      } else {
+        const error = await scrapeRes.json()
+        setRtProgressMessages(prev => [...prev, {text: `❌ ${error.error || 'Failed to scrape channel'}`, type: 'error'}])
       }
       
     } catch (err) {
