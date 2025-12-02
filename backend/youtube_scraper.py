@@ -11,13 +11,13 @@ from typing import Optional, List, Dict, Any, Tuple
 from dataclasses import dataclass
 import time
 
+from googleapiclient.discovery import build
 from youtube_transcript_api import YouTubeTranscriptApi
 import scrapetube
 from anthropic import Anthropic
 from dotenv import load_dotenv
 from supabase import create_client
 import requests
-from http.cookiejar import MozillaCookieJar
 
 load_dotenv()
 
@@ -28,6 +28,14 @@ supabase = create_client(
 )
 
 anthropic = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+
+# Initialize YouTube API
+youtube_api_key = os.getenv("YOUTUBE_API_KEY")
+if youtube_api_key:
+    youtube = build('youtube', 'v3', developerKey=youtube_api_key)
+else:
+    youtube = None
+    print("⚠️ YOUTUBE_API_KEY not set - YouTube features will be limited")
 
 
 @dataclass
@@ -69,29 +77,42 @@ class YouTubeScraper:
                 return match.group(1)
         return None
     
-    def get_transcript(self, video_id: str) -> Optional[str]:
-        """Fetch transcript for a YouTube video."""
+    def get_video_metadata(self, video_id: str) -> Optional[Dict[str, str]]:
+        """Get video metadata using official YouTube Data API."""
+        if not youtube:
+            print("⚠️  YouTube API not initialized")
+            return None
+        
         try:
-            # Check for cookies file to bypass IP blocks
-            cookies_path = os.path.join(os.path.dirname(__file__), 'youtube_cookies.txt')
+            request = youtube.videos().list(
+                part="snippet",
+                id=video_id
+            )
+            response = request.execute()
             
-            if os.path.exists(cookies_path):
-                print(f"🔐 Using cookies from {cookies_path}")
-                # Create a session with cookies loaded
-                session = requests.Session()
-                cookies = MozillaCookieJar(cookies_path)
-                cookies.load(ignore_discard=True, ignore_expires=True)
-                session.cookies = cookies
-                api = YouTubeTranscriptApi(http_client=session)
-            else:
-                print("📝 No cookies file, trying without auth...")
-                api = YouTubeTranscriptApi()
+            if not response.get('items'):
+                print(f"⚠️  Video {video_id} not found")
+                return None
             
-            fetched = api.fetch(video_id)
-            transcript_data = fetched.fetch()
+            item = response['items'][0]
+            snippet = item['snippet']
             
-            # Combine all text segments into one string
-            full_text = ' '.join([entry['text'] for entry in transcript_data])
+            return {
+                'title': snippet.get('title', ''),
+                'description': snippet.get('description', ''),
+                'channel_name': snippet.get('channelTitle', ''),
+                'published_at': snippet.get('publishedAt', '')
+            }
+        except Exception as e:
+            print(f"⚠️  Failed to get metadata: {e}")
+            return None
+    
+    def get_transcript(self, video_id: str) -> Optional[str]:
+        """Fetch transcript for a YouTube video using official API."""
+        try:
+            # Simple approach - use youtube-transcript-api (works for public captions)
+            transcript_list = YouTubeTranscriptApi.get_transcript(video_id)
+            full_text = ' '.join([entry['text'] for entry in transcript_list])
             return full_text
         except Exception as e:
             print(f"⚠️  Could not fetch transcript: {e}")
@@ -243,14 +264,20 @@ Be thorough - most videos have 2-4 situation tags and 2-3 emotion tags."""
         
         print(f"📥 Scraping video {video_id}...")
         
+        # Get video metadata from official API
+        metadata = self.get_video_metadata(video_id)
+        if not metadata:
+            print(f"❌ Could not get metadata for {video_id}")
+            return None
+        
+        title = metadata['title']
+        description = metadata['description']
+        channel_name = metadata['channel_name']
+        
         # Get transcript
         transcript = self.get_transcript(video_id)
         if not transcript:
             return None
-        
-        # For now, use simple title (in real app, would fetch from YouTube API or scrape)
-        title = f"YouTube Video {video_id}"
-        description = ""
         
         # Extract demographics
         demographics = self.extract_demographics_with_claude(title, description, transcript[:500])
@@ -261,10 +288,10 @@ Be thorough - most videos have 2-4 situation tags and 2-3 emotion tags."""
         entry = {
             'source_id': source_id,
             'external_id': video_id,
-            'title': title,
+            'title': f"{title} (by {channel_name})",
             'raw_text': transcript,
             'url': f"https://www.youtube.com/watch?v={video_id}",
-            'posted_at': datetime.now(timezone.utc).isoformat(),  # Would get real date from API
+            'posted_at': metadata.get('published_at', datetime.now(timezone.utc).isoformat()),
             'poster_age': demographics.poster_age,
             'poster_gender': demographics.poster_gender,
             'other_party_age': demographics.other_party_age,
