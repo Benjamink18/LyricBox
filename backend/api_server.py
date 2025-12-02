@@ -1463,7 +1463,7 @@ def real_talk_intelligent_search():
 @app.route('/api/real-talk/scrape-youtube', methods=['POST'])
 def scrape_youtube_video():
     """
-    Scrape a YouTube video transcript.
+    Scrape a YouTube video and extract quotes.
     
     Expected JSON body:
     {
@@ -1482,22 +1482,22 @@ def scrape_youtube_video():
             return jsonify({'error': 'video_url is required'}), 400
         
         scraper = YouTubeScraper()
-        entry = scraper.scrape_video(video_url, source_id=source_id)
+        entries = scraper.scrape_video(video_url, source_id=source_id)  # Returns list of quotes
         
-        if not entry:
-            return jsonify({'error': 'Failed to scrape video (no transcript available or already scraped)'}), 400
+        if not entries:
+            return jsonify({'error': 'Failed to scrape video (no transcript/quotes available or already scraped)'}), 400
         
         # Save to database
-        saved = scraper.save_entry(entry, source_id)
+        saved = scraper.save_entries(entries, source_id)
         
         if saved:
             return jsonify({
                 'success': True,
-                'video_id': entry['external_id'],
-                'title': entry['title']
+                'quotes_extracted': len(entries),
+                'title': entries[0]['title']
             })
         else:
-            return jsonify({'error': 'Failed to save entry'}), 500
+            return jsonify({'error': 'Failed to save entries'}), 500
     
     except Exception as e:
         print(f"Error scraping YouTube video: {e}")
