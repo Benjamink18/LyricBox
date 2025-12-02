@@ -10,14 +10,15 @@ from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any, Tuple
 from dataclasses import dataclass
 import time
+import subprocess
+import tempfile
 
 from googleapiclient.discovery import build
-from youtube_transcript_api import YouTubeTranscriptApi
+from openai import OpenAI
 import scrapetube
 from anthropic import Anthropic
 from dotenv import load_dotenv
 from supabase import create_client
-import requests
 
 load_dotenv()
 
@@ -28,6 +29,9 @@ supabase = create_client(
 )
 
 anthropic = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+
+# Initialize OpenAI (for Whisper transcription)
+openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Initialize YouTube API
 youtube_api_key = os.getenv("YOUTUBE_API_KEY")
@@ -108,14 +112,90 @@ class YouTubeScraper:
             return None
     
     def get_transcript(self, video_id: str) -> Optional[str]:
-        """Fetch transcript for a YouTube video using official API."""
+        """Fetch transcript for a YouTube video using OpenAI Whisper."""
         try:
-            # Simple approach - use youtube-transcript-api (works for public captions)
-            transcript_list = YouTubeTranscriptApi.get_transcript(video_id)
-            full_text = ' '.join([entry['text'] for entry in transcript_list])
-            return full_text
+            print(f"🎙️  Downloading audio for video {video_id}...")
+            
+            # Create temporary directory and filename (but don't create the file)
+            temp_dir = tempfile.gettempdir()
+            audio_filename = f"yt_{video_id}_{int(time.time())}.m4a"
+            audio_path = os.path.join(temp_dir, audio_filename)
+            
+            # Download audio using yt-dlp
+            video_url = f"https://www.youtube.com/watch?v={video_id}"
+            
+            # Use Python subprocess to run yt-dlp
+            # Note: We ignore exit codes because yt-dlp sometimes returns non-zero even on success
+            cmd = [
+                'yt-dlp',
+                '-f', '140',  # Format 140 is m4a audio on YouTube (reliable)
+                '-o', audio_path,
+                '--no-playlist',
+                '--no-warnings',  # Suppress warnings
+                video_url
+            ]
+            
+            # Run and ignore exit code - we'll check if file exists instead
+            try:
+                subprocess.run(cmd, capture_output=True, timeout=120, check=False)
+            except subprocess.TimeoutExpired:
+                print(f"⚠️  Download timed out")
+                return None
+            
+            # Give it a moment to finish writing
+            time.sleep(1)
+            
+            # Check if file was created
+            if not os.path.exists(audio_path):
+                # Try with a different output pattern - yt-dlp might have added extension
+                possible_paths = [
+                    audio_path,
+                    audio_path + '.m4a',
+                    audio_path.replace('.m4a', '') + '.m4a',
+                    audio_path.replace('.m4a', '.webm'),
+                ]
+                
+                for path in possible_paths:
+                    if os.path.exists(path) and os.path.getsize(path) > 0:
+                        audio_path = path
+                        break
+                else:
+                    print(f"⚠️  No audio file found")
+                    return None
+            
+            if os.path.getsize(audio_path) == 0:
+                print(f"⚠️  Audio file is empty")
+                os.unlink(audio_path)
+                return None
+            
+            print(f"✅ Audio downloaded ({os.path.getsize(audio_path) / 1024 / 1024:.1f} MB)")
+            print(f"🎙️  Transcribing with Whisper...")
+            
+            # Transcribe with OpenAI Whisper
+            with open(audio_path, 'rb') as audio_file:
+                transcript_response = openai_client.audio.transcriptions.create(
+                    model="whisper-1",
+                    file=audio_file,
+                    response_format="text"
+                )
+            
+            # Clean up temp file
+            os.unlink(audio_path)
+            
+            transcript_text = transcript_response.strip()
+            print(f"✅ Transcribed {len(transcript_text)} characters")
+            
+            return transcript_text
+            
+        except subprocess.TimeoutExpired:
+            print(f"⚠️  Audio download timed out")
+            if os.path.exists(audio_path):
+                os.unlink(audio_path)
+            return None
         except Exception as e:
-            print(f"⚠️  Could not fetch transcript: {e}")
+            print(f"⚠️  Transcription failed: {e}")
+            if 'audio_path' in locals() and os.path.exists(audio_path):
+                os.unlink(audio_path)
             return None
     
     def extract_demographics_with_claude(self, title: str, description: str, transcript_excerpt: str) -> Demographics:
