@@ -243,7 +243,7 @@ If nothing found, return all null with confidence "low"."""
 
         try:
             response = anthropic.messages.create(
-                model="claude-3-5-sonnet-20241022",
+                model="claude-sonnet-4-5",
                 max_tokens=300,
                 messages=[{"role": "user", "content": prompt}]
             )
@@ -336,7 +336,7 @@ If no quotes are interesting enough, return empty arrays."""
 
         try:
             response = anthropic.messages.create(
-                model="claude-3-5-sonnet-20241022",
+                model="claude-sonnet-4-5",
                 max_tokens=2000,  # More tokens for multiple quotes
                 messages=[{"role": "user", "content": prompt}]
             )
