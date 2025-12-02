@@ -3,7 +3,7 @@
 Flask API server for LyricBox custom concept generation.
 """
 
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, Response
 from flask_cors import CORS
 from concept_generator import generate_custom_concept
 import traceback
@@ -1362,80 +1362,95 @@ def real_talk_intelligent_search():
         return jsonify({'error': str(e)}), 500
 
 
-@app.route('/api/real-talk/scrape-youtube', methods=['POST'])
+@app.route('/api/real-talk/scrape-youtube', methods=['GET'])
 def scrape_youtube_video():
     """
-    Scrape a YouTube video and extract quotes.
+    Scrape a YouTube video and extract quotes with SSE progress updates.
     
-    Expected JSON body:
-    {
-        "video_url": "https://youtube.com/watch?v=...",
-        "source_id": "uuid"
-    }
+    Query parameters:
+    - video_url: YouTube video URL
+    - source_id: UUID of the source
     """
-    try:
-        from youtube_scraper import YouTubeScraper
-        
-        data = request.json
-        video_url = data.get('video_url')
-        source_id = data.get('source_id')
-        
-        if not video_url:
-            return jsonify({'error': 'video_url is required'}), 400
-        
-        scraper = YouTubeScraper()
-        entries = scraper.scrape_video(video_url, source_id=source_id)  # Returns list of quotes
-        
-        if not entries:
-            return jsonify({'error': 'Failed to scrape video (no transcript/quotes available or already scraped)'}), 400
-        
-        # Save to database
-        saved = scraper.save_entries(entries, source_id)
-        
-        if saved:
-            return jsonify({
-                'success': True,
-                'quotes_extracted': len(entries),
-                'title': entries[0]['title']
-            })
-        else:
-            return jsonify({'error': 'Failed to save entries'}), 500
+    from youtube_scraper import YouTubeScraper
     
-    except Exception as e:
-        print(f"Error scraping YouTube video: {e}")
-        traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+    video_url = request.args.get('video_url')
+    source_id = request.args.get('source_id')
+    
+    if not video_url:
+        return jsonify({'error': 'video_url is required'}), 400
+    
+    def generate():
+        try:
+            scraper = YouTubeScraper()
+            
+            # Scrape video with progress updates
+            entries = None
+            for update in scraper.scrape_video_with_progress(video_url, source_id=source_id):
+                if isinstance(update, dict) and 'entries' in update:
+                    entries = update['entries']
+                else:
+                    yield f"data: {json.dumps({'status': update})}\n\n"
+            
+            if not entries:
+                yield f"data: {json.dumps({'error': 'Failed to scrape video'})}\n\n"
+                return
+            
+            # Save to database
+            yield f"data: {json.dumps({'status': '💾 Saving to database...'})}\n\n"
+            saved = scraper.save_entries(entries, source_id)
+            
+            if saved:
+                yield f"data: {json.dumps({'success': True, 'quotes_extracted': len(entries), 'title': entries[0]['title']})}\n\n"
+            else:
+                yield f"data: {json.dumps({'error': 'Failed to save entries'})}\n\n"
+        
+        except Exception as e:
+            print(f"Error scraping YouTube video: {e}")
+            traceback.print_exc()
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+    
+    return Response(generate(), mimetype='text/event-stream')
 
 
 
-@app.route('/api/real-talk/scrape-youtube-channel', methods=['POST'])
+@app.route('/api/real-talk/scrape-youtube-channel', methods=['GET'])
 def scrape_youtube_channel():
-    """Scrape all videos from a YouTube channel."""
-    try:
-        from youtube_scraper import YouTubeScraper
+    """
+    Scrape all videos from a YouTube channel with SSE progress updates.
+    
+    Query parameters:
+    - channel_url: YouTube channel URL
+    - source_id: UUID of the source
+    - limit: Max number of videos to scrape (default: 50)
+    """
+    from youtube_scraper import YouTubeScraper
+    
+    channel_url = request.args.get('channel_url')
+    source_id = request.args.get('source_id')
+    limit = int(request.args.get('limit', 50))
+    
+    if not channel_url:
+        return jsonify({'error': 'channel_url is required'}), 400
+    
+    def generate():
+        try:
+            scraper = YouTubeScraper()
+            
+            # Scrape channel with progress updates
+            for update in scraper.scrape_channel_with_progress(channel_url, source_id=source_id, limit=limit):
+                if isinstance(update, dict) and 'success' in update:
+                    # Final result
+                    yield f"data: {json.dumps(update)}\n\n"
+                else:
+                    # Progress update
+                    yield f"data: {json.dumps({'status': update})}\n\n"
         
-        data = request.json
-        channel_url = data.get('channel_url')
-        source_id = data.get('source_id')
-        limit = data.get('limit', 50)
-        
-        if not channel_url:
-            return jsonify({'error': 'channel_url is required'}), 400
-        
-        scraper = YouTubeScraper()
-        result = scraper.scrape_channel(channel_url, source_id=source_id, limit=limit)
-        
-        return jsonify({
-            'success': True,
-            'total_videos': result['total'],
-            'scraped': result['scraped'],
-            'saved': result['saved'],
-            'failed': result['failed']
-        })
-    except Exception as e:
-        print(f"Error scraping YouTube channel: {e}")
-        traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        except Exception as e:
+            print(f"Error scraping YouTube channel: {e}")
+            traceback.print_exc()
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+    
+    return Response(generate(), mimetype='text/event-stream')
 
 
 # ===== MELODY ENDPOINTS =====

@@ -582,6 +582,146 @@ If no quotes are interesting enough, return empty arrays."""
         
         print(f"✅ Done! Saved: {saved} quotes from {scraped} videos")
         return {'total': len(video_ids), 'scraped': scraped, 'saved': saved, 'failed': failed}
+    
+    def scrape_video_with_progress(self, video_url: str, source_id: str = None):
+        """Generator that yields progress updates for a single video scrape."""
+        video_id = self.extract_video_id(video_url)
+        if not video_id:
+            yield "❌ Could not extract video ID"
+            yield {'entries': None}
+            return
+        
+        # Check if already scraped
+        if source_id:
+            result = supabase.table('real_talk_entries').select('external_id').eq('source_id', source_id).eq('external_id', video_id).execute()
+            if result.data:
+                yield "⏭️ Video already scraped"
+                yield {'entries': None}
+                return
+        
+        yield f"📥 Processing video {video_id}..."
+        
+        # Get metadata
+        yield "📋 Fetching video info..."
+        metadata = self.get_video_metadata(video_id)
+        if not metadata:
+            yield "❌ Could not get video metadata"
+            yield {'entries': None}
+            return
+        
+        title = metadata['title']
+        channel_name = metadata['channel_name']
+        description = metadata['description']
+        published_at = metadata.get('published_at', datetime.now(timezone.utc).isoformat())
+        
+        # Get transcript
+        yield "📝 Downloading transcript..."
+        transcript = self.get_transcript(video_id)
+        if not transcript:
+            yield "🎤 Transcribing audio (this may take 1-2 minutes)..."
+            audio_path = self.download_audio(video_url)
+            if not audio_path:
+                yield "❌ Could not download audio"
+                yield {'entries': None}
+                return
+            
+            transcript = self.transcribe_audio(audio_path)
+            if not transcript:
+                yield "❌ Could not transcribe audio"
+                yield {'entries': None}
+                return
+        
+        # Extract demographics
+        yield "🧑‍🤝‍🧑 Analyzing demographics..."
+        demographics = self.extract_demographics(transcript, title, description)
+        
+        # Extract quotes
+        yield "💬 Extracting quotes (Claude analyzing)..."
+        quotes, new_situations, new_emotions = self.extract_quotes(transcript, title)
+        
+        if not quotes:
+            yield "⚠️ No quotes extracted"
+            yield {'entries': None}
+            return
+        
+        # Format entries
+        entries = []
+        for quote in quotes:
+            entries.append({
+                'external_id': video_id,
+                'title': title,
+                'channel_name': channel_name,
+                'text': quote['quote'],
+                'context': quote.get('context', ''),
+                'url': f"https://www.youtube.com/watch?v={video_id}",
+                'demographics': demographics,
+                'situations': quote.get('situations', []),
+                'emotions': quote.get('emotions', []),
+                'timestamp': published_at
+            })
+        
+        # Save new tags
+        if new_situations or new_emotions:
+            self.save_new_tags(new_situations, new_emotions)
+        
+        yield f"✅ Extracted {len(entries)} quotes from '{title}'"
+        yield {'entries': entries}
+    
+    def scrape_channel_with_progress(self, channel_url: str, source_id: str = None, limit: int = 50):
+        """Generator that yields progress updates for channel scraping."""
+        yield "📺 Extracting channel ID..."
+        channel_id = self.extract_channel_id(channel_url)
+        if not channel_id:
+            yield "❌ Could not extract channel ID"
+            yield {'success': False, 'error': 'Invalid channel URL'}
+            return
+        
+        yield f"📋 Fetching videos (limit: {limit})..."
+        video_ids = self.get_channel_videos(channel_id, limit=limit)
+        if not video_ids:
+            yield "❌ No videos found"
+            yield {'success': False, 'error': 'No videos found'}
+            return
+        
+        yield f"🎬 Found {len(video_ids)} videos. Starting scrape..."
+        
+        scraped, saved, failed = 0, 0, 0
+        for i, vid in enumerate(video_ids):
+            yield f"📹 Video {i+1}/{len(video_ids)}: Processing..."
+            
+            try:
+                # Use the generator to get updates
+                entries = None
+                for update in self.scrape_video_with_progress(f"https://www.youtube.com/watch?v={vid}", source_id=source_id):
+                    if isinstance(update, dict) and 'entries' in update:
+                        entries = update['entries']
+                    else:
+                        # Pass through progress update
+                        yield f"[{i+1}/{len(video_ids)}] {update}"
+                
+                if entries and self.save_entries(entries, source_id):
+                    scraped += 1
+                    saved += len(entries)
+                    yield f"✅ [{i+1}/{len(video_ids)}] Saved {len(entries)} quotes"
+                else:
+                    failed += 1
+                    yield f"⏭️ [{i+1}/{len(video_ids)}] Skipped"
+                
+                # Rate limiting
+                if i < len(video_ids) - 1:
+                    time.sleep(2)
+            except Exception as e:
+                failed += 1
+                yield f"❌ [{i+1}/{len(video_ids)}] Error: {e}"
+        
+        yield f"🎉 Complete! {scraped} videos, {saved} quotes, {failed} failed"
+        yield {
+            'success': True,
+            'total_videos': len(video_ids),
+            'scraped': scraped,
+            'saved': saved,
+            'failed': failed
+        }
 
 
 # CLI for testing
