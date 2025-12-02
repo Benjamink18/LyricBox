@@ -201,20 +201,35 @@ class TidalClient:
             print(f"📝 Creating playlist: {name}")
             playlist = user.create_playlist(name, description)
             
-            # Search and add each track
+            # Search and add each track one by one
             added_count = 0
+            track_ids = []
+            
             for song in songs:
                 track_info = self.search_track(song['artist'], song['title'])
                 if track_info:
-                    try:
-                        track = self.session.track(int(track_info['id']))
-                        playlist.add([track])
-                        added_count += 1
-                        print(f"  ✅ Added: {song['artist']} - {song['title']}")
-                    except Exception as e:
-                        print(f"  ⚠️  Failed to add track: {e}")
+                    track_ids.append(track_info['id'])
+                    print(f"  ✅ Found: {song['artist']} - {song['title']} (ID: {track_info['id']})")
                 else:
                     print(f"  ❌ Not found: {song['artist']} - {song['title']}")
+            
+            # Add all found tracks to the playlist
+            if track_ids:
+                try:
+                    print(f"📥 Adding {len(track_ids)} tracks to playlist...")
+                    playlist.add(track_ids)
+                    added_count = len(track_ids)
+                    print(f"  ✅ Successfully added {added_count} tracks")
+                except Exception as e:
+                    print(f"  ⚠️  Bulk add failed: {e}")
+                    # Try adding one by one as fallback
+                    print("  🔄 Trying one-by-one...")
+                    for track_id in track_ids:
+                        try:
+                            playlist.add([track_id])
+                            added_count += 1
+                        except Exception as e2:
+                            print(f"    ❌ Failed to add track {track_id}: {e2}")
             
             playlist_url = f"https://listen.tidal.com/playlist/{playlist.id}"
             print(f"✅ Created playlist with {added_count}/{len(songs)} tracks")
