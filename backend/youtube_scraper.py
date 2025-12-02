@@ -365,6 +365,13 @@ EXISTING SITUATION TAGS (prefer these):
 EXISTING EMOTION TAGS (prefer these):
 {', '.join(emotions)}
 
+CRITICAL RULES FOR QUOTE EXTRACTION:
+1. COPY THE EXACT TEXT - DO NOT change, edit, paraphrase, or clean up ANY words
+2. Do NOT fix grammar, remove filler words (um, uh, like), or rephrase ANYTHING
+3. Copy VERBATIM - word-for-word, character-for-character from the transcript
+4. The point is to capture REAL human language, not cleaned-up versions
+5. Include stutters, hesitations, and imperfect speech exactly as spoken
+
 GUIDELINES:
 1. Extract 5-10 short quotes (1-3 sentences each)
 2. Choose authentic, relatable moments that express real human experience
@@ -381,7 +388,7 @@ Return JSON ONLY:
 {{
   "quotes": [
     {{
-      "quote": "exact quote text here",
+      "quote": "EXACT VERBATIM TEXT FROM TRANSCRIPT - NO EDITING",
       "situations": ["tag1", "tag2"],
       "emotions": ["tag1"]
     }}
