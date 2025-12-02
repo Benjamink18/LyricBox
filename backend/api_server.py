@@ -1567,6 +1567,273 @@ def scrape_youtube_channel():
         return jsonify({'error': str(e)}), 500
 
 
+# ===== MELODY ENDPOINTS =====
+
+# Global Tidal client to persist OAuth state across requests
+_tidal_client = None
+
+def get_tidal_client():
+    """Get or create the global Tidal client."""
+    global _tidal_client
+    if _tidal_client is None:
+        from tidal_client import TidalClient
+        _tidal_client = TidalClient()
+    return _tidal_client
+
+
+@app.route('/api/melody/search', methods=['POST'])
+def melody_search():
+    """
+    Search for songs matching a chord progression.
+    
+    Expected JSON body:
+    {
+        "chords": "Am C F G",
+        "key": "A minor",       // Optional - inferred from chords if not provided
+        "bpm": 120,
+        "bpm_tolerance": 10,    // Optional, default 10
+        "time_signature": "4/4", // Optional, default "4/4"
+        // Optional filters:
+        "genres": ["Pop", "R&B"],
+        "year_start": 2015,
+        "year_end": 2024,
+        "chart_position": "Top 20",  // e.g., "Top 10", "Top 20", "Top 50"
+        "artist_style": "similar to Drake"
+    }
+    """
+    try:
+        from chord_converter import convert_progression
+        from melody_claude import find_matching_songs
+        
+        data = request.json
+        chord_input = data.get('chords')
+        
+        if not chord_input:
+            return jsonify({'error': 'chords is required'}), 400
+        
+        bpm = data.get('bpm')
+        if not bpm:
+            return jsonify({'error': 'bpm is required'}), 400
+        
+        # Convert chords to Roman numerals
+        key = data.get('key')
+        progression = convert_progression(chord_input, key)
+        
+        # Get optional filters
+        bpm_tolerance = data.get('bpm_tolerance', 10)
+        time_signature = data.get('time_signature', '4/4')
+        genres = data.get('genres') if data.get('genres') else None
+        year_start = data.get('year_start')
+        year_end = data.get('year_end')
+        chart_position = data.get('chart_position')
+        artist_style = data.get('artist_style')
+        
+        # Search using Claude
+        songs = find_matching_songs(
+            roman_numerals=progression.roman_numerals,
+            original_chords=progression.original_chords,
+            key=progression.key,
+            bpm=bpm,
+            bpm_tolerance=bpm_tolerance,
+            time_signature=time_signature,
+            genres=genres,
+            year_start=year_start,
+            year_end=year_end,
+            chart_position=chart_position,
+            artist_style=artist_style
+        )
+        
+        return jsonify({
+            'songs': [s.to_dict() for s in songs],
+            'progression': {
+                'roman_numerals': progression.roman_numerals,
+                'original_chords': progression.original_chords,
+                'key': progression.key
+            },
+            'search_criteria': {
+                'bpm': bpm,
+                'bpm_tolerance': bpm_tolerance,
+                'time_signature': time_signature,
+                'genres': genres,
+                'year_start': year_start,
+                'year_end': year_end,
+                'chart_position': chart_position,
+                'artist_style': artist_style
+            }
+        })
+    
+    except Exception as e:
+        print(f"Error in melody search: {e}")
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/melody/more', methods=['POST'])
+def melody_more_like_these():
+    """
+    Find more songs similar to user's selections.
+    
+    Expected JSON body:
+    {
+        "original_criteria": { ... },  // From the search response
+        "liked_songs": [ ... ],        // Array of song objects user liked
+        "excluded_songs": ["Artist - Title", ...]  // Songs to exclude
+    }
+    """
+    try:
+        from melody_claude import find_more_like_these, MelodySong
+        
+        data = request.json
+        original_criteria = data.get('original_criteria', {})
+        liked_songs_data = data.get('liked_songs', [])
+        excluded_songs = data.get('excluded_songs', [])
+        
+        if not liked_songs_data:
+            return jsonify({'error': 'liked_songs is required'}), 400
+        
+        # Convert to MelodySong objects
+        liked_songs = [
+            MelodySong(
+                rank=s.get('rank', 10),
+                song_name=s.get('song_name', ''),
+                artist_name=s.get('artist_name', ''),
+                chorus_chords=s.get('chorus_chords', ''),
+                bpm=s.get('bpm', 0),
+                genre=s.get('genre', ''),
+                year=s.get('year', 0)
+            )
+            for s in liked_songs_data
+        ]
+        
+        # Get more songs
+        new_songs = find_more_like_these(
+            original_criteria=original_criteria,
+            liked_songs=liked_songs,
+            excluded_songs=excluded_songs
+        )
+        
+        return jsonify({
+            'songs': [s.to_dict() for s in new_songs]
+        })
+    
+    except Exception as e:
+        print(f"Error in melody more: {e}")
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/melody/tidal/auth', methods=['GET'])
+def melody_tidal_auth():
+    """Initiate Tidal device authentication."""
+    try:
+        client = get_tidal_client()
+        auth_info = client.authenticate_device()
+        return jsonify(auth_info)
+    except Exception as e:
+        print(f"Error starting Tidal auth: {e}")
+        traceback.print_exc()
+        return jsonify({'error': str(e), 'type': type(e).__name__}), 500
+
+
+@app.route('/api/melody/tidal/status', methods=['GET'])
+def melody_tidal_status():
+    """Check Tidal authentication status."""
+    try:
+        client = get_tidal_client()
+        return jsonify({'authenticated': client.is_authenticated()})
+    except Exception as e:
+        print(f"Error checking Tidal status: {e}")
+        return jsonify({'error': str(e), 'authenticated': False}), 500
+
+
+@app.route('/api/melody/tidal/check-complete', methods=['GET'])
+def melody_tidal_check_complete():
+    """Check if Tidal auth is complete and save session."""
+    try:
+        client = get_tidal_client()
+        is_complete = client.check_auth_complete()
+        return jsonify({'authenticated': is_complete})
+    except Exception as e:
+        print(f"Error checking auth completion: {e}")
+        return jsonify({'error': str(e), 'authenticated': False}), 500
+
+
+@app.route('/api/melody/tidal/disconnect', methods=['POST'])
+def melody_tidal_disconnect():
+    """Disconnect from Tidal and clear session."""
+    try:
+        global _tidal_client
+        if _tidal_client:
+            _tidal_client.disconnect()
+            _tidal_client = None
+        return jsonify({'success': True, 'authenticated': False})
+    except Exception as e:
+        print(f"Error disconnecting from Tidal: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/melody/tidal/debug', methods=['GET'])
+def melody_tidal_debug():
+    """Get Tidal connection debug info."""
+    try:
+        client = get_tidal_client()
+        return jsonify(client.get_debug_info())
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/melody/playlist', methods=['POST'])
+def melody_create_playlist():
+    """
+    Create Tidal playlist with selected songs.
+    
+    Expected JSON body:
+    {
+        "name": "My Mashup Playlist",
+        "description": "Songs matching Am C F G at 120 BPM",
+        "songs": [
+            {"artist_name": "Artist", "song_name": "Title"},
+            ...
+        ]
+    }
+    """
+    try:
+        client = get_tidal_client()
+        
+        if not client.is_authenticated():
+            return jsonify({'error': 'Not authenticated with Tidal'}), 401
+        
+        data = request.json
+        name = data.get('name', 'Melody Playlist')
+        description = data.get('description', '')
+        songs_data = data.get('songs', [])
+        
+        if not songs_data:
+            return jsonify({'error': 'songs is required'}), 400
+        
+        # Format songs for Tidal client
+        songs = [
+            {'artist': s.get('artist_name', ''), 'title': s.get('song_name', '')}
+            for s in songs_data
+        ]
+        
+        playlist_url = client.create_playlist(name, description, songs)
+        
+        if playlist_url:
+            return jsonify({
+                'success': True,
+                'playlist_url': playlist_url,
+                'track_count': len(songs)
+            })
+        else:
+            return jsonify({'error': 'Failed to create playlist'}), 500
+    
+    except Exception as e:
+        print(f"Error creating playlist: {e}")
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/api/health', methods=['GET'])
 def health():
     """Health check endpoint."""
