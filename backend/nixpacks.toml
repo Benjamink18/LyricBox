@@ -1,8 +1,7 @@
 [phases.setup]
 aptPkgs = ["ffmpeg"]
 
-[providers]
-python = "3.12"
+providers = ["python"]
 
 [phases.install]
 cmds = ["pip install -r requirements.txt"]
