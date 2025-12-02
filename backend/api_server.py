@@ -1079,21 +1079,37 @@ def add_real_talk_source():
         else:
             return jsonify({'error': 'Invalid source_type'}), 400
         
-        # Insert source
-        result = supabase.table('real_talk_sources').insert({
-            'source_type': source_type,
-            'source_identifier': source_identifier,
-            'display_name': display_name,
-            'is_active': True
-        }).execute()
+        # Try to insert source, or return existing if duplicate
+        try:
+            result = supabase.table('real_talk_sources').insert({
+                'source_type': source_type,
+                'source_identifier': source_identifier,
+                'display_name': display_name,
+                'is_active': True
+            }).execute()
+            
+            return jsonify({'source': result.data[0]})
         
-        return jsonify({'source': result.data[0]})
+        except Exception as insert_error:
+            # If duplicate, fetch and return the existing source
+            if 'duplicate' in str(insert_error).lower():
+                print(f"Source already exists, fetching existing: {source_type}/{source_identifier}")
+                existing = supabase.table('real_talk_sources')\
+                    .select('*')\
+                    .eq('source_type', source_type)\
+                    .eq('source_identifier', source_identifier)\
+                    .execute()
+                
+                if existing.data:
+                    return jsonify({'source': existing.data[0], 'already_exists': True})
+                else:
+                    return jsonify({'error': 'Source exists but could not be retrieved'}), 500
+            else:
+                raise insert_error
     
     except Exception as e:
         print(f"Error adding source: {e}")
         traceback.print_exc()
-        if 'duplicate' in str(e).lower():
-            return jsonify({'error': 'This source is already added'}), 400
         return jsonify({'error': str(e)}), 500
 
 
@@ -1362,95 +1378,147 @@ def real_talk_intelligent_search():
         return jsonify({'error': str(e)}), 500
 
 
-@app.route('/api/real-talk/scrape-youtube', methods=['GET'])
+@app.route('/api/real-talk/scrape-youtube', methods=['GET', 'POST'])
 def scrape_youtube_video():
     """
-    Scrape a YouTube video and extract quotes with SSE progress updates.
+    Scrape a YouTube video and extract quotes.
     
-    Query parameters:
-    - video_url: YouTube video URL
-    - source_id: UUID of the source
+    GET (SSE): Query parameters - video_url, source_id
+    POST (JSON): Body - video_url, source_id
     """
     from youtube_scraper import YouTubeScraper
     
-    video_url = request.args.get('video_url')
-    source_id = request.args.get('source_id')
+    # Support both GET (for SSE) and POST (for traditional)
+    if request.method == 'POST':
+        data = request.json
+        video_url = data.get('video_url')
+        source_id = data.get('source_id')
+        use_sse = False
+    else:
+        video_url = request.args.get('video_url')
+        source_id = request.args.get('source_id')
+        use_sse = True
     
     if not video_url:
         return jsonify({'error': 'video_url is required'}), 400
     
-    def generate():
-        try:
-            scraper = YouTubeScraper()
-            
-            # Scrape video with progress updates
-            entries = None
-            for update in scraper.scrape_video_with_progress(video_url, source_id=source_id):
-                if isinstance(update, dict) and 'entries' in update:
-                    entries = update['entries']
-                else:
-                    yield f"data: {json.dumps({'status': update})}\n\n"
-            
-            if not entries:
-                yield f"data: {json.dumps({'error': 'Failed to scrape video'})}\n\n"
-                return
-            
-            # Save to database
-            yield f"data: {json.dumps({'status': '💾 Saving to database...'})}\n\n"
-            saved = scraper.save_entries(entries, source_id)
-            
-            if saved:
-                yield f"data: {json.dumps({'success': True, 'quotes_extracted': len(entries), 'title': entries[0]['title']})}\n\n"
-            else:
-                yield f"data: {json.dumps({'error': 'Failed to save entries'})}\n\n"
-        
-        except Exception as e:
-            print(f"Error scraping YouTube video: {e}")
-            traceback.print_exc()
-            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+    scraper = YouTubeScraper()
     
-    return Response(generate(), mimetype='text/event-stream')
+    # SSE mode
+    if use_sse:
+        def generate():
+            try:
+                entries = None
+                for update in scraper.scrape_video_with_progress(video_url, source_id=source_id):
+                    if isinstance(update, dict) and 'entries' in update:
+                        entries = update['entries']
+                    else:
+                        yield f"data: {json.dumps({'status': update})}\n\n"
+                
+                if not entries:
+                    yield f"data: {json.dumps({'error': 'Failed to scrape video'})}\n\n"
+                    return
+                
+                yield f"data: {json.dumps({'status': '💾 Saving to database...'})}\n\n"
+                saved = scraper.save_entries(entries, source_id)
+                
+                if saved:
+                    yield f"data: {json.dumps({'success': True, 'quotes_extracted': len(entries), 'title': entries[0]['title']})}\n\n"
+                else:
+                    yield f"data: {json.dumps({'error': 'Failed to save entries'})}\n\n"
+            
+            except Exception as e:
+                print(f"Error scraping YouTube video: {e}")
+                traceback.print_exc()
+                yield f"data: {json.dumps({'error': str(e)})}\n\n"
+        
+        return Response(generate(), mimetype='text/event-stream')
+    
+    # Traditional POST mode (no progress updates)
+    try:
+        entries = scraper.scrape_video(video_url, source_id=source_id)
+        
+        if not entries:
+            return jsonify({'error': 'Failed to scrape video (no transcript/quotes available or already scraped)'}), 400
+        
+        saved = scraper.save_entries(entries, source_id)
+        
+        if saved:
+            return jsonify({
+                'success': True,
+                'quotes_extracted': len(entries),
+                'title': entries[0]['title']
+            })
+        else:
+            return jsonify({'error': 'Failed to save entries'}), 500
+    
+    except Exception as e:
+        print(f"Error scraping YouTube video: {e}")
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
 
 
 
-@app.route('/api/real-talk/scrape-youtube-channel', methods=['GET'])
+@app.route('/api/real-talk/scrape-youtube-channel', methods=['GET', 'POST'])
 def scrape_youtube_channel():
     """
-    Scrape all videos from a YouTube channel with SSE progress updates.
+    Scrape all videos from a YouTube channel.
     
-    Query parameters:
-    - channel_url: YouTube channel URL
-    - source_id: UUID of the source
-    - limit: Max number of videos to scrape (default: 50)
+    GET (SSE): Query parameters - channel_url, source_id, limit
+    POST (JSON): Body - channel_url, source_id, limit
     """
     from youtube_scraper import YouTubeScraper
     
-    channel_url = request.args.get('channel_url')
-    source_id = request.args.get('source_id')
-    limit = int(request.args.get('limit', 50))
+    # Support both GET (for SSE) and POST (for traditional)
+    if request.method == 'POST':
+        data = request.json
+        channel_url = data.get('channel_url')
+        source_id = data.get('source_id')
+        limit = data.get('limit', 50)
+        use_sse = False
+    else:
+        channel_url = request.args.get('channel_url')
+        source_id = request.args.get('source_id')
+        limit = int(request.args.get('limit', 50))
+        use_sse = True
     
     if not channel_url:
         return jsonify({'error': 'channel_url is required'}), 400
     
-    def generate():
-        try:
-            scraper = YouTubeScraper()
-            
-            # Scrape channel with progress updates
-            for update in scraper.scrape_channel_with_progress(channel_url, source_id=source_id, limit=limit):
-                if isinstance(update, dict) and 'success' in update:
-                    # Final result
-                    yield f"data: {json.dumps(update)}\n\n"
-                else:
-                    # Progress update
-                    yield f"data: {json.dumps({'status': update})}\n\n"
-        
-        except Exception as e:
-            print(f"Error scraping YouTube channel: {e}")
-            traceback.print_exc()
-            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+    scraper = YouTubeScraper()
     
-    return Response(generate(), mimetype='text/event-stream')
+    # SSE mode
+    if use_sse:
+        def generate():
+            try:
+                for update in scraper.scrape_channel_with_progress(channel_url, source_id=source_id, limit=limit):
+                    if isinstance(update, dict) and 'success' in update:
+                        yield f"data: {json.dumps(update)}\n\n"
+                    else:
+                        yield f"data: {json.dumps({'status': update})}\n\n"
+            
+            except Exception as e:
+                print(f"Error scraping YouTube channel: {e}")
+                traceback.print_exc()
+                yield f"data: {json.dumps({'error': str(e)})}\n\n"
+        
+        return Response(generate(), mimetype='text/event-stream')
+    
+    # Traditional POST mode (no progress updates)
+    try:
+        result = scraper.scrape_channel(channel_url, source_id=source_id, limit=limit)
+        
+        return jsonify({
+            'success': True,
+            'total_videos': result['total'],
+            'scraped': result['scraped'],
+            'saved': result['saved'],
+            'failed': result['failed']
+        })
+    except Exception as e:
+        print(f"Error scraping YouTube channel: {e}")
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
 
 
 # ===== MELODY ENDPOINTS =====
