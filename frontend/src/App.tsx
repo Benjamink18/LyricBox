@@ -3869,7 +3869,7 @@ function App() {
 
                       {entry.url && (
                         <a href={entry.url} target="_blank" rel="noopener noreferrer" className="rt-link">
-                          View on Reddit →
+                          View on YouTube →
                         </a>
                       )}
                     </div>
