@@ -461,6 +461,48 @@ If no quotes are interesting enough, return empty arrays."""
             if "duplicate" not in str(e).lower():
                 print(f"⚠️  Failed to save tags: {e}")
     
+    def save_transcript(self, video_id: str, full_transcript: str) -> Optional[str]:
+        """
+        Save full transcript to database and return transcript_id.
+        If transcript already exists for this video_id, return existing transcript_id.
+        
+        Args:
+            video_id: YouTube video ID
+            full_transcript: Full transcript text from Whisper
+            
+        Returns:
+            transcript_id (UUID) or None if save failed
+        """
+        try:
+            # Check if transcript already exists
+            existing = supabase.table('real_talk_transcripts')\
+                .select('id')\
+                .eq('video_id', video_id)\
+                .execute()
+            
+            if existing.data:
+                transcript_id = existing.data[0]['id']
+                print(f"   📝 Using existing transcript ID: {transcript_id}")
+                return transcript_id
+            
+            # Insert new transcript
+            result = supabase.table('real_talk_transcripts').insert({
+                'video_id': video_id,
+                'full_transcript': full_transcript
+            }).execute()
+            
+            if result.data:
+                transcript_id = result.data[0]['id']
+                print(f"   📝 Saved transcript with ID: {transcript_id}")
+                return transcript_id
+            else:
+                print(f"   ⚠️  Failed to save transcript (no data returned)")
+                return None
+                
+        except Exception as e:
+            print(f"   ⚠️  Failed to save transcript: {e}")
+            return None
+    
     def scrape_video(self, video_url: str, source_id: str = None, progress_callback=None) -> Optional[List[Dict[str, Any]]]:
         """
         Scrape a single YouTube video.
@@ -508,6 +550,13 @@ If no quotes are interesting enough, return empty arrays."""
         if not transcript:
             return None
         
+        # Save full transcript to database and get transcript_id
+        if progress_callback:
+            progress_callback("💾 Saving transcript...")
+        
+        transcript_id = self.save_transcript(video_id, transcript)
+        # Continue even if transcript save fails (transcript_id will be None)
+        
         # Extract demographics
         if progress_callback:
             progress_callback("👤 Analyzing demographics...")
@@ -546,6 +595,7 @@ If no quotes are interesting enough, return empty arrays."""
                 'situation_tags': quote.situation_tags,  # Tags specific to this quote
                 'emotional_tags': quote.emotional_tags,  # Tags specific to this quote
                 'demographic_confidence': demographics.confidence,
+                'transcript_id': transcript_id,  # Link to full transcript
                 'processed_at': datetime.now(timezone.utc).isoformat()
             }
             entries.append(entry)

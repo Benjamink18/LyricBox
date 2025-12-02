@@ -171,6 +171,12 @@ function App() {
   const [rtScrapingChannel, setRtScrapingChannel] = useState(false)
   const [rtProgressMessage, setRtProgressMessage] = useState('')
   
+  // Real Talk transcript viewer
+  const [rtShowTranscript, setRtShowTranscript] = useState(false)
+  const [rtTranscriptText, setRtTranscriptText] = useState('')
+  const [rtTranscriptQuote, setRtTranscriptQuote] = useState('')
+  const [rtTranscriptLoading, setRtTranscriptLoading] = useState(false)
+  
   // Real Talk tags
   const [rtSituationTags, setRtSituationTags] = useState<Array<{id: string, tag_name: string, usage_count: number}>>([])
   const [rtEmotionTags, setRtEmotionTags] = useState<Array<{id: string, tag_name: string, usage_count: number}>>([])
@@ -190,6 +196,7 @@ function App() {
     other_party_gender: string | null,
     situation_tags: string[],
     emotional_tags: string[],
+    transcript_id?: string | null,
     real_talk_sources?: { display_name: string, source_identifier: string },
     relevance_score?: number,
     relevance_reason?: string
@@ -1684,12 +1691,40 @@ function App() {
     }
   }
 
+  // View transcript with highlighted quote
+  const handleViewTranscript = async (transcriptId: string, quoteText: string) => {
+    if (!transcriptId) {
+      alert('Transcript not available for this quote')
+      return
+    }
+    
+    setRtShowTranscript(true)
+    setRtTranscriptLoading(true)
+    setRtTranscriptQuote(quoteText)
+    
+    try {
+      const res = await fetch(`${API_URL}/api/real-talk/transcript/${transcriptId}`)
+      
+      if (res.ok) {
+        const data = await res.json()
+        setRtTranscriptText(data.transcript)
+      } else {
+        setRtTranscriptText('Failed to load transcript')
+      }
+    } catch (err) {
+      console.error('Failed to fetch transcript:', err)
+      setRtTranscriptText('Error loading transcript')
+    } finally {
+      setRtTranscriptLoading(false)
+    }
+  }
+
   // Add a new tag
   const handleAddTag = async (tagType: 'situation' | 'emotion', tagName: string) => {
     if (!tagName.trim()) return
     
     try {
-      const res = await fetch('http://localhost:3001/api/real-talk/tags', {
+      const res = await fetch(`${API_URL}/api/real-talk/tags`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tag_type: tagType, tag_name: tagName.trim() })
@@ -3867,11 +3902,21 @@ function App() {
                         }
                       </div>
 
-                      {entry.url && (
-                        <a href={entry.url} target="_blank" rel="noopener noreferrer" className="rt-link">
-                          View on YouTube →
-                        </a>
-                      )}
+                      <div className="rt-entry-actions">
+                        {entry.transcript_id && (
+                          <button 
+                            onClick={() => handleViewTranscript(entry.transcript_id!, entry.raw_text)}
+                            className="rt-link"
+                          >
+                            📄 View Transcript
+                          </button>
+                        )}
+                        {entry.url && (
+                          <a href={entry.url} target="_blank" rel="noopener noreferrer" className="rt-link">
+                            ▶️ Watch on YouTube
+                          </a>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -4434,6 +4479,53 @@ function App() {
                 Close
               </button>
             )}
+          </div>
+        </>
+      )}
+
+      {/* Transcript Viewer Modal */}
+      {rtShowTranscript && (
+        <>
+          <div className="rt-modal-backdrop" onClick={() => setRtShowTranscript(false)} />
+          <div className="rt-modal">
+            <div className="rt-modal-header">
+              <h2>📄 Full Transcript</h2>
+              <button className="rt-modal-close" onClick={() => setRtShowTranscript(false)}>×</button>
+            </div>
+            
+            <div className="rt-modal-content">
+              {rtTranscriptLoading ? (
+                <div className="rt-transcript-loading">Loading transcript...</div>
+              ) : (
+                <div className="rt-transcript-text">
+                  {rtTranscriptText.split('\n').map((paragraph, idx) => {
+                    // Check if this paragraph contains the quote
+                    const quoteIndex = paragraph.toLowerCase().indexOf(rtTranscriptQuote.toLowerCase())
+                    
+                    if (quoteIndex !== -1) {
+                      // Highlight the quote within the paragraph
+                      const before = paragraph.slice(0, quoteIndex)
+                      const quote = paragraph.slice(quoteIndex, quoteIndex + rtTranscriptQuote.length)
+                      const after = paragraph.slice(quoteIndex + rtTranscriptQuote.length)
+                      
+                      return (
+                        <p key={idx}>
+                          {before}
+                          <mark className="rt-highlighted-quote">{quote}</mark>
+                          {after}
+                        </p>
+                      )
+                    }
+                    
+                    return <p key={idx}>{paragraph || '\u00A0'}</p>
+                  })}
+                </div>
+              )}
+            </div>
+            
+            <div className="rt-modal-footer">
+              <button onClick={() => setRtShowTranscript(false)}>Close</button>
+            </div>
           </div>
         </>
       )}

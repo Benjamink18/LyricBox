@@ -1278,6 +1278,47 @@ def get_real_talk_tags():
         return jsonify({'error': str(e)}), 500
 
 
+@app.route('/api/real-talk/transcript/<transcript_id>', methods=['GET'])
+def get_real_talk_transcript(transcript_id):
+    """
+    Get full transcript by transcript_id.
+    Used for displaying transcript with highlighted quote in modal.
+    
+    Returns:
+        {
+            'transcript': 'full transcript text',
+            'video_id': 'YouTube video ID'
+        }
+    """
+    try:
+        from supabase import create_client
+        import os
+        from dotenv import load_dotenv
+        load_dotenv()
+        
+        supabase = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
+        
+        result = supabase.table('real_talk_transcripts')\
+            .select('full_transcript, video_id')\
+            .eq('id', transcript_id)\
+            .execute()
+        
+        if not result.data:
+            return jsonify({'error': 'Transcript not found'}), 404
+        
+        transcript_data = result.data[0]
+        
+        return jsonify({
+            'transcript': transcript_data['full_transcript'],
+            'video_id': transcript_data['video_id']
+        })
+    
+    except Exception as e:
+        print(f"Error getting transcript: {e}")
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/api/real-talk/tags', methods=['POST'])
 def add_real_talk_tag():
     """Add a new tag."""
