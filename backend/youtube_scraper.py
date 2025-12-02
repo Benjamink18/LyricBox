@@ -30,8 +30,11 @@ supabase = create_client(
 
 anthropic = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
-# Initialize OpenAI (for Whisper transcription)
-openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Initialize OpenAI (for Whisper transcription) with timeout
+openai_client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    timeout=180.0  # 3 minute timeout for Whisper API
+)
 
 # Initialize YouTube API
 youtube_api_key = os.getenv("YOUTUBE_API_KEY")
@@ -179,9 +182,9 @@ class YouTubeScraper:
             original_size = os.path.getsize(audio_path) / 1024 / 1024
             print(f"✅ Audio downloaded ({original_size:.1f} MB)")
             
-            # Compress audio if larger than 20MB to stay under Whisper's 25MB limit
-            if os.path.getsize(audio_path) > 20 * 1024 * 1024:
-                print(f"🗜️  Compressing audio (>20MB)...")
+            # Compress audio if larger than 15MB (Whisper works better with smaller files)
+            if os.path.getsize(audio_path) > 15 * 1024 * 1024:
+                print(f"🗜️  Compressing audio (>15MB)...")
                 compressed_path = audio_path.replace('.m4a', '_compressed.mp3').replace('.webm', '_compressed.mp3')
                 
                 # Use ffmpeg to compress: 64kbps mono is perfect for speech transcription
@@ -208,15 +211,22 @@ class YouTubeScraper:
                     print(f"⚠️  Compression failed, using original: {compress_error}")
                     # Continue with original file if compression fails
             
-            print(f"🎙️  Transcribing with Whisper...")
+            print(f"🎙️  Transcribing with Whisper (max 3 min)...")
             
             # Transcribe with OpenAI Whisper
-            with open(audio_path, 'rb') as audio_file:
-                transcript_response = openai_client.audio.transcriptions.create(
-                    model="whisper-1",
-                    file=audio_file,
-                    response_format="text"
-                )
+            try:
+                with open(audio_path, 'rb') as audio_file:
+                    transcript_response = openai_client.audio.transcriptions.create(
+                        model="whisper-1",
+                        file=audio_file,
+                        response_format="text"
+                    )
+            except Exception as whisper_error:
+                print(f"⚠️  Whisper API failed: {whisper_error}")
+                # Clean up and re-raise
+                if os.path.exists(audio_path):
+                    os.unlink(audio_path)
+                raise
             
             # Clean up temp file
             os.unlink(audio_path)
