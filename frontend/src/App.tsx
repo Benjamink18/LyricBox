@@ -1558,12 +1558,14 @@ function App() {
       
       const sourceData = await sourceRes.json()
       
-      // Scrape channel with traditional POST (more reliable than SSE)
-      setRtProgressMessages(prev => [...prev, {text: '🚀 Starting channel scrape...', type: 'info'}])
-      setRtProgressMessages(prev => [...prev, {text: '⏳ This may take several minutes...', type: 'info'}])
-      setRtProgressMessages(prev => [...prev, {text: '📹 Processing videos in background...', type: 'info'}])
+      // Start scraping in background (it will continue even if connection times out)
+      setRtProgressMessages(prev => [...prev, {text: '🚀 Starting channel scrape in background...', type: 'info'}])
+      setRtProgressMessages(prev => [...prev, {text: `⏳ Scraping ${rtChannelLimit} videos (this will take ~${Math.ceil(rtChannelLimit * 2 / 60)} minutes)`, type: 'info'}])
+      setRtProgressMessages(prev => [...prev, {text: '💡 Tip: You can close this modal. Scraping continues on the server.', type: 'info'}])
+      setRtProgressMessages(prev => [...prev, {text: '🔄 Refresh the page in a few minutes to see results.', type: 'info'}])
       
-      const scrapeRes = await fetch(`${API_URL}/api/real-talk/scrape-youtube-channel`, {
+      // Fire and forget - don't wait for response
+      fetch(`${API_URL}/api/real-talk/scrape-youtube-channel`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1571,29 +1573,31 @@ function App() {
           source_id: sourceData.source.id,
           limit: rtChannelLimit
         })
+      }).then(async (scrapeRes) => {
+        if (scrapeRes.ok) {
+          const scrapeData = await scrapeRes.json()
+          setRtProgressMessages(prev => [...prev, {
+            text: `✅ Complete! ${scrapeData.scraped} videos, ${scrapeData.saved} quotes, ${scrapeData.failed} failed`,
+            type: 'success'
+          }])
+          
+          // Refresh sources and tags
+          fetch(`${API_URL}/api/real-talk/sources`).then(r => r.json()).then(d => setRtSources(d.sources || []))
+          fetch(`${API_URL}/api/real-talk/tags`).then(r => r.json()).then(d => {
+            setRtSituationTags(d.situations || [])
+            setRtEmotionTags(d.emotions || [])
+          })
+        }
+      }).catch((err) => {
+        // Expected for long-running requests - scraping continues on backend
+        console.log('Connection closed (expected - scraping continues)', err)
+        setRtProgressMessages(prev => [...prev, {
+          text: '📡 Connection closed (scraping continues on server)',
+          type: 'info'
+        }])
       })
       
-      if (scrapeRes.ok) {
-        const scrapeData = await scrapeRes.json()
-        setRtProgressMessages(prev => [...prev, {
-          text: `✅ Complete! ${scrapeData.scraped} videos, ${scrapeData.saved} quotes, ${scrapeData.failed} failed`,
-          type: 'success'
-        }])
-        setRtNewChannelUrl('')
-        
-        // Refresh sources and tags
-        const sourcesRes = await fetch(`${API_URL}/api/real-talk/sources`)
-        const sourcesResData = await sourcesRes.json()
-        setRtSources(sourcesResData.sources || [])
-        
-        const tagsRes = await fetch(`${API_URL}/api/real-talk/tags`)
-        const tagsData = await tagsRes.json()
-        setRtSituationTags(tagsData.situations || [])
-        setRtEmotionTags(tagsData.emotions || [])
-      } else {
-        const error = await scrapeRes.json()
-        setRtProgressMessages(prev => [...prev, {text: `❌ ${error.error || 'Failed to scrape channel'}`, type: 'error'}])
-      }
+      setRtNewChannelUrl('')
       
     } catch (err) {
       console.error('Failed to add YouTube channel:', err)
