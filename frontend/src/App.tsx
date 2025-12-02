@@ -4507,76 +4507,36 @@ function App() {
               ) : (
                 <div className="rt-transcript-text">
                   {(() => {
-                    // Normalize function - remove extra whitespace and punctuation for matching
-                    const normalize = (text: string) => text
-                      .toLowerCase()
-                      .replace(/\s+/g, ' ')  // Multiple spaces to single space
-                      .replace(/[.,!?;:]/g, '')  // Remove punctuation
-                      .trim()
+                    // Super simple: just find the exact quote in the transcript
+                    console.log('Quote:', rtTranscriptQuote)
+                    console.log('Transcript length:', rtTranscriptText.length)
                     
-                    const normalizedTranscript = normalize(rtTranscriptText)
-                    const normalizedQuote = normalize(rtTranscriptQuote)
-                    
-                    console.log('Searching for quote:', normalizedQuote.substring(0, 100))
-                    console.log('In transcript:', normalizedTranscript.substring(0, 200))
-                    
-                    // Try to find the quote (normalized)
-                    const quoteIndex = normalizedTranscript.indexOf(normalizedQuote)
+                    const quoteIndex = rtTranscriptText.indexOf(rtTranscriptQuote)
                     
                     if (quoteIndex !== -1) {
-                      console.log('✅ Quote found at index:', quoteIndex)
+                      console.log('✅ Found exact match at index:', quoteIndex)
                       
-                      // Now find the actual position in the original text
-                      // Count characters (accounting for whitespace differences)
-                      let actualIndex = 0
-                      let normalizedCount = 0
-                      
-                      for (let i = 0; i < rtTranscriptText.length; i++) {
-                        const char = rtTranscriptText[i]
-                        const normalizedChar = normalize(char)
-                        
-                        if (normalizedChar) {
-                          if (normalizedCount === quoteIndex) {
-                            actualIndex = i
-                            break
-                          }
-                          normalizedCount++
-                        }
-                      }
-                      
-                      // Find the end of the quote
-                      let quoteLength = 0
-                      let charsMatched = 0
-                      for (let i = actualIndex; i < rtTranscriptText.length && charsMatched < normalizedQuote.length; i++) {
-                        quoteLength++
-                        const char = rtTranscriptText[i]
-                        if (normalize(char)) {
-                          charsMatched++
-                        }
-                      }
-                      
-                      const before = rtTranscriptText.slice(0, actualIndex)
-                      const quote = rtTranscriptText.slice(actualIndex, actualIndex + quoteLength)
-                      const after = rtTranscriptText.slice(actualIndex + quoteLength)
+                      const before = rtTranscriptText.slice(0, quoteIndex)
+                      const quote = rtTranscriptText.slice(quoteIndex, quoteIndex + rtTranscriptQuote.length)
+                      const after = rtTranscriptText.slice(quoteIndex + rtTranscriptQuote.length)
                       
                       return (
-                        <div>
-                          <p style={{ whiteSpace: 'pre-wrap' }}>
-                            {before}
-                            <mark className="rt-highlighted-quote">{quote}</mark>
-                            {after}
-                          </p>
-                        </div>
+                        <p style={{ whiteSpace: 'pre-wrap' }}>
+                          {before}
+                          <mark className="rt-highlighted-quote">{quote}</mark>
+                          {after}
+                        </p>
                       )
                     }
                     
-                    console.log('❌ Quote not found in transcript')
-                    // Quote not found - show transcript with debug info
+                    console.log('❌ Exact match not found')
+                    // Show debug info
                     return (
                       <div>
                         <div style={{ background: '#332200', padding: '10px', marginBottom: '10px', fontSize: '12px', borderRadius: '4px' }}>
-                          ⚠️ Quote not found in transcript (showing full transcript below)
-                          <br/>Quote: "{rtTranscriptQuote.substring(0, 100)}..."
+                          ⚠️ Quote not found in transcript
+                          <br/>Searching for: "{rtTranscriptQuote.substring(0, 100)}..."
+                          <br/>Check browser console for full quote text
                         </div>
                         <p style={{ whiteSpace: 'pre-wrap' }}>{rtTranscriptText}</p>
                       </div>
