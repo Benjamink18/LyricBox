@@ -3718,21 +3718,27 @@ function App() {
                     <div className="rt-filter-group rt-demographics">
                       <label>Demographics:</label>
                       <div className="rt-demo-inputs">
-                        <input
-                          type="number"
-                          placeholder="Age min"
+                        <select
                           value={rtFilters.ageMin || ''}
                           onChange={(e) => setRtFilters({...rtFilters, ageMin: e.target.value ? parseInt(e.target.value) : undefined})}
                           className="rt-age-input"
-                        />
+                        >
+                          <option value="">Age min</option>
+                          {Array.from({length: 101}, (_, i) => i).map(age => (
+                            <option key={age} value={age}>{age}</option>
+                          ))}
+                        </select>
                         <span>-</span>
-                        <input
-                          type="number"
-                          placeholder="Age max"
+                        <select
                           value={rtFilters.ageMax || ''}
                           onChange={(e) => setRtFilters({...rtFilters, ageMax: e.target.value ? parseInt(e.target.value) : undefined})}
                           className="rt-age-input"
-                        />
+                        >
+                          <option value="">Age max</option>
+                          {Array.from({length: 101}, (_, i) => i).map(age => (
+                            <option key={age} value={age}>{age}</option>
+                          ))}
+                        </select>
                         <select 
                           value={rtFilters.gender}
                           onChange={(e) => setRtFilters({...rtFilters, gender: e.target.value})}
