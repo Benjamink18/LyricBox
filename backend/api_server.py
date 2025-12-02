@@ -358,7 +358,7 @@ Example: ["Title One", "Title Two", "Title Three", "Title Four", "Title Five"]""
 
         # Call Claude
         response = anthropic_client.messages.create(
-            model="claude-sonnet-4-5-20250514",
+            model="claude-3-5-sonnet-20241022",
             max_tokens=500,
             messages=[{
                 "role": "user",
@@ -579,7 +579,7 @@ Example: ["Line one here", "Line two here", "Line three here", ...]"""
 
         # Call Claude
         response = anthropic_client.messages.create(
-            model="claude-sonnet-4-5-20250514",
+            model="claude-3-5-sonnet-20241022",
             max_tokens=2000,
             messages=[{
                 "role": "user",
@@ -758,7 +758,7 @@ Example: ["Variation one", "Variation two", ...]"""
 
         # Call Claude
         response = anthropic_client.messages.create(
-            model="claude-sonnet-4-5-20250514",
+            model="claude-3-5-sonnet-20241022",
             max_tokens=2000,
             messages=[{
                 "role": "user",
@@ -872,7 +872,7 @@ Return ONLY a JSON array of 10 line strings, no other text.
 Example: ["Line one", "Line two", ...]"""
 
         response = anthropic_client.messages.create(
-            model="claude-sonnet-4-5-20250514",
+            model="claude-3-5-sonnet-20241022",
             max_tokens=1000,
             messages=[{
                 "role": "user",
@@ -973,7 +973,7 @@ Example format:
 Return ONLY the JSON array, no other text."""
 
         response = anthropic_client.messages.create(
-            model="claude-sonnet-4-5-20250514",
+            model="claude-3-5-sonnet-20241022",
             max_tokens=2000,
             messages=[{
                 "role": "user",

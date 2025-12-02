@@ -42,7 +42,7 @@ class SongAnalyzer:
     
     def __init__(self):
         self.client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-        self.model = "claude-sonnet-4-5-20250514"
+        self.model = "claude-3-5-sonnet-20241022"
         self.max_tokens = 20000
         
         # System prompt for caching
