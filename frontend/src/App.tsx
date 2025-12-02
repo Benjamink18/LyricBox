@@ -24,6 +24,9 @@ import { SortBuilder } from './components/SortBuilder'
 import { FilterSidebar } from './components/FilterSidebar'
 import './App.css'
 
+// API URL - use environment variable in production, localhost in development
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+
 type Page = 'rhymes' | 'figurative' | 'concepts' | 'nextline' | 'realtalk' | 'melody'
 type SearchMode = 'simple' | 'network'
 
@@ -198,6 +201,11 @@ function App() {
   const [rtExpandedEntry, setRtExpandedEntry] = useState<string | null>(null)
   
   // Real Talk filters
+  // Progress tracking
+  const [rtShowProgress, setRtShowProgress] = useState(false)
+  const [rtProgressMessages, setRtProgressMessages] = useState<Array<{text: string, type: 'info' | 'success' | 'error'}>>([])
+  const [rtProgressTitle, setRtProgressTitle] = useState('')
+
   const [rtFilters, setRtFilters] = useState({
     search: '',
     situations: [] as string[],
@@ -548,7 +556,7 @@ function App() {
     setConceptLoading(true)
     try {
       // Call backend to extract themes and find matches
-      const response = await fetch(`${API_URL}/api/find-matching-songs`, {
+      const response = await fetch('http://localhost:3001/api/find-matching-songs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -670,7 +678,7 @@ function App() {
         ? `${nextLineConcept}\n\nLyrics so far:\n${existingLyrics}`
         : nextLineConcept
 
-      const response = await fetch(`${API_URL}/api/find-matching-songs`, {
+      const response = await fetch('http://localhost:3001/api/find-matching-songs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -714,7 +722,7 @@ function App() {
 
     setGeneratingNextLine(true)
     try {
-      const response = await fetch(`${API_URL}/api/generate-next-line`, {
+      const response = await fetch('http://localhost:3001/api/generate-next-line', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -758,7 +766,7 @@ function App() {
   const handleMoreLikeThis = async (baseLine: string) => {
     setGeneratingNextLine(true)
     try {
-      const response = await fetch(`${API_URL}/api/generate-more-like-this`, {
+      const response = await fetch('http://localhost:3001/api/generate-more-like-this', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -936,7 +944,7 @@ function App() {
     setFigurativeGenerating(true)
 
     try {
-      const response = await fetch(`${API_URL}/api/generate-figurative-variations`, {
+      const response = await fetch('http://localhost:3001/api/generate-figurative-variations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1352,7 +1360,7 @@ function App() {
         keyword: r.keyword
       }))
 
-      const response = await fetch(`${API_URL}/api/filter-figurative-by-meaning`, {
+      const response = await fetch('http://localhost:3001/api/filter-figurative-by-meaning', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1385,7 +1393,7 @@ function App() {
 
     setGeneratingTitles(true)
     try {
-      const response = await fetch(`${API_URL}/api/generate-more-titles`, {
+      const response = await fetch('http://localhost:3001/api/generate-more-titles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1422,13 +1430,13 @@ function App() {
   useEffect(() => {
     if (currentPage === 'realtalk') {
       // Fetch sources
-      fetch(`${API_URL}/api/real-talk/sources`)
+      fetch('http://localhost:3001/api/real-talk/sources')
         .then(res => res.json())
         .then(data => setRtSources(data.sources || []))
         .catch(err => console.error('Failed to fetch sources:', err))
 
       // Fetch tags
-      fetch(`${API_URL}/api/real-talk/tags`)
+      fetch('http://localhost:3001/api/real-talk/tags')
         .then(res => res.json())
         .then(data => {
           setRtSituationTags(data.situations || [])
@@ -1437,7 +1445,7 @@ function App() {
         .catch(err => console.error('Failed to fetch tags:', err))
 
       // Fetch initial entries
-      fetch(`${API_URL}/api/real-talk/entries?limit=50`)
+      fetch('http://localhost:3001/api/real-talk/entries?limit=50')
         .then(res => res.json())
         .then(data => setRtEntries(data.entries || []))
         .catch(err => console.error('Failed to fetch entries:', err))
@@ -1450,7 +1458,7 @@ function App() {
     
     setRtAddingSource(true)
     try {
-      const res = await fetch(`${API_URL}/api/real-talk/sources`, {
+      const res = await fetch('http://localhost:3001/api/real-talk/sources', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ source_identifier: rtNewSubreddit.trim() })
@@ -1477,8 +1485,14 @@ function App() {
     if (!rtNewYoutubeUrl.trim()) return
     
     setRtAddingYoutube(true)
+    setRtShowProgress(true)
+    setRtProgressTitle('Processing YouTube Video')
+    setRtProgressMessages([{text: '🎥 Starting...', type: 'info'}])
+    
     try {
       // First create a source for this video
+      setRtProgressMessages(prev => [...prev, {text: '📝 Creating source...', type: 'info'}])
+      
       const sourceRes = await fetch(`${API_URL}/api/real-talk/sources`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1490,7 +1504,7 @@ function App() {
       
       if (!sourceRes.ok) {
         const error = await sourceRes.json()
-        alert(error.error || 'Failed to add video source')
+        setRtProgressMessages(prev => [...prev, {text: `❌ ${error.error || 'Failed to add source'}`, type: 'error'}])
         return
       }
       
@@ -1498,6 +1512,10 @@ function App() {
       const sourceId = sourceData.source.id
       
       // Then scrape the video
+      setRtProgressMessages(prev => [...prev, {text: '🎙️ Downloading audio... (30-60s)', type: 'info'}])
+      setRtProgressMessages(prev => [...prev, {text: '📝 Transcribing with Whisper... (10-30s)', type: 'info'}])
+      setRtProgressMessages(prev => [...prev, {text: '🤖 Extracting quotes with Claude... (5-10s)', type: 'info'}])
+      
       const scrapeRes = await fetch(`${API_URL}/api/real-talk/scrape-youtube`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1509,7 +1527,8 @@ function App() {
       
       if (scrapeRes.ok) {
         const scrapeData = await scrapeRes.json()
-        alert(`✅ Scraped video: ${scrapeData.title}`)
+        setRtProgressMessages(prev => [...prev, {text: `✅ Success! Extracted ${scrapeData.quotes_extracted} quotes`, type: 'success'}])
+        setRtProgressMessages(prev => [...prev, {text: `📖 Title: ${scrapeData.title}`, type: 'success'}])
         setRtNewYoutubeUrl('')
         
         // Refresh sources list
@@ -1524,10 +1543,11 @@ function App() {
         setRtEmotionTags(tagsData.emotions || [])
       } else {
         const error = await scrapeRes.json()
-        alert(error.error || 'Failed to scrape video')
+        setRtProgressMessages(prev => [...prev, {text: `❌ ${error.error || 'Failed to scrape'}`, type: 'error'}])
       }
     } catch (err) {
       console.error('Failed to add YouTube video:', err)
+      setRtProgressMessages(prev => [...prev, {text: `❌ Error: ${err}`, type: 'error'}])
       alert('Failed to add YouTube video')
     } finally {
       setRtAddingYoutube(false)
@@ -1545,7 +1565,7 @@ function App() {
     
     setRtScrapingChannel(true)
     try {
-      const sourceRes = await fetch(`${API_URL}/api/real-talk/sources`, {
+      const sourceRes = await fetch('http://localhost:3001/api/real-talk/sources', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -1562,7 +1582,7 @@ function App() {
       
       const sourceData = await sourceRes.json()
       
-      const scrapeRes = await fetch(`${API_URL}/api/real-talk/scrape-youtube-channel`, {
+      const scrapeRes = await fetch('http://localhost:3001/api/real-talk/scrape-youtube-channel', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1577,11 +1597,11 @@ function App() {
         alert(`✅ Channel done!\n\nTotal: ${scrapeData.total_videos}\nSaved: ${scrapeData.saved}\nFailed: ${scrapeData.failed}`)
         setRtNewChannelUrl('')
         
-        const sourcesRes = await fetch(`${API_URL}/api/real-talk/sources`)
+        const sourcesRes = await fetch('http://localhost:3001/api/real-talk/sources')
         const sourcesResData = await sourcesRes.json()
         setRtSources(sourcesResData.sources || [])
         
-        const tagsRes = await fetch(`${API_URL}/api/real-talk/tags`)
+        const tagsRes = await fetch('http://localhost:3001/api/real-talk/tags')
         const tagsData = await tagsRes.json()
         setRtSituationTags(tagsData.situations || [])
         setRtEmotionTags(tagsData.emotions || [])
@@ -1619,12 +1639,12 @@ function App() {
         alert(`Scraped ${data.scraped} posts, saved ${data.saved} new entries from r/${data.subreddit}`)
         
         // Refresh sources list
-        const sourcesRes = await fetch(`${API_URL}/api/real-talk/sources`)
+        const sourcesRes = await fetch('http://localhost:3001/api/real-talk/sources')
         const sourcesData = await sourcesRes.json()
         setRtSources(sourcesData.sources || [])
         
         // Refresh tags
-        const tagsRes = await fetch(`${API_URL}/api/real-talk/tags`)
+        const tagsRes = await fetch('http://localhost:3001/api/real-talk/tags')
         const tagsData = await tagsRes.json()
         setRtSituationTags(tagsData.situations || [])
         setRtEmotionTags(tagsData.emotions || [])
@@ -1644,7 +1664,7 @@ function App() {
   const handleScrapeAll = async () => {
     setRtScrapingAll(true)
     try {
-      const res = await fetch(`${API_URL}/api/real-talk/scrape-all`, {
+      const res = await fetch('http://localhost:3001/api/real-talk/scrape-all', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ limit: 50 })
@@ -1655,12 +1675,12 @@ function App() {
         alert(`Scraped ${data.sources_scraped} sources, saved ${data.total_saved} new entries`)
         
         // Refresh sources
-        const sourcesRes = await fetch(`${API_URL}/api/real-talk/sources`)
+        const sourcesRes = await fetch('http://localhost:3001/api/real-talk/sources')
         const sourcesData = await sourcesRes.json()
         setRtSources(sourcesData.sources || [])
         
         // Refresh tags
-        const tagsRes = await fetch(`${API_URL}/api/real-talk/tags`)
+        const tagsRes = await fetch('http://localhost:3001/api/real-talk/tags')
         const tagsData = await tagsRes.json()
         setRtSituationTags(tagsData.situations || [])
         setRtEmotionTags(tagsData.emotions || [])
@@ -1681,7 +1701,7 @@ function App() {
     if (!tagName.trim()) return
     
     try {
-      const res = await fetch(`${API_URL}/api/real-talk/tags`, {
+      const res = await fetch('http://localhost:3001/api/real-talk/tags', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tag_type: tagType, tag_name: tagName.trim() })
@@ -1729,7 +1749,7 @@ function App() {
 
     setMelodySearching(true)
     try {
-      const res = await fetch(`${API_URL}/api/melody/search`, {
+      const res = await fetch('http://localhost:3001/api/melody/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1776,7 +1796,7 @@ function App() {
     try {
       const playlistName = melodyPlaylistName.trim() || `Mashup Discovery - ${new Date().toLocaleString()}`
       
-      const res = await fetch(`${API_URL}/api/melody/playlist`, {
+      const res = await fetch('http://localhost:3001/api/melody/playlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1804,7 +1824,7 @@ function App() {
 
   const checkMelodyTidalStatus = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/melody/tidal/status`)
+      const res = await fetch('http://localhost:3001/api/melody/tidal/status')
       const data = await res.json()
       setMelodyTidalAuth(data.authenticated || false)
       return data.authenticated || false
@@ -1816,7 +1836,7 @@ function App() {
 
   const checkMelodyTidalAuthComplete = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/melody/tidal/check-complete`)
+      const res = await fetch('http://localhost:3001/api/melody/tidal/check-complete')
       const data = await res.json()
       setMelodyTidalAuth(data.authenticated || false)
       return data.authenticated || false
@@ -1828,7 +1848,7 @@ function App() {
 
   const handleMelodyConnectTidal = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/melody/tidal/auth`)
+      const res = await fetch('http://localhost:3001/api/melody/tidal/auth')
       const data = await res.json()
       
       if (data.verification_url) {
@@ -1857,7 +1877,7 @@ function App() {
     if (!confirm('Disconnect from Tidal?')) return
     
     try {
-      const res = await fetch(`${API_URL}/api/melody/tidal/disconnect`, {
+      const res = await fetch('http://localhost:3001/api/melody/tidal/disconnect', {
         method: 'POST'
       })
       
@@ -2483,7 +2503,7 @@ function App() {
                         ...concept
                       }
                       
-                      fetch(`${API_URL}/api/export-concept`, {
+                      fetch('http://localhost:3001/api/export-concept', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(conceptData)
@@ -3603,49 +3623,99 @@ function App() {
 
                   {/* Filter Row */}
                   <div className="rt-filters-row">
-                    {/* Situations */}
+                    {/* Situations - Autocomplete */}
                     <div className="rt-filter-group">
                       <label>Situations:</label>
-                      <div className="rt-tag-buttons">
-                        {rtSituationTags.map(tag => (
-                          <button
-                            key={tag.id}
-                            className={`rt-tag-btn ${rtFilters.situations.includes(tag.tag_name) ? 'active' : ''}`}
-                            onClick={() => {
-                              setRtFilters(prev => ({
-                                ...prev,
-                                situations: prev.situations.includes(tag.tag_name)
-                                  ? prev.situations.filter(t => t !== tag.tag_name)
-                                  : [...prev.situations, tag.tag_name]
-                              }))
-                            }}
-                          >
-                            {tag.tag_name.replace(/_/g, ' ')} ({tag.usage_count})
-                          </button>
-                        ))}
+                      <div className="rt-autocomplete-container">
+                        <input
+                          type="text"
+                          list="situation-tags"
+                          placeholder="Type to search situations..."
+                          className="rt-autocomplete-input"
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              const value = e.currentTarget.value.trim().toLowerCase()
+                              if (value && !rtFilters.situations.includes(value)) {
+                                setRtFilters(prev => ({
+                                  ...prev,
+                                  situations: [...prev.situations, value]
+                                }))
+                                e.currentTarget.value = ''
+                              }
+                            }
+                          }}
+                        />
+                        <datalist id="situation-tags">
+                          {rtSituationTags.map(tag => (
+                            <option key={tag.id} value={tag.tag_name}>
+                              {tag.tag_name.replace(/_/g, ' ')} ({tag.usage_count})
+                            </option>
+                          ))}
+                        </datalist>
+                        <div className="rt-selected-tags">
+                          {rtFilters.situations.map(tag => (
+                            <span key={tag} className="rt-selected-tag">
+                              {tag.replace(/_/g, ' ')}
+                              <button
+                                onClick={() => setRtFilters(prev => ({
+                                  ...prev,
+                                  situations: prev.situations.filter(t => t !== tag)
+                                }))}
+                                className="rt-remove-tag"
+                              >
+                                ×
+                              </button>
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
-                    {/* Emotions */}
+                    {/* Emotions - Autocomplete */}
                     <div className="rt-filter-group">
                       <label>Emotions:</label>
-                      <div className="rt-tag-buttons">
-                        {rtEmotionTags.map(tag => (
-                          <button
-                            key={tag.id}
-                            className={`rt-tag-btn ${rtFilters.emotions.includes(tag.tag_name) ? 'active' : ''}`}
-                            onClick={() => {
-                              setRtFilters(prev => ({
-                                ...prev,
-                                emotions: prev.emotions.includes(tag.tag_name)
-                                  ? prev.emotions.filter(t => t !== tag.tag_name)
-                                  : [...prev.emotions, tag.tag_name]
-                              }))
-                            }}
-                          >
-                            {tag.tag_name} ({tag.usage_count})
-                          </button>
-                        ))}
+                      <div className="rt-autocomplete-container">
+                        <input
+                          type="text"
+                          list="emotion-tags"
+                          placeholder="Type to search emotions..."
+                          className="rt-autocomplete-input"
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              const value = e.currentTarget.value.trim().toLowerCase()
+                              if (value && !rtFilters.emotions.includes(value)) {
+                                setRtFilters(prev => ({
+                                  ...prev,
+                                  emotions: [...prev.emotions, value]
+                                }))
+                                e.currentTarget.value = ''
+                              }
+                            }
+                          }}
+                        />
+                        <datalist id="emotion-tags">
+                          {rtEmotionTags.map(tag => (
+                            <option key={tag.id} value={tag.tag_name}>
+                              {tag.tag_name} ({tag.usage_count})
+                            </option>
+                          ))}
+                        </datalist>
+                        <div className="rt-selected-tags">
+                          {rtFilters.emotions.map(tag => (
+                            <span key={tag} className="rt-selected-tag">
+                              {tag}
+                              <button
+                                onClick={() => setRtFilters(prev => ({
+                                  ...prev,
+                                  emotions: prev.emotions.filter(t => t !== tag)
+                                }))}
+                                className="rt-remove-tag"
+                              >
+                                ×
+                              </button>
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
@@ -3729,7 +3799,7 @@ function App() {
                             const entriesData = await entriesRes.json()
                             
                             // Then run AI search
-                            const aiRes = await fetch(`${API_URL}/api/real-talk/intelligent-search`, {
+                            const aiRes = await fetch('http://localhost:3001/api/real-talk/intelligent-search', {
                               method: 'POST',
                               headers: { 'Content-Type': 'application/json' },
                               body: JSON.stringify({
@@ -4369,6 +4439,35 @@ function App() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Real Talk Progress Modal */}
+      {rtShowProgress && (
+        <>
+          <div className="rt-progress-overlay" onClick={() => {}} />
+          <div className="rt-progress-modal">
+            <div className="rt-progress-header">{rtProgressTitle}</div>
+            <div className="rt-progress-messages">
+              {rtProgressMessages.map((msg, idx) => (
+                <div key={idx} className={`rt-progress-message ${msg.type}`}>
+                  {msg.text}
+                </div>
+              ))}
+            </div>
+            {rtProgressMessages.some(m => m.type === 'success' || m.type === 'error') && (
+              <button 
+                className="rt-progress-close"
+                onClick={() => {
+                  setRtShowProgress(false)
+                  setRtProgressMessages([])
+                  setRtAddingYoutube(false)
+                }}
+              >
+                Close
+              </button>
+            )}
+          </div>
+        </>
       )}
     </div>
   )

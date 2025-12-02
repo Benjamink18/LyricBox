@@ -59,6 +59,14 @@ class TagResult:
     situation_tags: List[str]
     emotional_tags: List[str]
 
+@dataclass
+class ExtractedQuote:
+    """A single quote extracted from a video."""
+    quote_text: str
+    situation_tags: List[str]
+    emotional_tags: List[str]
+    context: Optional[str] = None
+
 
 class YouTubeScraper:
     """Scrapes YouTube transcripts and processes them with Claude."""
@@ -276,50 +284,126 @@ If nothing found, return all null with confidence "low"."""
                 ['angry', 'sad', 'hopeful', 'confused', 'desperate', 'relieved', 'bitter', 'loving']
             )
     
-    def tag_with_claude(self, title: str, transcript: str) -> TagResult:
-        """Use Claude to analyze and tag the transcript."""
+    def extract_quotes_with_claude(self, title: str, transcript: str, progress_callback=None) -> Tuple[List[ExtractedQuote], List[str], List[str]]:
+        """
+        Extract interesting quotes from transcript using Claude.
+        Returns: (quotes, new_situation_tags, new_emotion_tags)
+        """
+        if progress_callback:
+            progress_callback("🤖 Extracting quotes with Claude...")
+        
         situations, emotions = self.get_available_tags()
         
-        prompt = f"""Analyze this YouTube video transcript about relationships/emotions.
+        prompt = f"""Analyze this YouTube video transcript and extract 5-10 of the most interesting, relatable, or emotionally resonant QUOTES.
 
 TITLE: {title}
 
 TRANSCRIPT:
-{transcript[:3000]}  # Limit to avoid token overflow
+{transcript[:8000]}  # Use more context for quote extraction
 
-From these SITUATION tags, select ALL that apply (can be multiple):
+EXISTING SITUATION TAGS (prefer these):
 {', '.join(situations)}
 
-From these EMOTION tags, select ALL that apply (can be multiple):
+EXISTING EMOTION TAGS (prefer these):
 {', '.join(emotions)}
 
-Respond with JSON only:
-{{"situations": ["tag1", "tag2"], "emotions": ["tag1", "tag2"]}}
+GUIDELINES:
+1. Extract 5-10 short quotes (1-3 sentences each)
+2. Choose authentic, relatable moments that express real human experience
+3. Each quote should be self-contained and meaningful
+4. Tag each quote with 1-3 situation tags and 1-3 emotion tags
+5. USE EXISTING TAGS when they fit
+6. If existing tags don't fit, suggest NEW tags but:
+   - Be specific (not vague like "feeling_bad")
+   - Avoid synonyms (e.g., don't create "joyful" if "happy" exists)
+   - Use snake_case (e.g., "first_date_anxiety")
+   - Max 3 new tags total across all quotes
 
-Be thorough - most videos have 2-4 situation tags and 2-3 emotion tags."""
+Return JSON ONLY:
+{{
+  "quotes": [
+    {{
+      "quote": "exact quote text here",
+      "situations": ["tag1", "tag2"],
+      "emotions": ["tag1"]
+    }}
+  ],
+  "new_situation_tags": ["new_tag1"],
+  "new_emotion_tags": ["new_tag2"]
+}}
+
+If no quotes are interesting enough, return empty arrays."""
 
         try:
             response = anthropic.messages.create(
                 model="claude-sonnet-4-5-20241022",
-                max_tokens=200,
+                max_tokens=2000,  # More tokens for multiple quotes
                 messages=[{"role": "user", "content": prompt}]
             )
             
             text = response.content[0].text.strip()
             json_match = re.search(r'\{.*\}', text, re.DOTALL)
-            if json_match:
-                import json
-                data = json.loads(json_match.group())
-                return TagResult(
-                    situation_tags=[s for s in data.get('situations', []) if s in situations],
-                    emotional_tags=[e for e in data.get('emotions', []) if e in emotions]
+            
+            if not json_match:
+                print(f"⚠️  Claude response not JSON: {text[:200]}")
+                return ([], [], [])
+            
+            import json
+            data = json.loads(json_match.group())
+            
+            # Extract quotes
+            quotes = []
+            for q in data.get('quotes', []):
+                quote = ExtractedQuote(
+                    quote_text=q.get('quote', ''),
+                    situation_tags=q.get('situations', []),
+                    emotional_tags=q.get('emotions', [])
                 )
+                quotes.append(quote)
+            
+            # Get new tags suggested by Claude
+            new_situations = data.get('new_situation_tags', [])
+            new_emotions = data.get('new_emotion_tags', [])
+            
+            if progress_callback:
+                progress_callback(f"✅ Extracted {len(quotes)} quotes")
+            
+            print(f"📝 Extracted {len(quotes)} quotes")
+            if new_situations:
+                print(f"   New situation tags: {', '.join(new_situations)}")
+            if new_emotions:
+                print(f"   New emotion tags: {', '.join(new_emotions)}")
+            
+            return (quotes, new_situations, new_emotions)
+            
         except Exception as e:
-            print(f"⚠️  Claude tagging failed: {e}")
-        
-        return TagResult(situation_tags=[], emotional_tags=[])
+            print(f"⚠️  Claude quote extraction failed: {e}")
+            import traceback
+            traceback.print_exc()
+            return ([], [], [])
     
-    def scrape_video(self, video_url: str, source_id: str = None) -> Optional[Dict[str, Any]]:
+    def save_new_tags(self, situation_tags: List[str], emotion_tags: List[str]):
+        """Save newly suggested tags to the database."""
+        try:
+            for tag in situation_tags:
+                supabase.table('real_talk_tags').insert({
+                    'tag_type': 'situation',
+                    'tag_name': tag
+                }).execute()
+                print(f"   ✅ Added situation tag: {tag}")
+            
+            for tag in emotion_tags:
+                supabase.table('real_talk_tags').insert({
+                    'tag_type': 'emotion',
+                    'tag_name': tag
+                }).execute()
+                print(f"   ✅ Added emotion tag: {tag}")
+        except Exception as e:
+            # Ignore duplicate key errors
+            if "duplicate" not in str(e).lower():
+                print(f"⚠️  Failed to save tags: {e}")
+    
+    def scrape_video(self, video_url: str, source_id: str = None, progress_callback=None) -> Optional[List[Dict[str, Any]]]:
         """
         Scrape a single YouTube video.
         
@@ -342,9 +426,15 @@ Be thorough - most videos have 2-4 situation tags and 2-3 emotion tags."""
                 print(f"⏭️  Video {video_id} already scraped")
                 return None
         
+        if progress_callback:
+            progress_callback(f"📥 Processing: {video_id}")
+        
         print(f"📥 Scraping video {video_id}...")
         
         # Get video metadata from official API
+        if progress_callback:
+            progress_callback("📋 Fetching video metadata...")
+        
         metadata = self.get_video_metadata(video_id)
         if not metadata:
             print(f"❌ Could not get metadata for {video_id}")
@@ -353,43 +443,69 @@ Be thorough - most videos have 2-4 situation tags and 2-3 emotion tags."""
         title = metadata['title']
         description = metadata['description']
         channel_name = metadata['channel_name']
+        published_at = metadata.get('published_at', datetime.now(timezone.utc).isoformat())
         
-        # Get transcript
+        # Get transcript (with progress in get_transcript method)
         transcript = self.get_transcript(video_id)
         if not transcript:
             return None
         
         # Extract demographics
+        if progress_callback:
+            progress_callback("👤 Analyzing demographics...")
+        
         demographics = self.extract_demographics_with_claude(title, description, transcript[:500])
         
-        # Get Claude tags
-        tags = self.tag_with_claude(title, transcript)
+        # Extract quotes with Claude
+        quotes, new_situations, new_emotions = self.extract_quotes_with_claude(title, transcript, progress_callback)
         
-        entry = {
-            'source_id': source_id,
-            'external_id': video_id,
-            'title': f"{title} (by {channel_name})",
-            'raw_text': transcript,
-            'url': f"https://www.youtube.com/watch?v={video_id}",
-            'posted_at': metadata.get('published_at', datetime.now(timezone.utc).isoformat()),
-            'poster_age': demographics.poster_age,
-            'poster_gender': demographics.poster_gender,
-            'other_party_age': demographics.other_party_age,
-            'other_party_gender': demographics.other_party_gender,
-            'inferred_location': demographics.inferred_location,
-            'situation_tags': tags.situation_tags,
-            'emotional_tags': tags.emotional_tags,
-            'demographic_confidence': demographics.confidence,
-            'processed_at': datetime.now(timezone.utc).isoformat()
-        }
+        if not quotes:
+            print(f"⚠️  No interesting quotes found in video")
+            return None
         
-        print(f"✅ Processed video {video_id}")
-        return entry
+        # Save new tags to database
+        if new_situations or new_emotions:
+            if progress_callback:
+                progress_callback("🏷️  Adding new tags...")
+            self.save_new_tags(new_situations, new_emotions)
+        
+        # Create entry for each quote
+        entries = []
+        for i, quote in enumerate(quotes):
+            entry = {
+                'source_id': source_id,
+                'external_id': f"{video_id}_quote_{i+1}",  # Unique ID per quote
+                'title': f"{title}",
+                'raw_text': quote.quote_text,
+                'url': f"https://www.youtube.com/watch?v={video_id}",
+                'posted_at': published_at,
+                'channel_name': channel_name,
+                'poster_age': demographics.poster_age,
+                'poster_gender': demographics.poster_gender,
+                'other_party_age': demographics.other_party_age,
+                'other_party_gender': demographics.other_party_gender,
+                'inferred_location': demographics.inferred_location,
+                'situation_tags': quote.situation_tags,  # Tags specific to this quote
+                'emotional_tags': quote.emotional_tags,  # Tags specific to this quote
+                'demographic_confidence': demographics.confidence,
+                'processed_at': datetime.now(timezone.utc).isoformat()
+            }
+            entries.append(entry)
+        
+        if progress_callback:
+            progress_callback(f"✅ Created {len(entries)} quote entries")
+        
+        print(f"✅ Processed video {video_id} → {len(entries)} quotes")
+        return entries
     
-    def save_entry(self, entry: Dict[str, Any], source_id: str) -> bool:
-        """Save entry to database and update source stats."""
+    def save_entries(self, entries: List[Dict[str, Any]], source_id: str, progress_callback=None) -> bool:
+        """Save multiple entries to database and update source stats."""
         try:
-            supabase.table('real_talk_entries').insert(entry).execute()
+            if progress_callback:
+                progress_callback(f"💾 Saving {len(entries)} quotes...")
+            
+            # Insert all entries
+            supabase.table('real_talk_entries').insert(entries).execute()
             
             # Update source stats
             result = supabase.table('real_talk_entries').select('id', count='exact').eq('source_id', source_id).execute()
@@ -435,7 +551,7 @@ Be thorough - most videos have 2-4 situation tags and 2-3 emotion tags."""
             print(f"❌ Error: {e}")
             return []
     
-    def scrape_channel(self, channel_url: str, source_id: str = None, limit: int = 50) -> Dict[str, Any]:
+    def scrape_channel(self, channel_url: str, source_id: str = None, limit: int = 50, progress_callback=None) -> Dict[str, Any]:
         """Scrape all videos from a channel."""
         channel_id = self.extract_channel_id(channel_url)
         if not channel_id:
@@ -447,20 +563,24 @@ Be thorough - most videos have 2-4 situation tags and 2-3 emotion tags."""
         
         scraped, saved, failed = 0, 0, 0
         for i, vid in enumerate(video_ids):
+            if progress_callback:
+                progress_callback(f"📹 Video {i+1}/{len(video_ids)}: {vid}")
+            
             print(f"[{i+1}/{len(video_ids)}] {vid}...")
             try:
-                entry = self.scrape_video(f"https://www.youtube.com/watch?v={vid}", source_id=source_id)
-                if entry and self.save_entry(entry, source_id):
+                entries = self.scrape_video(f"https://www.youtube.com/watch?v={vid}", source_id=source_id, progress_callback=progress_callback)
+                if entries and self.save_entries(entries, source_id, progress_callback):
                     scraped += 1
-                    saved += 1
+                    saved += len(entries)  # Count quotes, not videos
                 else:
                     failed += 1
                 if i < len(video_ids) - 1:
                     time.sleep(2)
             except Exception as e:
+                print(f"❌ Error scraping {vid}: {e}")
                 failed += 1
         
-        print(f"✅ Done! Saved: {saved}/{len(video_ids)}")
+        print(f"✅ Done! Saved: {saved} quotes from {scraped} videos")
         return {'total': len(video_ids), 'scraped': scraped, 'saved': saved, 'failed': failed}
 
 
