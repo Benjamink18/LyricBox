@@ -25,7 +25,7 @@ import { FilterSidebar } from './components/FilterSidebar'
 import './App.css'
 
 
-type Page = 'rhymes' | 'figurative' | 'concepts' | 'nextline' | 'realtalk'
+type Page = 'rhymes' | 'figurative' | 'concepts' | 'nextline' | 'realtalk' | 'melody'
 type SearchMode = 'simple' | 'network'
 
 // Keyword constants for figurative language
@@ -228,6 +228,27 @@ function App() {
   const [rtAiQuery, setRtAiQuery] = useState('')
   const [rtAiSearching, setRtAiSearching] = useState(false)
   const [rtAiLimit, setRtAiLimit] = useState(50)
+
+  // Melody state
+  const [melodyChords, setMelodyChords] = useState('')
+  const [melodyKey, setMelodyKey] = useState('')
+  const [melodyBpm, setMelodyBpm] = useState(120)
+  const [melodyBpmTolerance, setMelodyBpmTolerance] = useState(10)
+  const [melodyTimeSig, setMelodyTimeSig] = useState('4/4')
+  const [melodyGenres, setMelodyGenres] = useState<string[]>([])
+  const [melodyYearStart, setMelodyYearStart] = useState<number | undefined>(undefined)
+  const [melodyYearEnd, setMelodyYearEnd] = useState<number | undefined>(undefined)
+  const [melodyChartPosition, setMelodyChartPosition] = useState('')
+  const [melodyArtistStyle, setMelodyArtistStyle] = useState('')
+  const [melodySearching, setMelodySearching] = useState(false)
+  const [melodySongs, setMelodySongs] = useState<any[]>([])
+  const [melodySelectedSongs, setMelodySelectedSongs] = useState<Set<number>>(new Set())
+  const [melodySearchCriteria, setMelodySearchCriteria] = useState<any>(null)
+  const [melodyExcludedSongs, setMelodyExcludedSongs] = useState<string[]>([])
+  const [melodyTidalAuth, setMelodyTidalAuth] = useState(false)
+  const [melodyCreatingPlaylist, setMelodyCreatingPlaylist] = useState(false)
+  const [melodyPlaylistName, setMelodyPlaylistName] = useState('')
+  const [melodyFindingMore, setMelodyFindingMore] = useState(false)
 
   useEffect(() => {
     getSongStats().then(setStats)
@@ -1756,6 +1777,234 @@ function App() {
     }
   }
 
+  // ===== MELODY HANDLERS =====
+  
+  const handleMelodySearch = async () => {
+    if (!melodyChords.trim()) {
+      alert('Please enter a chord progression')
+      return
+    }
+    if (!melodyBpm) {
+      alert('Please enter a BPM')
+      return
+    }
+
+    setMelodySearching(true)
+    setMelodySongs([])
+    setMelodySelectedSongs(new Set())
+    setMelodyExcludedSongs([])
+    
+    try {
+      const body: any = {
+        chords: melodyChords,
+        bpm: melodyBpm,
+        bpm_tolerance: melodyBpmTolerance,
+        time_signature: melodyTimeSig
+      }
+      
+      // Add optional filters only if provided
+      if (melodyKey) body.key = melodyKey
+      if (melodyGenres.length > 0) body.genres = melodyGenres
+      if (melodyYearStart) body.year_start = melodyYearStart
+      if (melodyYearEnd) body.year_end = melodyYearEnd
+      if (melodyChartPosition) body.chart_position = melodyChartPosition
+      if (melodyArtistStyle) body.artist_style = melodyArtistStyle
+      
+      const res = await fetch(`${API_URL}/api/melody/search`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        setMelodySongs(data.songs || [])
+        setMelodySearchCriteria(data.search_criteria)
+        // Select all songs by default
+        const allIndices = new Set(data.songs.map((_: any, i: number) => i))
+        setMelodySelectedSongs(allIndices)
+      } else {
+        const error = await res.json()
+        alert(error.error || 'Search failed')
+      }
+    } catch (err) {
+      console.error('Melody search failed:', err)
+      alert('Search failed')
+    } finally {
+      setMelodySearching(false)
+    }
+  }
+
+  const handleMelodyFindMore = async () => {
+    const likedSongs = melodySongs.filter((_, i) => melodySelectedSongs.has(i))
+    
+    if (likedSongs.length === 0) {
+      alert('Please select at least one song')
+      return
+    }
+
+    setMelodyFindingMore(true)
+    
+    try {
+      const res = await fetch(`${API_URL}/api/melody/more`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          original_criteria: melodySearchCriteria,
+          liked_songs: likedSongs,
+          excluded_songs: melodyExcludedSongs
+        })
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        // Add new songs to the list (keep existing selected songs, add new ones)
+        const newSongs = data.songs || []
+        setMelodySongs(prev => [...prev, ...newSongs])
+        // Select the new songs too
+        setMelodySelectedSongs(prev => {
+          const newSet = new Set(prev)
+          newSongs.forEach((_: any, i: number) => newSet.add(prev.size + i))
+          return newSet
+        })
+        // Add current song names to excluded list
+        const currentSongNames = [...melodySongs, ...newSongs].map(
+          (s: any) => `${s.artist_name} - ${s.song_name}`
+        )
+        setMelodyExcludedSongs(currentSongNames)
+      } else {
+        const error = await res.json()
+        alert(error.error || 'Failed to find more songs')
+      }
+    } catch (err) {
+      console.error('Find more failed:', err)
+      alert('Failed to find more songs')
+    } finally {
+      setMelodyFindingMore(false)
+    }
+  }
+
+  const handleMelodyRemoveSong = (index: number) => {
+    const song = melodySongs[index]
+    // Add to excluded list
+    setMelodyExcludedSongs(prev => [...prev, `${song.artist_name} - ${song.song_name}`])
+    // Remove from songs list
+    setMelodySongs(prev => prev.filter((_, i) => i !== index))
+    // Update selected indices
+    setMelodySelectedSongs(prev => {
+      const newSet = new Set<number>()
+      prev.forEach(i => {
+        if (i < index) newSet.add(i)
+        else if (i > index) newSet.add(i - 1)
+      })
+      return newSet
+    })
+  }
+
+  const checkMelodyTidalStatus = async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/melody/tidal/status`)
+      const data = await res.json()
+      setMelodyTidalAuth(data.authenticated || false)
+      return data.authenticated || false
+    } catch (err) {
+      console.error('Failed to check Tidal status:', err)
+      return false
+    }
+  }
+
+  const handleMelodyConnectTidal = async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/melody/tidal/auth`)
+      const data = await res.json()
+      
+      if (data.verification_url) {
+        window.open(data.verification_url, '_blank')
+        alert(`Opening Tidal authentication page...\n\nComplete the authentication in the new window.\n\nThe app will automatically detect when you're connected.`)
+        
+        // Poll for auth completion
+        const pollInterval = setInterval(async () => {
+          try {
+            const checkRes = await fetch(`${API_URL}/api/melody/tidal/check-complete`)
+            const checkData = await checkRes.json()
+            if (checkData.authenticated) {
+              clearInterval(pollInterval)
+              setMelodyTidalAuth(true)
+              alert('✅ Successfully connected to Tidal!')
+            }
+          } catch {}
+        }, 2000)
+        
+        // Stop polling after 5 minutes
+        setTimeout(() => clearInterval(pollInterval), 300000)
+      } else if (data.error) {
+        alert(`Failed to connect: ${data.error}`)
+      }
+    } catch (err) {
+      console.error('Failed to start Tidal auth:', err)
+      alert('Failed to connect to Tidal')
+    }
+  }
+
+  const handleMelodyDisconnectTidal = async () => {
+    if (!confirm('Disconnect from Tidal?')) return
+    
+    try {
+      await fetch(`${API_URL}/api/melody/tidal/disconnect`, { method: 'POST' })
+      setMelodyTidalAuth(false)
+      alert('Disconnected from Tidal')
+    } catch (err) {
+      console.error('Failed to disconnect:', err)
+      alert('Failed to disconnect from Tidal')
+    }
+  }
+
+  const handleMelodyCreatePlaylist = async () => {
+    const selectedSongs = melodySongs.filter((_, i) => melodySelectedSongs.has(i))
+    
+    if (selectedSongs.length === 0) {
+      alert('Please select at least one song')
+      return
+    }
+
+    setMelodyCreatingPlaylist(true)
+    
+    try {
+      const playlistName = melodyPlaylistName.trim() || `Melody Match - ${melodyChords} @ ${melodyBpm} BPM`
+      const description = `Songs matching ${melodyChords} at ${melodyBpm} BPM. Generated by LyricBox Melody.`
+      
+      const res = await fetch(`${API_URL}/api/melody/playlist`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: playlistName,
+          description,
+          songs: selectedSongs
+        })
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        alert(`✅ Playlist created!\n\n${data.track_count} tracks added.\n\nURL: ${data.playlist_url}`)
+      } else {
+        const error = await res.json()
+        alert(error.error || 'Failed to create playlist')
+      }
+    } catch (err) {
+      console.error('Failed to create playlist:', err)
+      alert('Failed to create playlist')
+    } finally {
+      setMelodyCreatingPlaylist(false)
+    }
+  }
+
+  // Check Tidal auth status on Melody page load
+  useEffect(() => {
+    if (currentPage === 'melody') {
+      checkMelodyTidalStatus()
+    }
+  }, [currentPage])
+
   return (
     <div className="app">
       {/* Sidebar */}
@@ -1842,6 +2091,17 @@ function App() {
             {!sidebarCollapsed && <span>Real Talk</span>}
           </a>
 
+          <a 
+            className={`nav-item ${currentPage === 'melody' ? 'active' : ''}`}
+            onClick={() => setCurrentPage('melody')}
+          >
+            <svg className="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
+            </svg>
+            {!sidebarCollapsed && <span>Melody</span>}
+          </a>
         </nav>
 
         <div className="sidebar-footer">
@@ -4056,6 +4316,278 @@ function App() {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Melody Page */}
+      {currentPage === 'melody' && (
+        <div className="content-wrapper">
+          <div className="content">
+            <h1>Melody</h1>
+            <p className="page-description">Find songs with matching chord progressions for mashups</p>
+
+            {/* Tidal Connection Status */}
+            <div className="melody-tidal-status">
+              {!melodyTidalAuth ? (
+                <div className="melody-auth-banner">
+                  <span>⚠️ Connect to Tidal to create playlists</span>
+                  <div className="melody-auth-buttons">
+                    <button className="primary-button" onClick={handleMelodyConnectTidal}>
+                      Connect to Tidal
+                    </button>
+                    <button className="secondary-button" onClick={checkMelodyTidalStatus}>
+                      🔄 Refresh
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="melody-auth-banner success">
+                  <span>✅ Connected to Tidal</span>
+                  <div className="melody-auth-buttons">
+                    <button className="secondary-button" onClick={checkMelodyTidalStatus}>
+                      🔄 Refresh
+                    </button>
+                    <button className="secondary-button danger" onClick={handleMelodyDisconnectTidal}>
+                      Disconnect
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Search Form */}
+            <div className="melody-search-form">
+              <div className="melody-form-row">
+                <div className="melody-input-group">
+                  <label>Chord Progression *</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Am C F G"
+                    value={melodyChords}
+                    onChange={(e) => setMelodyChords(e.target.value)}
+                  />
+                  <small>Enter chord names or Roman numerals (vi I IV V)</small>
+                </div>
+
+                <div className="melody-input-group">
+                  <label>Key (optional)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., A minor, C major"
+                    value={melodyKey}
+                    onChange={(e) => setMelodyKey(e.target.value)}
+                  />
+                  <small>Leave blank to auto-detect from chords</small>
+                </div>
+              </div>
+
+              <div className="melody-form-row">
+                <div className="melody-input-group">
+                  <label>Target BPM *</label>
+                  <input
+                    type="number"
+                    value={melodyBpm}
+                    onChange={(e) => setMelodyBpm(Number(e.target.value))}
+                    min={60}
+                    max={200}
+                  />
+                </div>
+
+                <div className="melody-input-group">
+                  <label>BPM Tolerance (±)</label>
+                  <input
+                    type="number"
+                    value={melodyBpmTolerance}
+                    onChange={(e) => setMelodyBpmTolerance(Number(e.target.value))}
+                    min={5}
+                    max={30}
+                  />
+                </div>
+
+                <div className="melody-input-group">
+                  <label>Time Signature</label>
+                  <select
+                    value={melodyTimeSig}
+                    onChange={(e) => setMelodyTimeSig(e.target.value)}
+                  >
+                    <option value="4/4">4/4</option>
+                    <option value="3/4">3/4</option>
+                    <option value="6/8">6/8</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Optional Filters */}
+              <details className="melody-optional-filters">
+                <summary>Optional Filters</summary>
+                <div className="melody-form-row">
+                  <div className="melody-input-group">
+                    <label>Genres</label>
+                    <input
+                      type="text"
+                      placeholder="e.g., Pop, R&B, Hip-Hop"
+                      value={melodyGenres.join(', ')}
+                      onChange={(e) => setMelodyGenres(e.target.value.split(',').map(g => g.trim()).filter(g => g))}
+                    />
+                  </div>
+
+                  <div className="melody-input-group">
+                    <label>Year Range</label>
+                    <div className="melody-year-range">
+                      <input
+                        type="number"
+                        placeholder="From"
+                        value={melodyYearStart || ''}
+                        onChange={(e) => setMelodyYearStart(e.target.value ? Number(e.target.value) : undefined)}
+                      />
+                      <span>to</span>
+                      <input
+                        type="number"
+                        placeholder="To"
+                        value={melodyYearEnd || ''}
+                        onChange={(e) => setMelodyYearEnd(e.target.value ? Number(e.target.value) : undefined)}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="melody-form-row">
+                  <div className="melody-input-group">
+                    <label>Chart Position</label>
+                    <select
+                      value={melodyChartPosition}
+                      onChange={(e) => setMelodyChartPosition(e.target.value)}
+                    >
+                      <option value="">Any</option>
+                      <option value="Top 10">Top 10</option>
+                      <option value="Top 20">Top 20</option>
+                      <option value="Top 50">Top 50</option>
+                      <option value="Top 100">Top 100</option>
+                    </select>
+                  </div>
+
+                  <div className="melody-input-group">
+                    <label>Artist Style</label>
+                    <input
+                      type="text"
+                      placeholder="e.g., similar to Drake"
+                      value={melodyArtistStyle}
+                      onChange={(e) => setMelodyArtistStyle(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </details>
+
+              <button
+                className="primary-button melody-search-btn"
+                onClick={handleMelodySearch}
+                disabled={melodySearching}
+              >
+                {melodySearching ? 'Searching...' : '🔍 Find Songs'}
+              </button>
+            </div>
+
+            {/* Results */}
+            {melodySongs.length > 0 && (
+              <div className="melody-results">
+                <div className="melody-results-header">
+                  <h2>Matches ({melodySongs.length})</h2>
+                  <div className="melody-actions">
+                    <button
+                      className="secondary-button"
+                      onClick={handleMelodyFindMore}
+                      disabled={melodyFindingMore || melodySelectedSongs.size === 0}
+                    >
+                      {melodyFindingMore ? 'Finding...' : '🔄 Find More Like Selected'}
+                    </button>
+                    {melodyTidalAuth && (
+                      <>
+                        <input
+                          type="text"
+                          placeholder="Playlist name (optional)"
+                          value={melodyPlaylistName}
+                          onChange={(e) => setMelodyPlaylistName(e.target.value)}
+                          className="melody-playlist-input"
+                        />
+                        <button
+                          className="primary-button"
+                          onClick={handleMelodyCreatePlaylist}
+                          disabled={melodyCreatingPlaylist || melodySelectedSongs.size === 0}
+                        >
+                          {melodyCreatingPlaylist ? 'Creating...' : `🎵 Create Playlist (${melodySelectedSongs.size})`}
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                <div className="melody-songs-grid">
+                  {melodySongs.map((song, index) => (
+                    <div 
+                      key={`${song.artist_name}-${song.song_name}-${index}`} 
+                      className={`melody-song-card ${melodySelectedSongs.has(index) ? 'selected' : ''}`}
+                    >
+                      <div className="melody-song-header">
+                        <input
+                          type="checkbox"
+                          checked={melodySelectedSongs.has(index)}
+                          onChange={(e) => {
+                            const newSet = new Set(melodySelectedSongs)
+                            if (e.target.checked) {
+                              newSet.add(index)
+                            } else {
+                              newSet.delete(index)
+                            }
+                            setMelodySelectedSongs(newSet)
+                          }}
+                        />
+                        <div className="melody-song-info">
+                          <h3>{song.song_name}</h3>
+                          <p className="melody-artist">{song.artist_name}</p>
+                        </div>
+                        <button 
+                          className="melody-remove-btn"
+                          onClick={() => handleMelodyRemoveSong(index)}
+                          title="Remove this song"
+                        >
+                          ×
+                        </button>
+                      </div>
+
+                      <div className="melody-song-details">
+                        <div className="melody-detail">
+                          <span className="label">Chords:</span>
+                          <span className="value">{song.chorus_chords}</span>
+                        </div>
+                        <div className="melody-detail">
+                          <span className="label">BPM:</span>
+                          <span className="value">{song.bpm}</span>
+                        </div>
+                        <div className="melody-detail">
+                          <span className="label">Genre:</span>
+                          <span className="value">{song.genre}</span>
+                        </div>
+                        <div className="melody-detail">
+                          <span className="label">Year:</span>
+                          <span className="value">{song.year}</span>
+                        </div>
+                        <div className="melody-detail">
+                          <span className="label">Rank:</span>
+                          <span className="value">#{song.rank}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {melodySongs.length === 0 && !melodySearching && (
+              <div className="melody-empty-state">
+                <p>Enter a chord progression and click "Find Songs" to discover songs with matching chorus progressions!</p>
+              </div>
+            )}
           </div>
         </div>
       )}
