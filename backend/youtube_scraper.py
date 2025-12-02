@@ -207,9 +207,26 @@ class YouTubeScraper:
                 compressed_size = os.path.getsize(audio_path) / 1024 / 1024
                 compression_ratio = ((original_size - compressed_size) / original_size) * 100
                 print(f"✅ Compressed {original_size:.1f}MB → {compressed_size:.1f}MB ({compression_ratio:.0f}% smaller)")
+                
+                # Verify compressed file is under Whisper's 25MB limit
+                WHISPER_MAX_SIZE_MB = 25
+                if compressed_size > WHISPER_MAX_SIZE_MB:
+                    print(f"❌ ERROR: Compressed audio still too large ({compressed_size:.1f}MB > {WHISPER_MAX_SIZE_MB}MB)")
+                    print(f"   Video is too long for transcription. Skipping.")
+                    os.unlink(audio_path)
+                    return None
+                    
             except Exception as compress_error:
                 print(f"⚠️  Compression failed, using original: {compress_error}")
                 # Continue with original file if compression fails
+                # But check if original is too large
+                WHISPER_MAX_SIZE_MB = 25
+                if original_size > WHISPER_MAX_SIZE_MB:
+                    print(f"❌ ERROR: Audio file too large ({original_size:.1f}MB > {WHISPER_MAX_SIZE_MB}MB)")
+                    print(f"   Compression failed AND file exceeds Whisper limit. Skipping.")
+                    if os.path.exists(audio_path):
+                        os.unlink(audio_path)
+                    return None
             
             print(f"🎙️  Transcribing with Whisper (max 3 min)...")
             
