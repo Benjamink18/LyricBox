@@ -3612,46 +3612,8 @@ function App() {
             {/* Browse Tab */}
             {rtTab === 'browse' && (
               <div className="rt-browse">
-                {/* Search & Filters */}
+                {/* Filters */}
                 <div className="rt-search-section">
-                  <div className="rt-search-row">
-                    <input
-                      type="text"
-                      placeholder="Search conversations (optional)..."
-                      value={rtFilters.search}
-                      onChange={(e) => setRtFilters({...rtFilters, search: e.target.value})}
-                      className="rt-search-input"
-                    />
-                    <button 
-                      onClick={async () => {
-                        setRtLoading(true)
-                        try {
-                          const params = new URLSearchParams()
-                          if (rtFilters.search) params.append('search', rtFilters.search)
-                          if (rtFilters.situations.length) params.append('situations', rtFilters.situations.join(','))
-                          if (rtFilters.emotions.length) params.append('emotions', rtFilters.emotions.join(','))
-                          if (rtFilters.ageMin) params.append('age_min', rtFilters.ageMin.toString())
-                          if (rtFilters.ageMax) params.append('age_max', rtFilters.ageMax.toString())
-                          if (rtFilters.gender) params.append('gender', rtFilters.gender)
-                          if (rtFilters.year) params.append('year', rtFilters.year)
-                          if (rtFilters.sourceId) params.append('source_id', rtFilters.sourceId)
-                          
-                          const res = await fetch(`http://localhost:3001/api/real-talk/entries?${params}`)
-                          const data = await res.json()
-                          setRtEntries(data.entries || [])
-                        } catch (err) {
-                          console.error('Failed to fetch entries:', err)
-                        } finally {
-                          setRtLoading(false)
-                        }
-                      }}
-                      className="rt-search-btn"
-                      disabled={rtLoading}
-                    >
-                      {rtLoading ? 'Loading...' : 'Search'}
-                    </button>
-                  </div>
-
                   {/* Filter Row */}
                   <div className="rt-filters-row">
                     {/* Situations - Autocomplete */}
