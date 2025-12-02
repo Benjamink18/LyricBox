@@ -3625,10 +3625,11 @@ function App() {
                           list="situation-tags"
                           placeholder="Type to search situations..."
                           className="rt-autocomplete-input"
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              const value = e.currentTarget.value.trim().toLowerCase()
-                              if (value && !rtFilters.situations.includes(value)) {
+                          onInput={(e) => {
+                            const value = e.currentTarget.value.trim().toLowerCase()
+                            // When user selects from datalist, value will match exactly
+                            if (value && rtSituationTags.some(t => t.tag_name === value)) {
+                              if (!rtFilters.situations.includes(value)) {
                                 setRtFilters(prev => ({
                                   ...prev,
                                   situations: [...prev.situations, value]
@@ -3673,10 +3674,11 @@ function App() {
                           list="emotion-tags"
                           placeholder="Type to search emotions..."
                           className="rt-autocomplete-input"
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              const value = e.currentTarget.value.trim().toLowerCase()
-                              if (value && !rtFilters.emotions.includes(value)) {
+                          onInput={(e) => {
+                            const value = e.currentTarget.value.trim().toLowerCase()
+                            // When user selects from datalist, value will match exactly
+                            if (value && rtEmotionTags.some(t => t.tag_name === value)) {
+                              if (!rtFilters.emotions.includes(value)) {
                                 setRtFilters(prev => ({
                                   ...prev,
                                   emotions: [...prev.emotions, value]
@@ -3752,6 +3754,37 @@ function App() {
                         </select>
                       </div>
                     </div>
+                  </div>
+
+                  {/* Search Button */}
+                  <div className="rt-search-button-container">
+                    <button 
+                      onClick={async () => {
+                        setRtLoading(true)
+                        try {
+                          const params = new URLSearchParams()
+                          if (rtFilters.situations.length) params.append('situations', rtFilters.situations.join(','))
+                          if (rtFilters.emotions.length) params.append('emotions', rtFilters.emotions.join(','))
+                          if (rtFilters.ageMin) params.append('age_min', rtFilters.ageMin.toString())
+                          if (rtFilters.ageMax) params.append('age_max', rtFilters.ageMax.toString())
+                          if (rtFilters.gender) params.append('gender', rtFilters.gender)
+                          if (rtFilters.year) params.append('year', rtFilters.year)
+                          if (rtFilters.sourceId) params.append('source_id', rtFilters.sourceId)
+                          
+                          const res = await fetch(`${API_URL}/api/real-talk/entries?${params}`)
+                          const data = await res.json()
+                          setRtEntries(data.entries || [])
+                        } catch (err) {
+                          console.error('Failed to fetch entries:', err)
+                        } finally {
+                          setRtLoading(false)
+                        }
+                      }}
+                      className="rt-search-btn"
+                      disabled={rtLoading}
+                    >
+                      {rtLoading ? 'Searching...' : '🔍 Search'}
+                    </button>
                   </div>
 
                   {/* AI Intelligent Search */}
