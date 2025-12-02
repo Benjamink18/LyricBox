@@ -24,8 +24,6 @@ import { SortBuilder } from './components/SortBuilder'
 import { FilterSidebar } from './components/FilterSidebar'
 import './App.css'
 
-// API URL - use environment variable in production, localhost in development
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
 
 type Page = 'rhymes' | 'figurative' | 'concepts' | 'nextline' | 'realtalk' | 'melody'
 type SearchMode = 'simple' | 'network'
