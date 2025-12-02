@@ -1423,31 +1423,29 @@ function App() {
   // REAL TALK HANDLERS
   // ============================================
 
-  // Load Real Talk sources and tags on page mount
+  // Load Real Talk sources and tags on app mount (always, so data is ready when navigating to Real Talk)
   useEffect(() => {
-    if (currentPage === 'realtalk') {
-      // Fetch sources
-      fetch(`${API_URL}/api/real-talk/sources`)
-        .then(res => res.json())
-        .then(data => setRtSources(data.sources || []))
-        .catch(err => console.error('Failed to fetch sources:', err))
+    // Fetch sources
+    fetch(`${API_URL}/api/real-talk/sources`)
+      .then(res => res.json())
+      .then(data => setRtSources(data.sources || []))
+      .catch(err => console.error('Failed to fetch sources:', err))
 
-      // Fetch tags
-      fetch(`${API_URL}/api/real-talk/tags`)
-        .then(res => res.json())
-        .then(data => {
-          setRtSituationTags(data.situations || [])
-          setRtEmotionTags(data.emotions || [])
-        })
-        .catch(err => console.error('Failed to fetch tags:', err))
+    // Fetch tags
+    fetch(`${API_URL}/api/real-talk/tags`)
+      .then(res => res.json())
+      .then(data => {
+        setRtSituationTags(data.situations || [])
+        setRtEmotionTags(data.emotions || [])
+      })
+      .catch(err => console.error('Failed to fetch tags:', err))
 
-      // Fetch initial entries
-      fetch(`${API_URL}/api/real-talk/entries?limit=50`)
-        .then(res => res.json())
-        .then(data => setRtEntries(data.entries || []))
-        .catch(err => console.error('Failed to fetch entries:', err))
-    }
-  }, [currentPage])
+    // Fetch initial entries
+    fetch(`${API_URL}/api/real-talk/entries?limit=50`)
+      .then(res => res.json())
+      .then(data => setRtEntries(data.entries || []))
+      .catch(err => console.error('Failed to fetch entries:', err))
+  }, [])
 
   // Add and scrape a YouTube video
   const handleAddYoutubeVideo = async () => {
