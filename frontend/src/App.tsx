@@ -1533,7 +1533,7 @@ function App() {
     
     setRtScrapingChannel(true)
     try {
-      const sourceRes = await fetch('http://localhost:3001/api/real-talk/sources', {
+      const sourceRes = await fetch(`${API_URL}/api/real-talk/sources`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -1550,7 +1550,7 @@ function App() {
       
       const sourceData = await sourceRes.json()
       
-      const scrapeRes = await fetch('http://localhost:3001/api/real-talk/scrape-youtube-channel', {
+      const scrapeRes = await fetch(`${API_URL}/api/real-talk/scrape-youtube-channel`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1565,11 +1565,11 @@ function App() {
         alert(`✅ Channel done!\n\nTotal: ${scrapeData.total_videos}\nSaved: ${scrapeData.saved}\nFailed: ${scrapeData.failed}`)
         setRtNewChannelUrl('')
         
-        const sourcesRes = await fetch('http://localhost:3001/api/real-talk/sources')
+        const sourcesRes = await fetch(`${API_URL}/api/real-talk/sources`)
         const sourcesResData = await sourcesRes.json()
         setRtSources(sourcesResData.sources || [])
         
-        const tagsRes = await fetch('http://localhost:3001/api/real-talk/tags')
+        const tagsRes = await fetch(`${API_URL}/api/real-talk/tags`)
         const tagsData = await tagsRes.json()
         setRtSituationTags(tagsData.situations || [])
         setRtEmotionTags(tagsData.emotions || [])
