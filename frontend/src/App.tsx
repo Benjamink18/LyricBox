@@ -4558,17 +4558,7 @@ function App() {
                       <div className="melody-song-details">
                         <div className="melody-detail">
                           <span className="label">Chords:</span>
-                          <span className="value">
-                            {song.chorus_chords}
-                            {song.verified !== undefined && (
-                              <span 
-                                className={`melody-verified-badge ${song.verified ? 'verified' : 'unverified'}`}
-                                title={song.verified ? 'Verified from Ultimate Guitar' : 'From Claude (not verified)'}
-                              >
-                                {song.verified ? '✓ Verified' : '? Unverified'}
-                              </span>
-                            )}
-                          </span>
+                          <span className="value">{song.chorus_chords}</span>
                         </div>
                         <div className="melody-detail">
                           <span className="label">BPM:</span>

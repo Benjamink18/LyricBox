@@ -1643,30 +1643,8 @@ def melody_search():
             artist_style=artist_style
         )
         
-        # Verify chords with Ultimate Guitar
-        print(f"🎸 Verifying {len(songs)} songs with Ultimate Guitar...")
-        from ultimate_guitar_scraper import UltimateGuitarScraper
-        ug_scraper = UltimateGuitarScraper()
-        
-        verified_songs = []
-        for song in songs:
-            real_chords = ug_scraper.get_verified_chords(song.artist_name, song.song_name)
-            
-            # Create dict from song
-            song_dict = song.to_dict()
-            
-            if real_chords:
-                song_dict['chorus_chords'] = real_chords  # Replace Claude's guess with real chords
-                song_dict['verified'] = True
-                print(f"  ✅ Verified: {song.artist_name} - {song.song_name}")
-            else:
-                song_dict['verified'] = False  # Keep Claude's guess, mark as unverified
-                print(f"  ⚠️  Not found on UG: {song.artist_name} - {song.song_name} (using Claude's guess)")
-            
-            verified_songs.append(song_dict)
-        
         return jsonify({
-            'songs': verified_songs,
+            'songs': [s.to_dict() for s in songs],
             'progression': {
                 'roman_numerals': progression.roman_numerals,
                 'original_chords': progression.original_chords,
@@ -1734,29 +1712,8 @@ def melody_more_like_these():
             excluded_songs=excluded_songs
         )
         
-        # Verify chords with Ultimate Guitar
-        print(f"🎸 Verifying {len(new_songs)} new songs with Ultimate Guitar...")
-        from ultimate_guitar_scraper import UltimateGuitarScraper
-        ug_scraper = UltimateGuitarScraper()
-        
-        verified_songs = []
-        for song in new_songs:
-            real_chords = ug_scraper.get_verified_chords(song.artist_name, song.song_name)
-            
-            song_dict = song.to_dict()
-            
-            if real_chords:
-                song_dict['chorus_chords'] = real_chords
-                song_dict['verified'] = True
-                print(f"  ✅ Verified: {song.artist_name} - {song.song_name}")
-            else:
-                song_dict['verified'] = False
-                print(f"  ⚠️  Not found on UG: {song.artist_name} - {song.song_name} (using Claude's guess)")
-            
-            verified_songs.append(song_dict)
-        
         return jsonify({
-            'songs': verified_songs
+            'songs': [s.to_dict() for s in new_songs]
         })
     
     except Exception as e:
