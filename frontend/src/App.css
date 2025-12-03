@@ -3319,6 +3319,26 @@ body {
 .melody-detail .value {
   color: #e0e0e0;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.melody-verified-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.melody-verified-badge.verified {
+  background: #2e7d32;
+  color: #fff;
+}
+
+.melody-verified-badge.unverified {
+  background: #666;
+  color: #ddd;
 }
 
 .melody-detail .transpose.perfect {
