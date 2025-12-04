@@ -103,3 +103,7 @@ ADD COLUMN IF NOT EXISTS lyrics_source TEXT;
 
 **Everything is working perfectly! The test will find the optimal batch size for your full import.** 🚀
 
+
+
+
+

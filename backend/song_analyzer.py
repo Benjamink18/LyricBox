@@ -246,3 +246,6 @@ How do you sleep so well?"""
     else:
         print("❌ Analysis failed")
 
+
+
+

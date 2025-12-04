@@ -44,7 +44,11 @@ def scrape_song(page, artist_name, track_name):
     print(f"{'='*70}\n")
     
     # Search for the song
-    search_song(page, f"{artist_name} {track_name}")
+    search_success = search_song(page, f"{artist_name} {track_name}")
+    if not search_success:
+        print("✗ Search failed - could not find search box")
+        log_missing_chords(artist_name, track_name)
+        return None
     act_human(page)
     
     # Find official tabs

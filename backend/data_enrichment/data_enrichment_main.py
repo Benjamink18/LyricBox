@@ -31,78 +31,92 @@ def run_enrichment():
     songs = read_songs_from_csv('songs_list.csv')
     print(f"  ✓ Loaded {len(songs)} songs")
     
-    # Step 2: Fetch metadata and create songs in database
-    print("\nStep 2: Fetching metadata (Musixmatch → MusicBrainz fallback)...")
-    
-    metadata_success = 0
+    # STEPS 2 & 3 COMMENTED OUT FOR TESTING CHORDS ONLY
+    # Mock data for testing chord scraper
+    songs_with_metadata = [
+        {'artist': s['artist'], 'track': s['track'], 'song_id': 'mock-id'}
+        for s in songs
+    ]
+    metadata_success = len(songs)
     metadata_failed = 0
     musicbrainz_partial = 0
-    songs_with_metadata = []
+    lyrics_results = {'successful': len(songs), 'failed': 0, 'total': len(songs)}
     
-    for i, song in enumerate(songs, 1):
-        artist = song['artist']
-        track = song['track']
-        peak = song.get('peak_position')
-        
-        print(f"  [{i}/{len(songs)}] {artist} - {track}")
-        
-        # Try Musixmatch first
-        metadata = get_track_data(artist, track)
-        
-        # If Musixmatch fails, try MusicBrainz
-        if not metadata['success']:
-            print(f"    Musixmatch failed, trying MusicBrainz...")
-            metadata = get_metadata(artist, track)
-            
-            if metadata['success']:
-                # MusicBrainz succeeded (partial data)
-                musicbrainz_partial += 1
-                log_musicbrainz_partial(artist, track)
-        
-        # If both failed, log and skip
-        if not metadata['success']:
-            log_metadata_failure(artist, track)
-            metadata_failed += 1
-            print(f"    ✗ No metadata found - skipped")
-            continue
-        
-        # Create song in database
-        result = create_song_with_metadata(artist, track, peak, metadata)
-        
-        if result['success']:
-            metadata_success += 1
-            songs_with_metadata.append({
-                'artist': artist,
-                'track': track,
-                'song_id': result['song_id']
-            })
-            print(f"    ✓ Song created in database")
-        else:
-            metadata_failed += 1
-            print(f"    ✗ Failed to create song: {result['error']}")
+    print(f"\n  [SKIPPED] Step 2: Metadata fetching")
+    print(f"  [SKIPPED] Step 3: Lyrics scraping")
     
-    print(f"\n  Metadata Results:")
-    print(f"    ✓ {metadata_success} songs created")
-    print(f"    ⚠ {musicbrainz_partial} using MusicBrainz (partial metadata)")
-    print(f"    ✗ {metadata_failed} failed")
-    
-    # Step 3: Fetch lyrics from Genius
-    # Only scrape lyrics for songs that made it into the database
-    if songs_with_metadata:
-        print(f"\nStep 3: Scraping lyrics from Genius.com...")
-        print(f"  Processing {len(songs_with_metadata)} songs with metadata...")
-        
-        # Convert to format expected by Genius scraper
-        songs_for_lyrics = [
-            {'artist': s['artist'], 'track': s['track']}
-            for s in songs_with_metadata
-        ]
-        
-        lyrics_results = scrape_lyrics_batch(songs_for_lyrics)
-        print(f"  ✓ Lyrics: {lyrics_results['successful']}/{lyrics_results['total']} successful")
-    else:
-        print("\n  No songs with metadata - skipping lyrics scraping")
-        lyrics_results = {'successful': 0, 'failed': 0, 'total': 0}
+    # # Step 2: Fetch metadata and create songs in database
+    # print("\nStep 2: Fetching metadata (Musixmatch → MusicBrainz fallback)...")
+    # 
+    # metadata_success = 0
+    # metadata_failed = 0
+    # musicbrainz_partial = 0
+    # songs_with_metadata = []
+    # 
+    # for i, song in enumerate(songs, 1):
+    #     artist = song['artist']
+    #     track = song['track']
+    #     peak = song.get('peak_position')
+    #     
+    #     print(f"  [{i}/{len(songs)}] {artist} - {track}")
+    #     
+    #     # Try Musixmatch first
+    #     metadata = get_track_data(artist, track)
+    #     
+    #     # If Musixmatch fails, try MusicBrainz
+    #     if not metadata['success']:
+    #         print(f"    Musixmatch failed, trying MusicBrainz...")
+    #         metadata = get_metadata(artist, track)
+    #         
+    #         if metadata['success']:
+    #             # MusicBrainz succeeded (partial data)
+    #             musicbrainz_partial += 1
+    #             log_musicbrainz_partial(artist, track)
+    #     
+    #     # If both failed, log and skip
+    #     if not metadata['success']:
+    #         log_metadata_failure(artist, track)
+    #         metadata_failed += 1
+    #         print(f"    ✗ No metadata found - skipped")
+    #         continue
+    #     
+    #     # Create song in database
+    #     result = create_song_with_metadata(artist, track, peak, metadata)
+    #     
+    #     if result['success']:
+    #         metadata_success += 1
+    #         songs_with_metadata.append({
+    #             'artist': artist,
+    #             'track': track,
+    #             'song_id': result['song_id']
+    #         })
+    #         print(f"    ✓ Song created in database")
+    #     else:
+    #         metadata_failed += 1
+    #         print(f"    ✗ Failed to create song: {result['error']}")
+    # 
+    # print(f"\n  Metadata Results:")
+    # print(f"    ✓ {metadata_success} songs created")
+    # print(f"    ⚠ {musicbrainz_partial} using MusicBrainz (partial metadata)")
+    # print(f"    ✗ {metadata_failed} failed")
+    # 
+    # # Step 3: Fetch lyrics from Genius
+    # # Only scrape lyrics for songs that made it into the database
+    # if songs_with_metadata:
+    #     print(f"\nStep 3: Scraping lyrics from Genius.com...")
+    #     print(f"  Processing {len(songs_with_metadata)} songs with metadata...")
+    #     
+    #     # Convert to format expected by Genius scraper
+    #     songs_for_lyrics = [
+    #         {'artist': s['artist'], 'track': s['track']}
+    #         for s in songs_with_metadata
+    #     ]
+    #     
+    #     lyrics_results = scrape_lyrics_batch(songs_for_lyrics)
+    #     print(f"  ✓ Lyrics: {lyrics_results['successful']}/{lyrics_results['total']} successful")
+    # else:
+    #     print("\n  No songs with metadata - skipping lyrics scraping")
+    #     lyrics_results = {'successful': 0, 'failed': 0, 'total': 0}
     
     # Step 4: Scrape chord data from Ultimate Guitar
     # Only scrape chords for songs that made it into the database
