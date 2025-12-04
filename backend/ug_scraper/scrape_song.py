@@ -9,6 +9,7 @@ Returns the raw chord data - does NOT save to database.
 from .search import search_song
 from .find_official import find_official_tabs
 from .click_tab import click_tab
+from .handle_cookies import handle_cookies
 from .click_chords import click_chords
 from .extract_tonality import extract_tonality
 from .extract_chords import extract_chords
@@ -65,6 +66,9 @@ def scrape_song(page, artist_name, track_name):
     
     # Navigate to the tab
     click_tab(page, official_urls[0])
+    
+    # Handle cookie popup if it appears
+    handle_cookies(page)
     
     # Click CHORDS button
     click_chords(page)
