@@ -7,6 +7,11 @@ import sys
 sys.path.append('..')
 
 from read_songs_csv import read_songs_from_csv
+from musixmatch.get_track_data import get_track_data
+from musicbrainz.get_metadata import get_metadata
+from create_song_with_metadata import create_song_with_metadata
+from log_metadata_failures import log_metadata_failure
+from log_musicbrainz_partial import log_musicbrainz_partial
 from ug_scraper.ug_scraper_main import scrape_chords
 
 
@@ -25,22 +30,90 @@ def run_enrichment():
     songs = read_songs_from_csv('songs_list.csv')
     print(f"  ✓ Loaded {len(songs)} songs")
     
-    # Step 2: Scrape chord data from Ultimate Guitar
-    print("\nStep 2: Scraping chord data from Ultimate Guitar...")
-    chord_results = scrape_chords(songs)
-    print(f"  ✓ Chords: {chord_results['successful']}/{chord_results['total']} successful")
+    # Step 2: Fetch metadata and create songs in database
+    print("\nStep 2: Fetching metadata (Musixmatch → MusicBrainz fallback)...")
     
-    # Future steps:
-    # Step 3: Fetch Musixmatch metadata (BPM, genres, moods, release date)
-    # Step 4: Fetch lyrics from multi-source API
-    # Step 5: Generate concepts with Claude AI
-    # Step 6: Generate rhyme analysis with Claude AI
+    metadata_success = 0
+    metadata_failed = 0
+    musicbrainz_partial = 0
+    songs_with_metadata = []
+    
+    for i, song in enumerate(songs, 1):
+        artist = song['artist']
+        track = song['track']
+        peak = song.get('peak_position')
+        
+        print(f"  [{i}/{len(songs)}] {artist} - {track}")
+        
+        # Try Musixmatch first
+        metadata = get_track_data(artist, track)
+        
+        # If Musixmatch fails, try MusicBrainz
+        if not metadata['success']:
+            print(f"    Musixmatch failed, trying MusicBrainz...")
+            metadata = get_metadata(artist, track)
+            
+            if metadata['success']:
+                # MusicBrainz succeeded (partial data)
+                musicbrainz_partial += 1
+                log_musicbrainz_partial(artist, track)
+        
+        # If both failed, log and skip
+        if not metadata['success']:
+            log_metadata_failure(artist, track)
+            metadata_failed += 1
+            print(f"    ✗ No metadata found - skipped")
+            continue
+        
+        # Create song in database
+        result = create_song_with_metadata(artist, track, peak, metadata)
+        
+        if result['success']:
+            metadata_success += 1
+            songs_with_metadata.append({
+                'artist': artist,
+                'track': track,
+                'song_id': result['song_id']
+            })
+            print(f"    ✓ Song created in database")
+        else:
+            metadata_failed += 1
+            print(f"    ✗ Failed to create song: {result['error']}")
+    
+    print(f"\n  Metadata Results:")
+    print(f"    ✓ {metadata_success} songs created")
+    print(f"    ⚠ {musicbrainz_partial} using MusicBrainz (partial metadata)")
+    print(f"    ✗ {metadata_failed} failed")
+    
+    # Step 3: Fetch lyrics from Genius (coming next)
+    # TODO: Integrate genius_scraper here
+    
+    # Step 4: Scrape chord data from Ultimate Guitar
+    # Only scrape chords for songs that made it into the database
+    if songs_with_metadata:
+        print(f"\nStep 3: Scraping chord data from Ultimate Guitar...")
+        print(f"  Processing {len(songs_with_metadata)} songs with metadata...")
+        
+        # Convert to format expected by UG scraper
+        songs_for_chords = [
+            {'artist': s['artist'], 'track': s['track']}
+            for s in songs_with_metadata
+        ]
+        
+        chord_results = scrape_chords(songs_for_chords)
+        print(f"  ✓ Chords: {chord_results['successful']}/{chord_results['total']} successful")
+    else:
+        print("\n  No songs with metadata - skipping chord scraping")
+        chord_results = {'successful': 0, 'failed': 0, 'total': 0}
     
     # Final summary
     print("\n" + "="*70)
     print("ENRICHMENT COMPLETE")
     print("="*70)
     print(f"Total songs processed: {len(songs)}")
+    print(f"Metadata: {metadata_success} successful, {metadata_failed} failed")
+    if musicbrainz_partial > 0:
+        print(f"  → {musicbrainz_partial} using MusicBrainz (see musicbrainz_partial_metadata.txt)")
     print(f"Chord data: {chord_results['successful']} successful, {chord_results['failed']} failed")
     print("="*70 + "\n")
 
