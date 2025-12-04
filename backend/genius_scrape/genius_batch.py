@@ -3,14 +3,14 @@ GENIUS BATCH SCRAPER: Batch lyrics scraper for data enrichment pipeline
 Opens browser once, scrapes multiple songs, returns results.
 """
 
-from setup_browser import setup_browser
-from handle_cookies import handle_cookies
-from genius_search import search_song
-from click_top_song import click_top_song
-from click_edit_lyrics import click_edit_lyrics
-from extract_lyrics import extract_lyrics
-from parse_lyrics import parse_lyrics
-from lyrics_to_supabase import save_lyrics_to_supabase
+from .setup_browser import setup_browser
+from .handle_cookies import handle_cookies
+from .genius_search import search_song
+from .click_top_song import click_top_song
+from .click_edit_lyrics import click_edit_lyrics
+from .extract_lyrics import extract_lyrics
+from .parse_lyrics import parse_lyrics
+from .lyrics_to_supabase import save_lyrics_to_supabase
 
 
 def scrape_lyrics_batch(songs_to_scrape):
@@ -27,7 +27,7 @@ def scrape_lyrics_batch(songs_to_scrape):
         return {'successful': 0, 'failed': 0, 'total': 0}
     
     # Setup browser and login once
-    browser, page = setup_browser()
+    playwright, browser, page = setup_browser()
     
     # Handle cookies once at the beginning
     handle_cookies(page)
@@ -82,8 +82,9 @@ def scrape_lyrics_batch(songs_to_scrape):
             failed += 1
             print(f"    ✗ Error: {e}")
     
-    # Close browser
+    # Close browser and stop Playwright
     browser.close()
+    playwright.stop()
     
     print(f"\n  Genius Scraping: {successful} successful, {failed} failed\n")
     

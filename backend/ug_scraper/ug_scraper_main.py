@@ -17,7 +17,7 @@ def scrape_chords(songs_to_scrape):
         return {'successful': 0, 'failed': 0, 'total': 0}
     
     # Setup browser and login once
-    browser, page = setup_browser()
+    playwright, browser, page = setup_browser()
     
     successful = 0
     failed = 0
@@ -48,6 +48,7 @@ def scrape_chords(songs_to_scrape):
             print("  ✗ Failed (no official tab)")
     
     browser.close()
+    playwright.stop()
     
     print(f"\nUG Scraping: {successful} successful, {failed} failed\n")
     

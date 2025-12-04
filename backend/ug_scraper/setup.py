@@ -40,5 +40,5 @@ def setup_browser():
     
     print("Login complete! Browser ready!")
     
-    return browser, page
+    return playwright, browser, page
 

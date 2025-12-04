@@ -3,14 +3,14 @@ GENIUS SCRAPE MAIN: Orchestrator for scraping lyrics from Genius.com
 Sets up browser and coordinates the scraping process.
 """
 
-from setup_browser import setup_browser
-from handle_cookies import handle_cookies
-from genius_search import search_song
-from click_top_song import click_top_song
-from click_edit_lyrics import click_edit_lyrics
-from extract_lyrics import extract_lyrics
-from parse_lyrics import parse_lyrics
-from lyrics_to_supabase import save_lyrics_to_supabase
+from .setup_browser import setup_browser
+from .handle_cookies import handle_cookies
+from .genius_search import search_song
+from .click_top_song import click_top_song
+from .click_edit_lyrics import click_edit_lyrics
+from .extract_lyrics import extract_lyrics
+from .parse_lyrics import parse_lyrics
+from .lyrics_to_supabase import save_lyrics_to_supabase
 
 
 def scrape_lyrics(artist_name, track_name):
@@ -27,7 +27,7 @@ def scrape_lyrics(artist_name, track_name):
     print(f"Starting Genius lyrics scraper for {artist_name} - {track_name}...")
     
     # Setup browser and navigate to starting page
-    browser, page = setup_browser()
+    playwright, browser, page = setup_browser()
     
     # Handle cookie consent popup if it appears
     handle_cookies(page)
@@ -47,6 +47,7 @@ def scrape_lyrics(artist_name, track_name):
     if not raw_lyrics:
         print("✗ Failed to extract lyrics")
         browser.close()
+        playwright.stop()
         return {'success': False, 'artist': artist_name, 'track': track_name}
     
     # Parse lyrics into sections
@@ -59,8 +60,9 @@ def scrape_lyrics(artist_name, track_name):
     print("Press Enter to close browser...")
     input()
     
-    # Close browser
+    # Close browser and stop Playwright
     browser.close()
+    playwright.stop()
     print("Done!")
     
     # Return lyrics data
