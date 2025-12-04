@@ -13,3 +13,7 @@ reportlab>=4.0.0
 google-api-python-client>=2.100.0
 openai>=1.0.0
 yt-dlp>=2024.0.0
+
+# Web scraping
+playwright>=1.40.0
+musicbrainzngs>=0.7.1
