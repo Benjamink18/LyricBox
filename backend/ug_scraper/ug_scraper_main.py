@@ -19,6 +19,10 @@ def scrape_chords(songs_to_scrape):
     # Setup browser and login once
     playwright, browser, page = setup_browser()
     
+    # Navigate to homepage to ensure search box is available
+    page.goto("https://www.ultimate-guitar.com/")
+    page.wait_for_timeout(2000)
+    
     successful = 0
     failed = 0
     

@@ -34,8 +34,9 @@ def setup_browser():
     # Wait for manual login
     print("\n" + "="*70)
     print("PLEASE LOG IN TO ULTIMATE GUITAR")
+    print("(After logging in, navigate back to the homepage)")
     print("="*70)
-    print("Press Enter when you have logged in...")
+    print("Press Enter when you're back on the homepage...")
     input()
     
     print("Login complete! Browser ready!")
