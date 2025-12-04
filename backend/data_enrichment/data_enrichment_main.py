@@ -12,6 +12,7 @@ from musicbrainz.get_metadata import get_metadata
 from create_song_with_metadata import create_song_with_metadata
 from log_metadata_failures import log_metadata_failure
 from log_musicbrainz_partial import log_musicbrainz_partial
+from genius_scrape.genius_batch import scrape_lyrics_batch
 from ug_scraper.ug_scraper_main import scrape_chords
 
 
@@ -85,13 +86,28 @@ def run_enrichment():
     print(f"    ⚠ {musicbrainz_partial} using MusicBrainz (partial metadata)")
     print(f"    ✗ {metadata_failed} failed")
     
-    # Step 3: Fetch lyrics from Genius (coming next)
-    # TODO: Integrate genius_scraper here
+    # Step 3: Fetch lyrics from Genius
+    # Only scrape lyrics for songs that made it into the database
+    if songs_with_metadata:
+        print(f"\nStep 3: Scraping lyrics from Genius.com...")
+        print(f"  Processing {len(songs_with_metadata)} songs with metadata...")
+        
+        # Convert to format expected by Genius scraper
+        songs_for_lyrics = [
+            {'artist': s['artist'], 'track': s['track']}
+            for s in songs_with_metadata
+        ]
+        
+        lyrics_results = scrape_lyrics_batch(songs_for_lyrics)
+        print(f"  ✓ Lyrics: {lyrics_results['successful']}/{lyrics_results['total']} successful")
+    else:
+        print("\n  No songs with metadata - skipping lyrics scraping")
+        lyrics_results = {'successful': 0, 'failed': 0, 'total': 0}
     
     # Step 4: Scrape chord data from Ultimate Guitar
     # Only scrape chords for songs that made it into the database
     if songs_with_metadata:
-        print(f"\nStep 3: Scraping chord data from Ultimate Guitar...")
+        print(f"\nStep 4: Scraping chord data from Ultimate Guitar...")
         print(f"  Processing {len(songs_with_metadata)} songs with metadata...")
         
         # Convert to format expected by UG scraper
@@ -114,6 +130,7 @@ def run_enrichment():
     print(f"Metadata: {metadata_success} successful, {metadata_failed} failed")
     if musicbrainz_partial > 0:
         print(f"  → {musicbrainz_partial} using MusicBrainz (see musicbrainz_partial_metadata.txt)")
+    print(f"Lyrics: {lyrics_results['successful']} successful, {lyrics_results['failed']} failed")
     print(f"Chord data: {chord_results['successful']} successful, {chord_results['failed']} failed")
     print("="*70 + "\n")
 
