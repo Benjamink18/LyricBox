@@ -8,6 +8,7 @@ One row per section (Intro, Verse 1, Chorus, etc.)
 import os
 from supabase import create_client
 from dotenv import load_dotenv
+from .log_missing_chords import log_missing_chords
 
 # Load environment variables
 load_dotenv()
@@ -78,6 +79,12 @@ def save_chords_to_supabase(artist_name, track_name, tonality, processed_section
             "chords_roman_simplified": data['roman_simple']
         }
         rows.append(row)
+    
+    # Check if we have any chords to save
+    if not rows:
+        print(f"✗ No chord sections found - logging to chords_not_found.txt")
+        log_missing_chords(artist_name, track_name)
+        return 0
     
     # Insert all rows
     try:
