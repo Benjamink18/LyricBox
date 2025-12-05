@@ -1,6 +1,6 @@
 """
 LYRICS TO SUPABASE: Save parsed lyrics sections to Supabase database
-Finds the song by artist/track and saves one row per section.
+Uses song_id directly (Schema V2)
 """
 
 import os
@@ -8,19 +8,18 @@ from supabase import create_client, Client
 from dotenv import load_dotenv
 
 
-def save_lyrics_to_supabase(artist_name, track_name, parsed_sections):
+def save_lyrics_to_supabase(song_id, parsed_sections):
     """
     Save lyrics sections to Supabase.
     
     Args:
-        artist_name: Artist name (e.g., "Lewis Capaldi")
-        track_name: Track name (e.g., "Someone You Loved")
+        song_id: Song ID (foreign key to songs table)
         parsed_sections: List of dicts with 'section_name' and 'lyrics_text'
     
     Returns:
         Number of rows saved, or 0 if failed
     """
-    print(f"Saving lyrics to Supabase for {artist_name} - {track_name}...")
+    print(f"Saving lyrics to Supabase for song_id: {song_id}...")
     
     # Load environment variables
     load_dotenv()
@@ -31,18 +30,6 @@ def save_lyrics_to_supabase(artist_name, track_name, parsed_sections):
     supabase: Client = create_client(url, key)
     
     try:
-        # Find the song in the songs table
-        response = supabase.table('songs').select('song_id').eq(
-            'artist_name', artist_name
-        ).eq('track_name', track_name).execute()
-        
-        if not response.data:
-            print(f"✗ Song not found in database: {artist_name} - {track_name}")
-            return 0
-        
-        song_id = response.data[0]['song_id']
-        print(f"  Found song_id: {song_id}")
-        
         # Delete existing lyrics for this song (if any)
         supabase.table('song_lyrics').delete().eq('song_id', song_id).execute()
         
@@ -65,4 +52,3 @@ def save_lyrics_to_supabase(artist_name, track_name, parsed_sections):
     except Exception as e:
         print(f"✗ Error saving to Supabase: {e}")
         return 0
-

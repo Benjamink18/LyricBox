@@ -1,0 +1,348 @@
+================================================================================
+GETSONGBPM - COMPLETE DATA EXTRACTION TEST
+Testing 5 songs to see all available fields
+Date: 2025-12-05 13:56:35
+================================================================================
+
+✓ API Key: 3747293d1d...
+
+
+================================================================================
+SONG 1/5: Michael Jackson - Billie Jean
+================================================================================
+Status: 200
+✓ Found: Billie Jean
+
+================================================================================
+ALL AVAILABLE FIELDS:
+================================================================================
+
+📊 SONG DATA:
+  ID: voKlYL
+  Title: Billie Jean
+  URI: https://getsongbpm.com/song/billie-jean/voKlYL
+
+🎵 MUSICAL DATA:
+  Tempo/BPM: 116
+  Key: F♯m
+  Open Key (Camelot): 4m
+  Time Signature: 4/4
+
+🎨 AUDIO CHARACTERISTICS:
+  Danceability: 92/100
+  Acousticness: 3/100
+  Energy: None
+  Valence: None
+  Speechiness: None
+  Liveness: None
+  Instrumentalness: None
+  Loudness: None
+
+🎤 ARTIST DATA:
+  ID: GQ3
+  Name: Michael Jackson
+  URI: https://getsongbpm.com/artist/michael-jackson/GQ3
+  Country: US
+  MusicBrainz ID: f27ec8db-af05-4f36-916e-3d57f91ecf5e
+  Genres (4): funk, pop, rock, soul
+
+💿 ALBUM DATA:
+  Title: Thriller
+  Year: 1982
+  URI: https://getsongbpm.com/album/thriller/xgR9
+
+--------------------------------------------------------------------------------
+COMPLETE RAW JSON (all fields):
+--------------------------------------------------------------------------------
+{
+  "id": "voKlYL",
+  "title": "Billie Jean",
+  "uri": "https://getsongbpm.com/song/billie-jean/voKlYL",
+  "tempo": "116",
+  "time_sig": "4/4",
+  "key_of": "F\u266fm",
+  "open_key": "4m",
+  "danceability": 92,
+  "acousticness": 3,
+  "artist": {
+    "id": "GQ3",
+    "name": "Michael Jackson",
+    "uri": "https://getsongbpm.com/artist/michael-jackson/GQ3",
+    "genres": [
+      "funk",
+      "pop",
+      "rock",
+      "soul"
+    ],
+    "from": "US",
+    "mbid": "f27ec8db-af05-4f36-916e-3d57f91ecf5e"
+  },
+  "album": {
+    "title": "Thriller",
+    "uri": "https://getsongbpm.com/album/thriller/xgR9",
+    "year": "1982"
+  }
+}
+--------------------------------------------------------------------------------
+
+================================================================================
+SONG 2/5: Lewis Capaldi - Someone You Loved
+================================================================================
+Status: 200
+✓ Found: Someone You Loved
+
+================================================================================
+ALL AVAILABLE FIELDS:
+================================================================================
+
+📊 SONG DATA:
+  ID: LZjwYv
+  Title: Someone You Loved
+  URI: https://getsongbpm.com/song/someone-you-loved/LZjwYv
+
+🎵 MUSICAL DATA:
+  Tempo/BPM: 108
+  Key: C♯
+  Open Key (Camelot): 8d
+  Time Signature: 4/4
+
+🎨 AUDIO CHARACTERISTICS:
+  Danceability: 51/100
+  Acousticness: 76/100
+  Energy: None
+  Valence: None
+  Speechiness: None
+  Liveness: None
+  Instrumentalness: None
+  Loudness: None
+
+🎤 ARTIST DATA:
+  ID: K7x7x
+  Name: Lewis Capaldi
+  URI: https://getsongbpm.com/artist/lewis-capaldi/K7x7x
+  Country: GB
+  MusicBrainz ID: 526aab94-697f-44a9-b630-41d1c0505953
+✗ Exception: object of type 'NoneType' has no len()
+Traceback (most recent call last):
+  File "/Users/benkohn/Desktop/LyricBox/backend/getsongbpm/extract_all_data.py", line 130, in <module>
+    log(f"  Genres ({len(genres)}): {', '.join(genres)}")
+                     ~~~^^^^^^^^
+TypeError: object of type 'NoneType' has no len()
+
+
+================================================================================
+SONG 3/5: D'Angelo - Spanish Joint
+================================================================================
+Status: 200
+✓ Found: Spanish Joint
+
+================================================================================
+ALL AVAILABLE FIELDS:
+================================================================================
+
+📊 SONG DATA:
+  ID: 86kWnj
+  Title: Spanish Joint
+  URI: https://getsongbpm.com/song/spanish-joint/86kWnj
+
+🎵 MUSICAL DATA:
+  Tempo/BPM: 111
+  Key: Cm
+  Open Key (Camelot): 10m
+  Time Signature: 4/4
+
+🎨 AUDIO CHARACTERISTICS:
+  Danceability: 73/100
+  Acousticness: 54/100
+  Energy: None
+  Valence: None
+  Speechiness: None
+  Liveness: None
+  Instrumentalness: None
+  Loudness: None
+
+🎤 ARTIST DATA:
+  ID: wRg
+  Name: D'Angelo
+  URI: https://getsongbpm.com/artist/d-angelo/wRg
+  Country: US
+  MusicBrainz ID: b66771cc-45fa-4a32-b14f-5337d7223d7a
+  Genres (3): funk, r&b, soul
+
+💿 ALBUM DATA:
+  Title: Voodoo
+  Year: 2000
+  URI: https://getsongbpm.com/album/voodoo/OoOp
+
+--------------------------------------------------------------------------------
+COMPLETE RAW JSON (all fields):
+--------------------------------------------------------------------------------
+{
+  "id": "86kWnj",
+  "title": "Spanish Joint",
+  "uri": "https://getsongbpm.com/song/spanish-joint/86kWnj",
+  "tempo": "111",
+  "time_sig": "4/4",
+  "key_of": "Cm",
+  "open_key": "10m",
+  "danceability": 73,
+  "acousticness": 54,
+  "artist": {
+    "id": "wRg",
+    "name": "D'Angelo",
+    "uri": "https://getsongbpm.com/artist/d-angelo/wRg",
+    "genres": [
+      "funk",
+      "r&b",
+      "soul"
+    ],
+    "from": "US",
+    "mbid": "b66771cc-45fa-4a32-b14f-5337d7223d7a"
+  },
+  "album": {
+    "title": "Voodoo",
+    "uri": "https://getsongbpm.com/album/voodoo/OoOp",
+    "year": "2000"
+  }
+}
+--------------------------------------------------------------------------------
+
+================================================================================
+SONG 4/5: Taylor Swift - Anti-Hero
+================================================================================
+Status: 200
+✗ Exception: 0
+Traceback (most recent call last):
+  File "/Users/benkohn/Desktop/LyricBox/backend/getsongbpm/extract_all_data.py", line 86, in <module>
+    song_data = results[0]
+                ~~~~~~~^^^
+KeyError: 0
+
+
+================================================================================
+SONG 5/5: The Weeknd - Blinding Lights
+================================================================================
+Status: 200
+✓ Found: Blinding Lights
+
+================================================================================
+ALL AVAILABLE FIELDS:
+================================================================================
+
+📊 SONG DATA:
+  ID: 57633B
+  Title: Blinding Lights
+  URI: https://getsongbpm.com/song/blinding-lights/57633B
+
+🎵 MUSICAL DATA:
+  Tempo/BPM: 172
+  Key: Cm
+  Open Key (Camelot): 10m
+  Time Signature: 4/4
+
+🎨 AUDIO CHARACTERISTICS:
+  Danceability: 52/100
+  Acousticness: 1/100
+  Energy: None
+  Valence: None
+  Speechiness: None
+  Liveness: None
+  Instrumentalness: None
+  Loudness: None
+
+🎤 ARTIST DATA:
+  ID: jvJjY
+  Name: The Weeknd
+  URI: https://getsongbpm.com/artist/the-weeknd/jvJjY
+  Country: CA
+  MusicBrainz ID: c8b03190-306c-4120-bb0b-6f2ebfc06ea9
+  Genres (2): pop, r&b
+
+💿 ALBUM DATA:
+  Title: After Hours
+  Year: 2020
+  URI: https://getsongbpm.com/album/after-hours/6vvMO
+
+--------------------------------------------------------------------------------
+COMPLETE RAW JSON (all fields):
+--------------------------------------------------------------------------------
+{
+  "id": "57633B",
+  "title": "Blinding Lights",
+  "uri": "https://getsongbpm.com/song/blinding-lights/57633B",
+  "tempo": "172",
+  "time_sig": "4/4",
+  "key_of": "Cm",
+  "open_key": "10m",
+  "danceability": 52,
+  "acousticness": 1,
+  "artist": {
+    "id": "jvJjY",
+    "name": "The Weeknd",
+    "uri": "https://getsongbpm.com/artist/the-weeknd/jvJjY",
+    "genres": [
+      "pop",
+      "r&b"
+    ],
+    "from": "CA",
+    "mbid": "c8b03190-306c-4120-bb0b-6f2ebfc06ea9"
+  },
+  "album": {
+    "title": "After Hours",
+    "uri": "https://getsongbpm.com/album/after-hours/6vvMO",
+    "year": "2020"
+  }
+}
+--------------------------------------------------------------------------------
+
+
+================================================================================
+SUMMARY: ALL UNIQUE FIELDS FOUND ACROSS ALL SONGS
+================================================================================
+
+Total unique fields: 11
+
+Field names:
+  - acousticness
+  - album
+  - artist
+  - danceability
+  - id
+  - key_of
+  - open_key
+  - tempo
+  - time_sig
+  - title
+  - uri
+
+
+================================================================================
+RECOMMENDATIONS FOR DATABASE
+================================================================================
+
+✅ CRITICAL (Already Using):
+  - tempo (BPM) → songs.bpm
+
+⚠️ USEFUL (Consider Adding):
+  - danceability → Could add to songs table
+  - energy → Could add to songs table
+  - acousticness → Could add to songs table
+  - time_sig → Could add to songs table
+  - open_key (Camelot notation) → For DJ mixing features
+  - album.year → Backup for CSV year data
+
+❌ NOT NEEDED (Have Better Sources):
+  - key_of → Ultimate Guitar is more accurate (when chords found)
+  - artist.genres → Musixmatch genres are better
+
+💡 BONUS FIELDS (Future Features):
+  - valence → Musical positivity (mood proxy)
+  - speechiness → How much spoken word
+  - liveness → Live performance detection
+  - loudness → Track loudness in dB
+
+
+================================================================================
+TEST COMPLETE!
+Saving complete data extraction to: getsongbpm_all_data_20251205_135635.txt
+================================================================================

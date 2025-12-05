@@ -1,6 +1,18 @@
 """
-Get track metadata from Musixmatch (BPM, key, genres, mood tags, release date).
-Reusable across different features in the app.
+Get track metadata from Musixmatch.
+
+IMPORTANT: Musixmatch free tier only provides:
+- Genres ✓
+- Track/artist/album names
+- Track length, ratings
+
+NOT available in free tier:
+- BPM (requires paid plan)
+- Musical key (requires paid plan)
+- Moods (requires paid plan)
+- Release date (not in API response)
+
+For BPM/key/moods, use MusicBrainz fallback or other sources.
 """
 
 import os
@@ -47,6 +59,7 @@ def get_track_data(artist_name, track_name):
                 'error': 'Track not found in Musixmatch'
             }
         
+        # Extract genres (only metadata available in free tier)
         genres = []
         primary_genre = track.get('primary_genres', {}).get('music_genre_list', [])
         for g in primary_genre:
@@ -54,32 +67,21 @@ def get_track_data(artist_name, track_name):
             if name:
                 genres.append(name)
         
-        moods = []
-        try:
-            mood_url = "https://api.musixmatch.com/ws/1.1/track.lyrics.mood.get"
-            mood_response = requests.get(mood_url, params={
-                "apikey": api_key,
-                "track_id": track.get('track_id')
-            }, timeout=5)
-            mood_data = mood_response.json()
-            if mood_data["message"]["header"]["status_code"] == 200:
-                for m in mood_data["message"]["body"].get("mood_list", []):
-                    if m.get('label'):
-                        moods.append(m['label'])
-        except:
-            pass
+        # NOTE: BPM, key, moods, release_date not available in Musixmatch free tier
+        # These will be None - use MusicBrainz or other sources for this data
         
         result = {
             'success': True,
-            'bpm': track.get('track_bpm'),
-            'key': track.get('track_key'),
-            'release_date': track.get('first_release_date'),
+            'source': 'musixmatch',
+            'bpm': None,  # Not available in free tier
+            'key': None,  # Not available in free tier
+            'release_date': None,  # Not in API response
             'genres': genres,
-            'mood_tags': moods,
+            'mood_tags': None,  # Requires paid plan (403 Forbidden)
             'error': None
         }
         
-        print(f"✓ BPM={result['bpm']}, Key={result['key']}, Genres={genres}, Moods={moods}")
+        print(f"✓ Musixmatch: Genres={genres}")
         return result
         
     except requests.exceptions.RequestException as e:

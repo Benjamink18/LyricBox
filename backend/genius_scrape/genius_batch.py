@@ -41,6 +41,7 @@ def scrape_lyrics_batch(songs_to_scrape):
     for i, song in enumerate(songs_to_scrape, 1):
         artist = song['artist']
         track = song['track']
+        song_id = song['song_id']
         
         print(f"  [{i}/{len(songs_to_scrape)}] {artist} - {track}")
         
@@ -74,7 +75,7 @@ def scrape_lyrics_batch(songs_to_scrape):
                 continue
             
             # Save to Supabase
-            rows_saved = save_lyrics_to_supabase(artist, track, parsed_sections)
+            rows_saved = save_lyrics_to_supabase(song_id, parsed_sections)
             
             if rows_saved > 0:
                 successful += 1

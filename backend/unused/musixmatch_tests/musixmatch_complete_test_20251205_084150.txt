@@ -1,0 +1,942 @@
+================================================================================
+MUSIXMATCH COMPLETE API TEST
+Song: Michael Jackson - Billie Jean
+Date: 2025-12-05 08:41:50
+================================================================================
+
+================================================================================
+1. MATCHER.TRACK.GET - Main Track Matcher
+================================================================================
+Status: 200 
+✓ SUCCESS
+
+Full Response:
+--------------------------------------------------------------------------------
+{
+  "track_id": 286042216,
+  "track_isrc": "USSM18200001",
+  "commontrack_isrcs": [
+    [
+      "USSM18200001",
+      "USSM18200612",
+      "USSM20301088"
+    ]
+  ],
+  "track_spotify_id": "6vR5u5b8JeRESx5nZaIWx6",
+  "track_name": "Billie Jean",
+  "track_rating": 85,
+  "track_length": 294,
+  "commontrack_id": 106272,
+  "instrumental": 0,
+  "explicit": 0,
+  "has_lyrics": 1,
+  "has_subtitles": 1,
+  "has_richsync": 1,
+  "num_favourite": 12144,
+  "album_id": 15664619,
+  "album_name": "HIStory - PAST, PRESENT AND FUTURE - BOOK I",
+  "artist_id": 295,
+  "artist_name": "Michael Jackson",
+  "album_coverart_100x100": "http://s.mxmcdn.net/images-storage/albums/nocover.png",
+  "album_coverart_350x350": "",
+  "album_coverart_500x500": "",
+  "album_coverart_800x800": "",
+  "track_share_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-1?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+  "track_edit_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-1/edit?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+  "restricted": 0,
+  "updated_time": "2023-09-08T02:03:29Z",
+  "primary_genres": {
+    "music_genre_list": [
+      {
+        "music_genre": {
+          "music_genre_id": 14,
+          "music_genre_parent_id": 34,
+          "music_genre_name": "Pop",
+          "music_genre_name_extended": "Pop",
+          "music_genre_vanity": "Pop"
+        }
+      },
+      {
+        "music_genre": {
+          "music_genre_id": 15,
+          "music_genre_parent_id": 34,
+          "music_genre_name": "R&B/Soul",
+          "music_genre_name_extended": "R&B/Soul",
+          "music_genre_vanity": "R-B-Soul"
+        }
+      },
+      {
+        "music_genre": {
+          "music_genre_id": 17,
+          "music_genre_parent_id": 34,
+          "music_genre_name": "Dance",
+          "music_genre_name_extended": "Dance",
+          "music_genre_vanity": "Dance"
+        }
+      },
+      {
+        "music_genre": {
+          "music_genre_id": 1137,
+          "music_genre_parent_id": 15,
+          "music_genre_name": "Disco",
+          "music_genre_name_extended": "R&B/Soul / Disco",
+          "music_genre_vanity": "R-B-Soul-Disco"
+        }
+      },
+      {
+        "music_genre": {
+          "music_genre_id": 1139,
+          "music_genre_parent_id": 15,
+          "music_genre_name": "Funk",
+          "music_genre_name_extended": "R&B/Soul / Funk",
+          "music_genre_vanity": "R-B-Soul-Funk"
+        }
+      }
+    ]
+  }
+}
+--------------------------------------------------------------------------------
+
+================================================================================
+2. TRACK.GET - Track by ID
+================================================================================
+Status: 200 
+✓ SUCCESS
+
+Full Response:
+--------------------------------------------------------------------------------
+{
+  "track_id": 286042216,
+  "track_isrc": "USSM18200001",
+  "commontrack_isrcs": [
+    [
+      "USSM18200001",
+      "USSM18200612",
+      "USSM20301088"
+    ]
+  ],
+  "track_spotify_id": "6vR5u5b8JeRESx5nZaIWx6",
+  "track_name": "Billie Jean",
+  "track_rating": 85,
+  "track_length": 294,
+  "commontrack_id": 106272,
+  "instrumental": 0,
+  "explicit": 0,
+  "has_lyrics": 1,
+  "has_subtitles": 1,
+  "has_richsync": 1,
+  "num_favourite": 12144,
+  "album_id": 15664619,
+  "album_name": "HIStory - PAST, PRESENT AND FUTURE - BOOK I",
+  "artist_id": 295,
+  "artist_name": "Michael Jackson",
+  "album_coverart_100x100": "http://s.mxmcdn.net/images-storage/albums/nocover.png",
+  "album_coverart_350x350": "",
+  "album_coverart_500x500": "",
+  "album_coverart_800x800": "",
+  "track_share_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-1?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+  "track_edit_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-1/edit?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+  "restricted": 0,
+  "updated_time": "2023-09-08T02:03:29Z",
+  "primary_genres": {
+    "music_genre_list": [
+      {
+        "music_genre": {
+          "music_genre_id": 14,
+          "music_genre_parent_id": 34,
+          "music_genre_name": "Pop",
+          "music_genre_name_extended": "Pop",
+          "music_genre_vanity": "Pop"
+        }
+      },
+      {
+        "music_genre": {
+          "music_genre_id": 15,
+          "music_genre_parent_id": 34,
+          "music_genre_name": "R&B/Soul",
+          "music_genre_name_extended": "R&B/Soul",
+          "music_genre_vanity": "R-B-Soul"
+        }
+      },
+      {
+        "music_genre": {
+          "music_genre_id": 17,
+          "music_genre_parent_id": 34,
+          "music_genre_name": "Dance",
+          "music_genre_name_extended": "Dance",
+          "music_genre_vanity": "Dance"
+        }
+      },
+      {
+        "music_genre": {
+          "music_genre_id": 1137,
+          "music_genre_parent_id": 15,
+          "music_genre_name": "Disco",
+          "music_genre_name_extended": "R&B/Soul / Disco",
+          "music_genre_vanity": "R-B-Soul-Disco"
+        }
+      },
+      {
+        "music_genre": {
+          "music_genre_id": 1139,
+          "music_genre_parent_id": 15,
+          "music_genre_name": "Funk",
+          "music_genre_name_extended": "R&B/Soul / Funk",
+          "music_genre_vanity": "R-B-Soul-Funk"
+        }
+      }
+    ]
+  }
+}
+--------------------------------------------------------------------------------
+
+================================================================================
+3. MATCHER.LYRICS.GET - Lyrics via Matcher
+================================================================================
+Status: 200 
+✓ SUCCESS
+
+Full Response:
+--------------------------------------------------------------------------------
+{
+  "lyrics_id": 29289695,
+  "explicit": 0,
+  "lyrics_body": "She was more like a beauty queen from a movie scene\nI said, \"Don't mind, but what do you mean I am the one\nWho will dance on the floor in the round?\"\nShe said I am the one\nWho will dance on the floor in the round\nShe told me her name was Billie Jean as she caused a scene\nThen every head turned with eyes that dreamed of being the one\nWho will dance on the floor in the round\n\nPeople always told me, \"Be careful of what you do\nDon't go around breaking young girls' hearts\" (hee-eeh)\nAnd mother always told me, \"Be careful of who you love\nAnd be careful of what you do (oh, oh)\n'Cause the lie becomes the truth\" (oh, oh), eh-eh\n\nBillie Jean is not my lover, uh\nShe's just a girl who claims that I am the one (oh, baby)\nBut the kid is not my son (ooh!), uh\nShe says I am the one (oh, baby)\nBut the kid is not my son\n(Hee-hee-hee, hee-hee-hee, ooh!) no, no\n\nFor 40 days and for 40 nights, I was on her side\nBut who can stand when she's in demand? Her schemes and plans\n'Cause we danced on the floor in the round (hee)\nSo take my strong advice\nJust remember to always think twice\n(Don't think twice!) Do think twice! (Ah-hoo)\nShe told my baby we'd danced 'til 3:00, then she looked at me\nThen showed a photo of a baby crying, his eyes were like mine (oh, no)\n'Cause we danced on the floor in the round, baby\n(Ooh, hee-hee-hee)\n\nPeople always told me, \"Be careful of what you do\nAnd don't go around breaking young girls' hearts\" (don't break no hearts)\nBut she came and stood right by me\nJust the smell of sweet perfume\nThis happened much too soon\nShe called me to her room, hey\n\nBillie Jean is not my lover (hoo)\nShe's just a girl who claims that I am the one, uh\nBut the kid is not my son\nNo-no-no, no-no-no-no-no-no (hoo)\nBillie Jean is not my lover, uh\nShe's just a girl who claims that I am the one (oh, baby)\nBut the kid is not my son (no, no)\nShe says I am the one (oh, baby)\nBut the kid is not my son\n(No, hee-hee)\n\nHee! Hoo!\n\nShe says I am the one, uh\nBut the kid is not my son\nNo-no-no, hoo (oh)\nBillie Jean is not my lover\nShe's just a girl who claims that I am the one (you know what you did to me, baby)\nBut the kid is not my son\nNo-no-no, no-no-no-no\n\nShe says I am the one (no)\nBut the kid is not my son (no-no-no)\nShe says I am the one (you know what you did)\nShe says he is my son (breakin' my heart, babe)\nShe says I am the one\n\nYeah, Billie Jean is not my lover, uh\nYeah, Billie Jean is not my lover, uh\nYeah, Billie Jean is not my lover, uh\nYeah, Billie Jean is not my lover, uh (don't call me Billie Jean, hoo)\nBillie Jean is not my lover, uh (she's not at the scene)\nYeah, Billie Jean is not...",
+  "lyrics_language": "en",
+  "script_tracking_url": "https://tracking.musixmatch.com/t1.0/m_js/e_0/sn_0/l_29289695/su_0/rs_0/tr_3vUCACnV_V41aj9LzFILmGurksSbQTv7pq2j8dnZJ95IL4fdjCyKh5yrVPj1LCt80VJYibCPyuKiuLk0bi4qzCzhERr7PvmSjD2iuwwNnyX5O5a0GQeyG4y9dXmIQ9lzpZDMGEIdgZBWjcXej48UDGRcNcgehqTbfvYa-1iFyeOSSb-_3qiIhpNrQqFQOhCYv-EKyeVsJ-fg980qKffYKo-GWUjH2NJdXgkb0mjHjfjCXiFhlw6YMyaKcI8GjACtN-C2fUWtGk8hAKx5RZgH_Ac1mipSTERi-i9EkoySx4GKHkglKHueKfviMqLRWf5INs3WN7oPE5mwkV94towNOqwBUXoGn88JoT0rl74nlBWHaytCoLLWpSC8Ittg0m7nZX0ElPLBtZx_DI45CHkG2aPOjuJbvjlMiMnXNOv7RM4DilYGzVYKtGYkNd2mBuJ61IR4fl5k/",
+  "pixel_tracking_url": "https://tracking.musixmatch.com/t1.0/m_img/e_0/sn_0/l_29289695/su_0/rs_0/tr_3vUCAPa1cjDfmVZWPST1iSd8XPGltWOY8pMXnm-JXypTzFK1K2IPa_5l-lZWuOizb5q2Th9GrHBHsuNKRzQIWk4S0OshTv77EGxluLP1BnF0hiJ8w5_ExWp9dl2r8YK0fyIP319NNQ-OHtrspzz2ODU4Sf6LRyTmhtMf2NxEHSIG-2ZQmISitG0_0Xsh5nBV_5w5pLRNkXQa2jHE2wY_cW7o-hG8ZVWLxul_aNdRwqLV5zXdBZC80d2fxaGbW5JkuDefmP8Nus-CQUnasaMdjhEGpZUnf2mTk8huaW_gMaRQwGxXxQ6un0AhnhPerOMeITJz7FF0oX25vuaXUOz57VZNTmMNcksPcOT_tz7GLQ754prNKM023NjlhWoP9n9smxySkMZLAWjGRVknrhJcpVkSrP2HBD6cHKMSo2tRSmOimbVk0S4rJyP1igBf-78n31nFKWd6/",
+  "lyrics_copyright": "Lyrics powered by www.musixmatch.com",
+  "updated_time": "2024-08-05T13:29:20Z"
+}
+--------------------------------------------------------------------------------
+
+================================================================================
+4. TRACK.LYRICS.GET - Lyrics by Track ID
+================================================================================
+Status: 200 
+✓ SUCCESS
+
+Full Response:
+--------------------------------------------------------------------------------
+{
+  "lyrics_id": 29289695,
+  "explicit": 0,
+  "lyrics_body": "She was more like a beauty queen from a movie scene\nI said, \"Don't mind, but what do you mean I am the one\nWho will dance on the floor in the round?\"\nShe said I am the one\nWho will dance on the floor in the round\nShe told me her name was Billie Jean as she caused a scene\nThen every head turned with eyes that dreamed of being the one\nWho will dance on the floor in the round\n\nPeople always told me, \"Be careful of what you do\nDon't go around breaking young girls' hearts\" (hee-eeh)\nAnd mother always told me, \"Be careful of who you love\nAnd be careful of what you do (oh, oh)\n'Cause the lie becomes the truth\" (oh, oh), eh-eh\n\nBillie Jean is not my lover, uh\nShe's just a girl who claims that I am the one (oh, baby)\nBut the kid is not my son (ooh!), uh\nShe says I am the one (oh, baby)\nBut the kid is not my son\n(Hee-hee-hee, hee-hee-hee, ooh!) no, no\n\nFor 40 days and for 40 nights, I was on her side\nBut who can stand when she's in demand? Her schemes and plans\n'Cause we danced on the floor in the round (hee)\nSo take my strong advice\nJust remember to always think twice\n(Don't think twice!) Do think twice! (Ah-hoo)\nShe told my baby we'd danced 'til 3:00, then she looked at me\nThen showed a photo of a baby crying, his eyes were like mine (oh, no)\n'Cause we danced on the floor in the round, baby\n(Ooh, hee-hee-hee)\n\nPeople always told me, \"Be careful of what you do\nAnd don't go around breaking young girls' hearts\" (don't break no hearts)\nBut she came and stood right by me\nJust the smell of sweet perfume\nThis happened much too soon\nShe called me to her room, hey\n\nBillie Jean is not my lover (hoo)\nShe's just a girl who claims that I am the one, uh\nBut the kid is not my son\nNo-no-no, no-no-no-no-no-no (hoo)\nBillie Jean is not my lover, uh\nShe's just a girl who claims that I am the one (oh, baby)\nBut the kid is not my son (no, no)\nShe says I am the one (oh, baby)\nBut the kid is not my son\n(No, hee-hee)\n\nHee! Hoo!\n\nShe says I am the one, uh\nBut the kid is not my son\nNo-no-no, hoo (oh)\nBillie Jean is not my lover\nShe's just a girl who claims that I am the one (you know what you did to me, baby)\nBut the kid is not my son\nNo-no-no, no-no-no-no\n\nShe says I am the one (no)\nBut the kid is not my son (no-no-no)\nShe says I am the one (you know what you did)\nShe says he is my son (breakin' my heart, babe)\nShe says I am the one\n\nYeah, Billie Jean is not my lover, uh\nYeah, Billie Jean is not my lover, uh\nYeah, Billie Jean is not my lover, uh\nYeah, Billie Jean is not my lover, uh (don't call me Billie Jean, hoo)\nBillie Jean is not my lover, uh (she's not at the scene)\nYeah, Billie Jean is not...",
+  "lyrics_language": "en",
+  "script_tracking_url": "https://tracking.musixmatch.com/t1.0/m_js/e_0/sn_0/l_29289695/su_0/rs_0/tr_3vUCALRmetqAVULhB4qhJ6pAuzQMljzBUYS-huGY7p1HUw0kqZBcnWICrpDIa9Wn1UTQQEwGqs1S4-skykPNm8L6qFpDKDHaCXKYF6CLmeX4Xq5kgoCZ8NgQ-NcOEIhUsTZZEAN6GnC8yrs46esaeE84XdCz1j3p0oUo6Oth5PztWi-90qaytWlXkRcgw1DuAeIKUqRx3uqx4-n1W8EFfv6V_H9gQ4dESfCEJJAEk-mubqI6iN2ig6SsodE_lnHn0BdrSOJnN0JJSMS5T5UlVrvCwaouFh92a6JnQTVqmHhBNgIrjDL-AXOZL8cuIvUqLNbfaMEG2GgKBy00uOpiMigOeNM8M2E6h5FYWBf8ELXSYEnQabM7NXt-VYsRcde_4U8MmCWT-DCuzz-7sDe2O_wCgovKelk9fA253NDku7jP-h1nf8sNilYxm5gA3snNPd4WbHxm/",
+  "pixel_tracking_url": "https://tracking.musixmatch.com/t1.0/m_img/e_0/sn_0/l_29289695/su_0/rs_0/tr_3vUCAMxpGCzQh5odHdttl8703HQ17EGUH0QcivZxF5iw9u8KYUq8BYNRp3ioVOJOx_lP8Vk3BiB2ZEpjaXlgW5IK84TpB5MAe4Q94CKiIOlnlhAmi5gouja36WIRtz5bgsZIMg3HPyGBASTncjziXv-xQkhfu-kNPRaMfOLU4e5JGppMuI2dF9bk47-EPiQ0naM7pwvYBil3kdmR7aGnkdXTK6p39BWvekr4b3eG0ilzZFngyGUD50VBDJzy3R0SF8u0yobYHz4B2vvAlGYw3LT9B5CqmPQS6Qj71TPgq6wxtOy-RpeW5Sx8dRNtTD9GDu4L7Jk5KyRHZTq0VFQL2-mSuwMEPlMZ9_8rHRkW1QIfC6HUCsl3cK4-YhGB8RT5lPYAePAewi5Z8WpEYuNl-_HV5Xk0G6hb0aCyqKB-RrSDcDg8NqU0kfySLiue58LyjczdvuIz/",
+  "lyrics_copyright": "Lyrics powered by www.musixmatch.com",
+  "updated_time": "2024-08-05T13:29:20Z"
+}
+--------------------------------------------------------------------------------
+
+================================================================================
+5. MATCHER.SUBTITLE.GET - Subtitles via Matcher
+================================================================================
+Status: 403 
+✗ 403 Forbidden - Requires higher plan tier
+
+================================================================================
+6. TRACK.SUBTITLE.GET - Subtitles by Track ID
+================================================================================
+Status: 403 
+✗ 403 Forbidden - Requires higher plan tier
+
+================================================================================
+7. TRACK.RICHSYNC.GET - Time-Synced Lyrics
+================================================================================
+Status: 403 
+✗ 403 Forbidden - Requires higher plan tier
+
+================================================================================
+8. TRACK.LYRICS.MOOD.GET - Mood Tags
+================================================================================
+Status: 403 
+✗ 403 Forbidden - Requires higher plan tier
+
+================================================================================
+9. TRACK.SNIPPET.GET - Lyrics Snippet
+================================================================================
+Status: 200 
+✓ SUCCESS
+
+Full Response:
+--------------------------------------------------------------------------------
+{
+  "snippet_id": 29289695,
+  "snippet_language": "en",
+  "restricted": 0,
+  "instrumental": 0,
+  "snippet_body": "But the kid is not my son",
+  "script_tracking_url": "https://tracking.musixmatch.com/t1.0/m_js/e_0/sn_1/l_29289695/su_0/rs_0/tr_3vUCALHg2iXJexMEZ6zXBHyg8gCJJ16DlGTeea6suKvK6n10Yxy7KF09JBVl08PxvFeuCl8iRq4iGRXPkyPzczNDgU-lppa_9Q7zvRkjUm3XfIzBXIGRlfCE-DhjKZQe3lNMQK0dNrtm1LF0mzBqlBNG5kCABAbAwVYvCw19TOD9QrI3FJDXc-XlrSH83jVYp8axlgbdLf3l0n9Pw95N-ovbEI4OlqDbIKzbmaifG1bcbX6lzjwumHMsFfvPK-BtIunlCVXNN-D8zbg6fTiU42y1LvyNlanUXtjNDcy8oRKmoUo2DWrGIty0zaOePxjTAJ5c116TVLjEFQSdXICKVLyrUJm7zNG5QlkcGYPKraRMZkWERVJtJPHntqG0wccU7RB0zsBBKgnTKKMBc6NqLh2whFTBmdWzNBfqqSKIwVWZMD2prItej5wv7UiGFim02Bikw--h/",
+  "pixel_tracking_url": "https://tracking.musixmatch.com/t1.0/m_img/e_0/sn_1/l_29289695/su_0/rs_0/tr_3vUCAAZrRZq_D74xixRyjm5Ztyap6JMjBL3AR4eHNwia-OBxzUE88AQq6Mc2x8Bl7fxGiGraHuT7XHW2NJKgIjCD1nstrV6Kgin_8bq5YnOdOIEzn50q49KqGRrCoBHSVKIgfw5ZxbpoDM05Ehi3NjnOlhnl0gv3PPVK7OEgFpXXG1YFjAhiYpjtvVDDz7Xm_cBhN-Vcp3-dp5ZUCanZ3kz2jW7_aen1YD1BIUICH7u5_phShJ_Od7LCKtE6A41YDYQDyKzi4kSBjs4eLJF1GteCBcDO-bg7dr9Z4WJn3UWn1mACyDqeSw7ZT8KBmg0pUr6ZNhsk2SG8nnkwvbGg_IFSMRuHeyv3DNvh4xw9FuLHnFitiNU1CTBrcEbX4wjBcLjOfelUz3qRMRXUHQ-O5MrdyyJ3EXGEbSY7I9pD20fn7KZeQ34uyfCAXK9fVjxC1BsDzaV6/",
+  "html_tracking_url": "https://tracking.musixmatch.com/t1.0/m_html/e_0/sn_1/l_29289695/su_0/rs_0/tr_3vUCACMjpOASIfaSYkA_FRFDEhD1HnJpJKiXV38cb7zM9cw1MrHmNYWMZVsnCRTEO41R25DNzmrhazaN3xdlDVAnDSd-1-d05Jlbk7DUeUFpILuMJWLNq0IgAMUKjfy6DOj5tvVLCHcBy-W7YjjBYxgO73aEVilQhaTsKF9xy4k_H9tM0vpqD-YKMSqBWhXuuFtq3PvZPnIEBPsDOH8L3789Fb5n9dqUMmY8nfnsZeK0bfcJDR7yrcnxofv92hSru2GBAw-q_sHn0wjW52BwXnfgEz8Xl3_JdAWvQeFiG0TIpT2TPW-jkv-ubkJdu9xuuLw0pb7e7SwloPhCJdZir8X4cTYb61X1sTC1hZoMsoxDyUXMKEWX1Kvvxa9VtMf0GsvnUIPfGd3SjaFTp0KZwZymtjEAQ5UOexvouiH7YWU1DJZ-mbD6cBH9yVfqExSZB49spf6C/",
+  "updated_time": "2024-08-05T13:29:20Z"
+}
+--------------------------------------------------------------------------------
+
+================================================================================
+10. TRACK.SEARCH - Search for Track
+================================================================================
+Status: 200 
+✓ SUCCESS
+
+Found 10 tracks:
+--------------------------------------------------------------------------------
+[
+  {
+    "track": {
+      "track_id": 286042216,
+      "track_isrc": "USSM18200001",
+      "commontrack_isrcs": [
+        [
+          "USSM18200001",
+          "USSM18200612",
+          "USSM20301088"
+        ]
+      ],
+      "track_spotify_id": "6vR5u5b8JeRESx5nZaIWx6",
+      "track_name": "Billie Jean",
+      "track_rating": 85,
+      "track_length": 294,
+      "commontrack_id": 106272,
+      "instrumental": 0,
+      "explicit": 0,
+      "has_lyrics": 1,
+      "has_subtitles": 1,
+      "has_richsync": 1,
+      "num_favourite": 12144,
+      "album_id": 15664619,
+      "album_name": "HIStory - PAST, PRESENT AND FUTURE - BOOK I",
+      "artist_id": 295,
+      "artist_name": "Michael Jackson",
+      "album_coverart_100x100": "http://s.mxmcdn.net/images-storage/albums/nocover.png",
+      "album_coverart_350x350": "",
+      "album_coverart_500x500": "",
+      "album_coverart_800x800": "",
+      "track_share_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-1?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "track_edit_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-1/edit?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "restricted": 0,
+      "updated_time": "2023-09-08T02:03:29Z",
+      "primary_genres": {
+        "music_genre_list": [
+          {
+            "music_genre": {
+              "music_genre_id": 14,
+              "music_genre_parent_id": 34,
+              "music_genre_name": "Pop",
+              "music_genre_name_extended": "Pop",
+              "music_genre_vanity": "Pop"
+            }
+          },
+          {
+            "music_genre": {
+              "music_genre_id": 15,
+              "music_genre_parent_id": 34,
+              "music_genre_name": "R&B/Soul",
+              "music_genre_name_extended": "R&B/Soul",
+              "music_genre_vanity": "R-B-Soul"
+            }
+          },
+          {
+            "music_genre": {
+              "music_genre_id": 17,
+              "music_genre_parent_id": 34,
+              "music_genre_name": "Dance",
+              "music_genre_name_extended": "Dance",
+              "music_genre_vanity": "Dance"
+            }
+          },
+          {
+            "music_genre": {
+              "music_genre_id": 1137,
+              "music_genre_parent_id": 15,
+              "music_genre_name": "Disco",
+              "music_genre_name_extended": "R&B/Soul / Disco",
+              "music_genre_vanity": "R-B-Soul-Disco"
+            }
+          },
+          {
+            "music_genre": {
+              "music_genre_id": 1139,
+              "music_genre_parent_id": 15,
+              "music_genre_name": "Funk",
+              "music_genre_name_extended": "R&B/Soul / Funk",
+              "music_genre_vanity": "R-B-Soul-Funk"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "track": {
+      "track_id": 269588568,
+      "track_isrc": "ITDD82301575",
+      "commontrack_isrcs": [
+        [
+          "ITDD82301575"
+        ]
+      ],
+      "track_spotify_id": "6iHIMuG5ijD2WtmDXq8mQP",
+      "track_name": "Billie Jean",
+      "track_rating": 22,
+      "track_length": 707,
+      "commontrack_id": 168026951,
+      "instrumental": 0,
+      "explicit": 0,
+      "has_lyrics": 0,
+      "has_subtitles": 0,
+      "has_richsync": 0,
+      "num_favourite": 0,
+      "album_id": 60510315,
+      "album_name": "MICHAEL JACKSON - Live in Los Angeles 1989",
+      "artist_id": 58223621,
+      "artist_name": "Michael Jackson",
+      "album_coverart_100x100": "http://s.mxmcdn.net/images-storage/albums/nocover.png",
+      "album_coverart_350x350": "",
+      "album_coverart_500x500": "",
+      "album_coverart_800x800": "",
+      "track_share_url": "https://www.musixmatch.com/lyrics/Michael-Jackson-7/Billie-Jean?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "track_edit_url": "https://www.musixmatch.com/lyrics/Michael-Jackson-7/Billie-Jean/edit?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "restricted": 0,
+      "updated_time": "2023-12-19T16:23:44Z",
+      "primary_genres": {
+        "music_genre_list": []
+      }
+    }
+  },
+  {
+    "track": {
+      "track_id": 33561946,
+      "track_isrc": "USY9R1010244",
+      "commontrack_isrcs": [
+        [
+          "USY9R1010244"
+        ]
+      ],
+      "track_spotify_id": "2GGAHX67XhnHJnOvnqmrrC",
+      "track_name": "Billie Jean",
+      "track_rating": 5,
+      "track_length": 273,
+      "commontrack_id": 13403056,
+      "instrumental": 1,
+      "explicit": 0,
+      "has_lyrics": 0,
+      "has_subtitles": 0,
+      "has_richsync": 0,
+      "num_favourite": 0,
+      "album_id": 15460384,
+      "album_name": "I'll Be There - A Smooth Jazz Tribute To Michael Jackson",
+      "artist_id": 24678877,
+      "artist_name": "Michael Jackson Tribute",
+      "album_coverart_100x100": "http://s.mxmcdn.net/images-storage/albums/nocover.png",
+      "album_coverart_350x350": "",
+      "album_coverart_500x500": "",
+      "album_coverart_800x800": "",
+      "track_share_url": "https://www.musixmatch.com/lyrics/Michael-Jackson-Tribute/Billie-Jean?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "track_edit_url": "https://www.musixmatch.com/lyrics/Michael-Jackson-Tribute/Billie-Jean/edit?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "restricted": 0,
+      "updated_time": "2015-04-27T16:59:27Z",
+      "primary_genres": {
+        "music_genre_list": [
+          {
+            "music_genre": {
+              "music_genre_id": 11,
+              "music_genre_parent_id": 34,
+              "music_genre_name": "Jazz",
+              "music_genre_name_extended": "Jazz",
+              "music_genre_vanity": "Jazz"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "track": {
+      "track_id": 99811333,
+      "track_isrc": "",
+      "commontrack_isrcs": [
+        [
+          "USSM19902991"
+        ]
+      ],
+      "track_spotify_id": "6aLWY1Lax3ASlHzNAl2xRZ",
+      "track_name": "Billie Jean - Single Version",
+      "track_rating": 82,
+      "track_length": 293,
+      "commontrack_id": 148155214,
+      "instrumental": 0,
+      "explicit": 0,
+      "has_lyrics": 1,
+      "has_subtitles": 1,
+      "has_richsync": 1,
+      "num_favourite": 17,
+      "album_id": 22041743,
+      "album_name": "Thriller",
+      "artist_id": 295,
+      "artist_name": "Michael Jackson",
+      "album_coverart_100x100": "http://s.mxmcdn.net/images-storage/albums/nocover.png",
+      "album_coverart_350x350": "",
+      "album_coverart_500x500": "",
+      "album_coverart_800x800": "",
+      "track_share_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-2?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "track_edit_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-2/edit?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "restricted": 0,
+      "updated_time": "2025-10-23T01:15:55Z",
+      "primary_genres": {
+        "music_genre_list": [
+          {
+            "music_genre": {
+              "music_genre_id": 14,
+              "music_genre_parent_id": 34,
+              "music_genre_name": "Pop",
+              "music_genre_name_extended": "Pop",
+              "music_genre_vanity": "Pop"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "track": {
+      "track_id": 250927209,
+      "track_isrc": "USSM10800026",
+      "commontrack_isrcs": [
+        [
+          "USSM10800026"
+        ]
+      ],
+      "track_spotify_id": "1euuAfFtkRzJy489azxfLC",
+      "track_name": "Billie Jean - Long Version",
+      "track_rating": 67,
+      "track_length": 380,
+      "commontrack_id": 10805763,
+      "instrumental": 0,
+      "explicit": 0,
+      "has_lyrics": 1,
+      "has_subtitles": 1,
+      "has_richsync": 1,
+      "num_favourite": 195,
+      "album_id": 55858092,
+      "album_name": "Thriller 40",
+      "artist_id": 295,
+      "artist_name": "Michael Jackson",
+      "album_coverart_100x100": "http://s.mxmcdn.net/images-storage/albums/nocover.png",
+      "album_coverart_350x350": "",
+      "album_coverart_500x500": "",
+      "album_coverart_800x800": "",
+      "track_share_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-long-version?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "track_edit_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-long-version/edit?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "restricted": 0,
+      "updated_time": "2024-06-07T15:54:09Z",
+      "primary_genres": {
+        "music_genre_list": [
+          {
+            "music_genre": {
+              "music_genre_id": 1139,
+              "music_genre_parent_id": 15,
+              "music_genre_name": "Funk",
+              "music_genre_name_extended": "R&B/Soul / Funk",
+              "music_genre_vanity": "R-B-Soul-Funk"
+            }
+          },
+          {
+            "music_genre": {
+              "music_genre_id": 14,
+              "music_genre_parent_id": 34,
+              "music_genre_name": "Pop",
+              "music_genre_name_extended": "Pop",
+              "music_genre_vanity": "Pop"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "track": {
+      "track_id": 84684166,
+      "track_isrc": "USSM10800117",
+      "commontrack_isrcs": [
+        [
+          "USSM10800117"
+        ]
+      ],
+      "track_spotify_id": "6m9V5QOltZ8At8vIAayTnq",
+      "track_name": "Billie Jean - Underground Mix",
+      "track_rating": 37,
+      "track_length": 400,
+      "commontrack_id": 12958581,
+      "instrumental": 0,
+      "explicit": 0,
+      "has_lyrics": 1,
+      "has_subtitles": 1,
+      "has_richsync": 0,
+      "num_favourite": 8,
+      "album_id": 20922070,
+      "album_name": "Thriller 25 Super Deluxe Edition",
+      "artist_id": 295,
+      "artist_name": "Michael Jackson",
+      "album_coverart_100x100": "http://s.mxmcdn.net/images-storage/albums/nocover.png",
+      "album_coverart_350x350": "",
+      "album_coverart_500x500": "",
+      "album_coverart_800x800": "",
+      "track_share_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-Underground-Mix?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "track_edit_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-Underground-Mix/edit?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "restricted": 0,
+      "updated_time": "2024-04-02T20:35:59Z",
+      "primary_genres": {
+        "music_genre_list": [
+          {
+            "music_genre": {
+              "music_genre_id": 1139,
+              "music_genre_parent_id": 15,
+              "music_genre_name": "Funk",
+              "music_genre_name_extended": "R&B/Soul / Funk",
+              "music_genre_vanity": "R-B-Soul-Funk"
+            }
+          },
+          {
+            "music_genre": {
+              "music_genre_id": 14,
+              "music_genre_parent_id": 34,
+              "music_genre_name": "Pop",
+              "music_genre_name_extended": "Pop",
+              "music_genre_vanity": "Pop"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "track": {
+      "track_id": 246367898,
+      "track_isrc": "USSM11205025",
+      "commontrack_isrcs": [
+        [
+          "USSM11205025"
+        ]
+      ],
+      "track_spotify_id": "",
+      "track_name": "Billie Jean (Live)",
+      "track_rating": 41,
+      "track_length": 339,
+      "commontrack_id": 15049225,
+      "instrumental": 0,
+      "explicit": 0,
+      "has_lyrics": 1,
+      "has_subtitles": 1,
+      "has_richsync": 1,
+      "num_favourite": 5,
+      "album_id": 54496286,
+      "album_name": "The Indispensable Collection",
+      "artist_id": 295,
+      "artist_name": "Michael Jackson",
+      "album_coverart_100x100": "http://s.mxmcdn.net/images-storage/albums/nocover.png",
+      "album_coverart_350x350": "",
+      "album_coverart_500x500": "",
+      "album_coverart_800x800": "",
+      "track_share_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/billie-jean-live?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "track_edit_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/billie-jean-live/edit?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "restricted": 0,
+      "updated_time": "2022-11-20T05:08:55Z",
+      "primary_genres": {
+        "music_genre_list": [
+          {
+            "music_genre": {
+              "music_genre_id": 14,
+              "music_genre_parent_id": 34,
+              "music_genre_name": "Pop",
+              "music_genre_name_extended": "Pop",
+              "music_genre_vanity": "Pop"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "track": {
+      "track_id": 84684049,
+      "track_isrc": "USSM10107865",
+      "commontrack_isrcs": [
+        [
+          "USSM10107865"
+        ]
+      ],
+      "track_spotify_id": "5icAJwHMJyIokyl9tiXHC1",
+      "track_name": "Billie Jean (Home Demo from 1981)",
+      "track_rating": 48,
+      "track_length": 140,
+      "commontrack_id": 106281,
+      "instrumental": 0,
+      "explicit": 0,
+      "has_lyrics": 1,
+      "has_subtitles": 1,
+      "has_richsync": 0,
+      "num_favourite": 6,
+      "album_id": 20922063,
+      "album_name": "Thriller",
+      "artist_id": 295,
+      "artist_name": "Michael Jackson",
+      "album_coverart_100x100": "http://s.mxmcdn.net/images-storage/albums/nocover.png",
+      "album_coverart_350x350": "",
+      "album_coverart_500x500": "",
+      "album_coverart_800x800": "",
+      "track_share_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-Home-Demo-from-1981-1?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "track_edit_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-Home-Demo-from-1981-1/edit?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "restricted": 0,
+      "updated_time": "2024-12-03T08:41:53Z",
+      "primary_genres": {
+        "music_genre_list": [
+          {
+            "music_genre": {
+              "music_genre_id": 1139,
+              "music_genre_parent_id": 15,
+              "music_genre_name": "Funk",
+              "music_genre_name_extended": "R&B/Soul / Funk",
+              "music_genre_vanity": "R-B-Soul-Funk"
+            }
+          },
+          {
+            "music_genre": {
+              "music_genre_id": 14,
+              "music_genre_parent_id": 34,
+              "music_genre_name": "Pop",
+              "music_genre_name_extended": "Pop",
+              "music_genre_vanity": "Pop"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "track": {
+      "track_id": 308481637,
+      "track_isrc": "USSM21001902",
+      "commontrack_isrcs": [
+        [
+          "USSM21001902"
+        ]
+      ],
+      "track_spotify_id": "",
+      "track_name": "Billie Jean (Michael Jackson's Vision)",
+      "track_rating": 29,
+      "track_length": 317,
+      "commontrack_id": 189784061,
+      "instrumental": 0,
+      "explicit": 0,
+      "has_lyrics": 0,
+      "has_subtitles": 0,
+      "has_richsync": 0,
+      "num_favourite": 1,
+      "album_id": 55888870,
+      "album_name": "Michael Jackson's Vision",
+      "artist_id": 295,
+      "artist_name": "Michael Jackson",
+      "album_coverart_100x100": "http://s.mxmcdn.net/images-storage/albums/nocover.png",
+      "album_coverart_350x350": "",
+      "album_coverart_500x500": "",
+      "album_coverart_800x800": "",
+      "track_share_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-Michael-Jackson-s-Vision?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "track_edit_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Billie-Jean-Michael-Jackson-s-Vision/edit?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "restricted": 0,
+      "updated_time": "2024-11-14T10:25:18Z",
+      "primary_genres": {
+        "music_genre_list": [
+          {
+            "music_genre": {
+              "music_genre_id": 1143,
+              "music_genre_parent_id": 15,
+              "music_genre_name": "Soul",
+              "music_genre_name_extended": "R&B/Soul / Soul",
+              "music_genre_vanity": "R-B-Soul-Soul"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "track": {
+      "track_id": 18274341,
+      "track_isrc": "",
+      "commontrack_isrcs": [
+        []
+      ],
+      "track_spotify_id": "",
+      "track_name": "Immortal Megamix: Can You Feel It / Don't Stop 'til You Get Enough / Billie Jean / Black or White (Immortal version)",
+      "track_rating": 37,
+      "track_length": 549,
+      "commontrack_id": 11814911,
+      "instrumental": 0,
+      "explicit": 0,
+      "has_lyrics": 1,
+      "has_subtitles": 0,
+      "has_richsync": 0,
+      "num_favourite": 26,
+      "album_id": 14249027,
+      "album_name": "Immortal",
+      "artist_id": 295,
+      "artist_name": "Michael Jackson",
+      "album_coverart_100x100": "http://s.mxmcdn.net/images-storage/albums/nocover.png",
+      "album_coverart_350x350": "",
+      "album_coverart_500x500": "",
+      "album_coverart_800x800": "",
+      "track_share_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Immortal-Megamix-Can-You-Feel-It-Don-t-Stop-til-You-Get-Enough-Billie-Jean-Black-or-White-Immortal-version?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "track_edit_url": "https://www.musixmatch.com/lyrics/Michael-Jackson/Immortal-Megamix-Can-You-Feel-It-Don-t-Stop-til-You-Get-Enough-Billie-Jean-Black-or-White-Immortal-version/edit?utm_source=application&utm_campaign=api&utm_medium=individual%3A1409626421601",
+      "restricted": 0,
+      "updated_time": "2013-06-02T07:52:59Z",
+      "primary_genres": {
+        "music_genre_list": []
+      }
+    }
+  }
+]
+--------------------------------------------------------------------------------
+
+================================================================================
+11. ARTIST.GET - Artist Information
+================================================================================
+Status: 200 
+✓ SUCCESS
+
+Full Response:
+--------------------------------------------------------------------------------
+{
+  "artist_id": 295,
+  "artist_name": "Michael Jackson",
+  "artist_name_translation_list": [],
+  "artist_comment": "",
+  "artist_country": "US",
+  "artist_alias_list": [
+    {
+      "artist_alias": "\u30de\u30a4\u30b1\u30eb\u30b8\u30e3\u30af\u30bd\u30f3"
+    },
+    {
+      "artist_alias": "Mai Ke Jie Ke Xun"
+    },
+    {
+      "artist_alias": "\u30de\u30a4\u30b1\u30eb\u30fb\u30b8\u30e3\u30af\u30bd\u30f3"
+    },
+    {
+      "artist_alias": "\ub9c8\uc774\ud074 \uc7ad\uc2a8"
+    },
+    {
+      "artist_alias": "Michel Jackson"
+    },
+    {
+      "artist_alias": "JACKSON MICHAEL JOE"
+    },
+    {
+      "artist_alias": "Micha\u00ebl Jackson"
+    },
+    {
+      "artist_alias": "Michael Joseph Jackson"
+    },
+    {
+      "artist_alias": "\u041c\u0430\u0439\u043a\u043b \u0414\u0436\u0435\u043a\u0441\u043e\u043d"
+    },
+    {
+      "artist_alias": "Michael Joe Jackson"
+    },
+    {
+      "artist_alias": "Micheal"
+    },
+    {
+      "artist_alias": "Michael Jackson"
+    },
+    {
+      "artist_alias": "V1skey"
+    },
+    {
+      "artist_alias": "Vincent Price"
+    }
+  ],
+  "artist_twitter_url": "https://twitter.com/michaeljackson",
+  "artist_credits": {
+    "artist_list": []
+  },
+  "restricted": 0,
+  "updated_time": "2024-11-14T10:16:14Z",
+  "begin_date_year": "1958",
+  "begin_date": "1958-08-29",
+  "end_date_year": "2009",
+  "end_date": "2009-06-25"
+}
+--------------------------------------------------------------------------------
+
+================================================================================
+12. ALBUM.GET - Album Information (CHECK FOR RELEASE DATE!)
+================================================================================
+Status: 200 
+✓ SUCCESS
+
+Full Response:
+--------------------------------------------------------------------------------
+{
+  "album_id": 15664619,
+  "album_name": "HIStory - PAST, PRESENT AND FUTURE - BOOK I",
+  "album_release_date": "1995-06-16",
+  "artist_id": 295,
+  "artist_name": "Michael Jackson",
+  "restricted": 0,
+  "updated_time": "2024-11-07T09:30:35Z"
+}
+--------------------------------------------------------------------------------
+
+================================================================================
+13. ARTIST.ALBUMS.GET - Artist's Albums
+================================================================================
+Status: 200 
+✓ SUCCESS
+
+Found 10 albums:
+--------------------------------------------------------------------------------
+[
+  {
+    "album": {
+      "album_id": 55858092,
+      "album_name": "Thriller 40",
+      "album_release_date": "2022-11-18",
+      "artist_id": 295,
+      "artist_name": "Michael Jackson",
+      "restricted": 0,
+      "updated_time": "2024-06-06T10:24:06Z"
+    }
+  },
+  {
+    "album": {
+      "album_id": 87049326,
+      "album_name": "\u30e9\u30a4\u30f4\u30fb\u30a4\u30f3\u30fb\u30b8\u30e3\u30d1\u30f3\uff11\uff19\uff18\uff17 (Live)",
+      "album_release_date": "2018-09-01",
+      "artist_id": 295,
+      "artist_name": "Michael Jackson",
+      "restricted": 0,
+      "updated_time": "2025-11-16T08:12:20Z"
+    }
+  },
+  {
+    "album": {
+      "album_id": 27344907,
+      "album_name": "Thriller (Steve Aoki Midnight Hour Remix) [Radio Edit]",
+      "album_release_date": "2017-10-25",
+      "artist_id": 295,
+      "artist_name": "Michael Jackson",
+      "restricted": 0,
+      "updated_time": "2022-11-20T05:09:17Z"
+    }
+  }
+]
+--------------------------------------------------------------------------------
+
+
+================================================================================
+TEST COMPLETE!
+Saving results to: musixmatch_complete_test_20251205_084150.txt
+================================================================================

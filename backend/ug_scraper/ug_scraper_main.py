@@ -11,10 +11,10 @@ from .chords_to_supabase import save_chords_to_supabase
 def scrape_chords(songs_to_scrape):
     """
     Batch scrape chord data from Ultimate Guitar.
-    Returns: Dict with 'successful', 'failed', 'total' counts
+    Returns: Dict with 'successful', 'failed', 'total' counts + songs_with_key
     """
     if not songs_to_scrape:
-        return {'successful': 0, 'failed': 0, 'total': 0}
+        return {'successful': 0, 'failed': 0, 'total': 0, 'songs_with_key': []}
     
     # Setup browser and login once
     playwright, browser, page = setup_browser()
@@ -28,6 +28,7 @@ def scrape_chords(songs_to_scrape):
     
     successful = 0
     failed = 0
+    songs_with_key = []  # Track (song_id, tonality) for updating musical_key
     
     # Process each song
     for i, song in enumerate(songs_to_scrape, 1):
@@ -36,17 +37,19 @@ def scrape_chords(songs_to_scrape):
         chord_data = scrape_song(page, song['artist'], song['track'])
         
         if chord_data:
-            # Save chord data to Supabase
+            # Save chord data to Supabase (using song_id directly)
             rows_saved = save_chords_to_supabase(
-                artist_name=song['artist'],
-                track_name=song['track'],
-                tonality=chord_data['tonality'],
+                song_id=song['song_id'],
                 processed_sections=chord_data['processed_sections']
             )
             
             if rows_saved > 0:
                 successful += 1
                 print("  ✓ Success")
+                
+                # Track if tonality was found (for updating songs.musical_key)
+                if chord_data['tonality'] and chord_data['tonality'] != "Unknown":
+                    songs_with_key.append((song['song_id'], chord_data['tonality']))
             else:
                 failed += 1
                 print("  ✗ Failed (database save error)")
@@ -59,7 +62,12 @@ def scrape_chords(songs_to_scrape):
     
     print(f"\nUG Scraping: {successful} successful, {failed} failed\n")
     
-    return {'successful': successful, 'failed': failed, 'total': len(songs_to_scrape)}
+    return {
+        'successful': successful,
+        'failed': failed,
+        'total': len(songs_to_scrape),
+        'songs_with_key': songs_with_key
+    }
 
 
 if __name__ == "__main__":

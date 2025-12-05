@@ -6,10 +6,13 @@ Preserves embellishments (e.g., add9, maj7) while changing the root note.
 
 def transpose_to_c(tonality, chord):
     """
-    Transpose a chord from a given key to C major.
+    Transpose a chord to C major scale framework.
+    
+    Major keys → C major
+    Minor keys → Am (the vi of C major)
     
     Args:
-        tonality: Original key (e.g., "G", "Am")
+        tonality: Original key (e.g., "G", "Am", "F#m")
         chord: Chord to transpose (e.g., "G", "Cadd9")
     
     Returns:
@@ -18,14 +21,12 @@ def transpose_to_c(tonality, chord):
     # Chromatic scale
     notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
     
-    # Handle minor keys - convert to relative major
-    if tonality.endswith('m'):
-        minor_to_major = {
-            'Am': 'C', 'A#m': 'C#', 'Bm': 'D', 'Cm': 'D#', 'C#m': 'E',
-            'Dm': 'F', 'D#m': 'F#', 'Em': 'G', 'Fm': 'G#', 'F#m': 'A',
-            'Gm': 'A#', 'G#m': 'B'
-        }
-        tonality = minor_to_major.get(tonality, 'C')
+    # Determine target: C for major keys, A for minor keys
+    is_minor = tonality.endswith('m')
+    target = 'A' if is_minor else 'C'
+    
+    # Get the root of the tonality (strip 'm' if minor)
+    tonality_root = tonality[:-1] if is_minor else tonality
     
     # Extract root note from chord (handle sharps/flats)
     import re
@@ -38,8 +39,8 @@ def transpose_to_c(tonality, chord):
     
     # Calculate transposition interval
     try:
-        from_index = notes.index(tonality)
-        to_index = notes.index('C')
+        from_index = notes.index(tonality_root)
+        to_index = notes.index(target)
         interval = (to_index - from_index) % 12
         
         # Transpose the root note

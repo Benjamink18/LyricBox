@@ -1,7 +1,15 @@
 """
 MUSICBRAINZ METADATA: Fallback metadata source
 Fetches genres and release date from MusicBrainz API.
-Does NOT provide: BPM, musical key, or mood tags (Musixmatch only).
+
+Provides:
+- Genres ✓
+- Release date ✓
+
+Does NOT provide:
+- BPM (not available from free APIs)
+- Musical key (not available from free APIs - use Ultimate Guitar tonality)
+- Mood tags (not available from free APIs)
 """
 
 import musicbrainzngs
@@ -101,7 +109,7 @@ def get_metadata(artist_name, track_name):
         }
         
         print(f"✓ MusicBrainz: Genres={genres}, Release={release_date}")
-        print(f"  ⚠ Missing: BPM, key, moods (Musixmatch only)")
+        print(f"  ⚠ Missing: BPM, key, moods (not available from free APIs)")
         
         return result_data
     

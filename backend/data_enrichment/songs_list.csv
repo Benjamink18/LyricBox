@@ -1,5 +1,3 @@
-track_name,artist_name,peak_position
-Billie Jean,Michael Jackson,1
-Spanish Joint,D'Angelo,92
-Someone You Loved,Lewis Capaldi,1
-
+track_name,artist_name,peak_position,first_chart_date
+The Fate of Ophelia,Taylor Swift,1,2025-10-18
+Ordinary,Alex Warren,1,2025-02-15

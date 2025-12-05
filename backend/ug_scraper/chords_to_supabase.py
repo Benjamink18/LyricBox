@@ -14,18 +14,19 @@ from .log_missing_chords import log_missing_chords
 load_dotenv()
 
 
-def save_chords_to_supabase(artist_name, track_name, tonality, processed_sections):
+def save_chords_to_supabase(song_id, processed_sections):
     """
     Save chord data to Supabase song_chords table.
     
     Args:
-        artist_name: Artist name
-        track_name: Song title
-        tonality: Original key from Ultimate Guitar
+        song_id: Song ID (foreign key to songs table)
         processed_sections: Chord data by section (6 versions per section)
     
     Returns:
         Number of rows inserted
+    
+    Note: tonality is saved to songs.musical_key via update_musical_key(),
+          not stored in song_chords table
     """
     
     print("\n--- Saving Chords to Supabase ---")
@@ -41,22 +42,7 @@ def save_chords_to_supabase(artist_name, track_name, tonality, processed_section
     # Initialize Supabase client
     supabase = create_client(supabase_url, supabase_key)
     
-    # Find the song_id from the songs table
-    try:
-        response = supabase.table('songs').select('song_id').eq(
-            'artist_name', artist_name
-        ).eq('track_name', track_name).execute()
-        
-        if not response.data:
-            print(f"✗ Song not found in database: {artist_name} - {track_name}")
-            print("  (Chords can only be saved for songs that exist in 'songs' table)")
-            return 0
-        
-        song_id = response.data[0]['song_id']
-        print(f"  Found song_id: {song_id}")
-    except Exception as e:
-        print(f"✗ Error looking up song: {e}")
-        return 0
+    print(f"  Saving chords for song_id: {song_id}")
     
     # Delete existing chords for this song (if any)
     try:
@@ -70,7 +56,6 @@ def save_chords_to_supabase(artist_name, track_name, tonality, processed_section
         row = {
             "song_id": song_id,
             "section_name": section_name,
-            "tonality": tonality,
             "chords_original": data['original'],
             "chords_original_simplified": data['original_simple'],
             "chords_transposed_c": data['in_c'],
@@ -82,8 +67,7 @@ def save_chords_to_supabase(artist_name, track_name, tonality, processed_section
     
     # Check if we have any chords to save
     if not rows:
-        print(f"✗ No chord sections found - logging to chords_not_found.txt")
-        log_missing_chords(artist_name, track_name)
+        print(f"✗ No chord sections found")
         return 0
     
     # Insert all rows

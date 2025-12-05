@@ -6,48 +6,60 @@ Assumes input chord is in C major. Preserves embellishments.
 
 def convert_to_roman(chord):
     """
-    Convert a chord in C major to Roman numeral notation.
+    Convert a chord in C major scale framework to Roman numeral notation.
+    
+    All chords are analyzed within C major scale:
+    - C = I, Dm = ii, Em = iii, F = IV, G = V, Am = vi, Bdim = vii°
     
     Args:
-        chord: Chord in C major (e.g., "C", "Dm", "Fadd9")
+        chord: Chord (e.g., "C", "Dm", "Am", "Fadd9")
     
     Returns:
-        Roman numeral representation (e.g., "I", "ii", "IVadd9")
+        Roman numeral representation (e.g., "I", "ii", "vi", "IVadd9")
     """
-    # Extract root note
+    # Extract root note and quality
     import re
-    match = re.match(r'^([A-G][#b]?)(m|dim|aug|maj|add|sus)?(.*)$', chord)
+    match = re.match(r'^([A-G][#b]?)(m|dim|aug)?(.*)$', chord)
     if not match:
         return chord  # Return as-is if we can't parse it
     
     root = match.group(1)
-    quality_marker = match.group(2) or ''
-    suffix = match.group(3) or ''
+    quality = match.group(2) or ''  # m, dim, aug
+    suffix = match.group(3) or ''   # Everything else (7, add9, sus4, etc.)
     
-    # Full suffix (quality marker + remaining)
-    full_suffix = quality_marker + suffix
-    
-    # Mapping for C major scale
-    major_map = {
-        'C': 'I',
-        'D': 'ii',
-        'E': 'iii',
-        'F': 'IV',
-        'G': 'V',
-        'A': 'vi',
-        'B': 'viio'
+    # C major scale degree mapping (natural quality)
+    scale_map = {
+        'C': ('I', ''),      # Major (I)
+        'D': ('II', 'm'),    # Minor (ii)
+        'E': ('III', 'm'),   # Minor (iii)
+        'F': ('IV', ''),     # Major (IV)
+        'G': ('V', ''),      # Major (V)
+        'A': ('VI', 'm'),    # Minor (vi)
+        'B': ('VII', 'dim')  # Diminished (vii°)
     }
     
-    # Get the Roman numeral
-    if root in major_map:
-        roman = major_map[root]
-        
-        # Adjust for chord quality
-        if 'm' not in quality_marker and root in ['D', 'E', 'A', 'B']:
-            # Major chord where minor is expected - use uppercase
-            roman = roman.upper()
-        
-        return roman + full_suffix
-    else:
+    # Get the scale degree and natural quality
+    if root not in scale_map:
         return chord  # Return as-is if not in C major scale
+    
+    roman_base, natural_quality = scale_map[root]
+    
+    # Determine case based on actual chord quality
+    is_minor = (quality == 'm')
+    is_diminished = (quality == 'dim')
+    is_augmented = (quality == 'aug')
+    
+    # Default: use lowercase for minor/diminished, uppercase for major/augmented
+    if is_minor or is_diminished:
+        roman_numeral = roman_base.lower()
+    else:
+        roman_numeral = roman_base.upper()
+    
+    # Add quality markers and suffix
+    if is_diminished:
+        return roman_numeral + '°' + suffix
+    elif is_augmented:
+        return roman_numeral + '+' + suffix
+    else:
+        return roman_numeral + suffix
 

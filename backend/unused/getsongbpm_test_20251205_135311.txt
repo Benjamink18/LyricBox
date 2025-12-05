@@ -1,0 +1,100 @@
+================================================================================
+GETSONGBPM API TEST
+Song: Michael Jackson - Billie Jean
+Date: 2025-12-05 13:53:11
+================================================================================
+
+✓ API Key found: 3747293d1d...
+
+================================================================================
+TEST 1: SEARCH ENDPOINT - Search by Artist and Song
+================================================================================
+
+Request URL: https://api.getsong.co/search/
+Params: type=both, lookup=song:Billie Jean artist:Michael Jackson
+
+Status Code: 200
+✓ SUCCESS
+
+Found 2 result(s)
+
+Top Result:
+  ID: voKlYL
+  Name: None
+  Artist: Michael Jackson
+  BPM/Tempo: 116
+  Key: None
+  Album: Thriller
+  URI: https://getsongbpm.com/song/billie-jean/voKlYL
+
+Full Response:
+--------------------------------------------------------------------------------
+{
+  "search": [
+    {
+      "id": "voKlYL",
+      "title": "Billie Jean",
+      "uri": "https://getsongbpm.com/song/billie-jean/voKlYL",
+      "tempo": "116",
+      "time_sig": "4/4",
+      "key_of": "F\u266fm",
+      "open_key": "4m",
+      "danceability": 92,
+      "acousticness": 3,
+      "artist": {
+        "id": "GQ3",
+        "name": "Michael Jackson",
+        "uri": "https://getsongbpm.com/artist/michael-jackson/GQ3",
+        "genres": [
+          "funk",
+          "pop",
+          "rock",
+          "soul"
+        ],
+        "from": "US",
+        "mbid": "f27ec8db-af05-4f36-916e-3d57f91ecf5e"
+      },
+      "album": {
+        "title": "Thriller",
+        "uri": "https://getsongbpm.com/album/thriller/xgR9",
+        "year": "1982"
+      }
+    },
+    {
+      "id": "28yZ4P",
+      "title": "Immortal Megamix: Can You Feel It / Don't Stop 'Til You Get Enough / Billie Jean/Black or White - Immortal Version",
+      "uri": "https://getsongbpm.com/song/immortal-megamix-can-you-feel-it-don-t-stop-til-you-get-enough-billie-jean-black-or-white-immortal-version/28yZ4P",
+      "tempo": "124",
+      "time_sig": "4/4",
+      "key_of": "F\u266fm",
+      "open_key": "4m",
+      "danceability": 57,
+      "acousticness": 7,
+      "artist": {
+        "id": "GQ3",
+        "name": "Michael Jackson",
+        "uri": "https://getsongbpm.com/artist/michael-jackson/GQ3",
+        "genres": [
+          "funk",
+          "pop",
+          "rock",
+          "soul"
+        ],
+        "from": "US",
+        "mbid": "f27ec8db-af05-4f36-916e-3d57f91ecf5e"
+      },
+      "album": {
+        "title": "Immortal",
+        "uri": "https://getsongbpm.com/album/immortal/8xz1o",
+        "year": "2019"
+      }
+    }
+  ]
+}
+--------------------------------------------------------------------------------
+
+
+================================================================================
+TEST COMPLETE!
+Saving results to: getsongbpm_test_20251205_135311.txt
+================================================================================
