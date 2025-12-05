@@ -170,17 +170,19 @@ def run_enrichment():
         
         # DELETE songs that failed to get lyrics
         if lyrics_results['failed'] > 0:
-            print(f"\n  ✗ {lyrics_results['failed']} songs failed to get lyrics - DELETING from database...")
+            print(f"\n  Deleting {lyrics_results['failed']} songs without lyrics from database...")
             
-            # Find which songs failed (those not in successful list)
-            # For now, we'll need to track this in the lyrics scraper
-            # This is a simplification - in production, lyrics_results should return failed song_ids
+            for song_id, artist, track in lyrics_results['failed_song_ids']:
+                delete_song(song_id, artist, track)
             
         print(f"  ✓ Lyrics: {lyrics_results['successful']}/{lyrics_results['total']} successful")
         print(f"  ✗ Deleted: {lyrics_results['failed']} songs without lyrics")
         
-        # Update songs_with_metadata to only include successful ones
-        # (In production, filter out the failed ones based on lyrics_results)
+        # Update songs_with_metadata to only include songs that got lyrics
+        deleted_song_ids = {song_id for song_id, _, _ in lyrics_results['failed_song_ids']}
+        songs_with_metadata = [
+            s for s in songs_with_metadata if s['song_id'] not in deleted_song_ids
+        ]
     else:
         print("\n  No songs with metadata - skipping lyrics scraping")
         lyrics_results = {'successful': 0, 'failed': 0, 'total': 0}

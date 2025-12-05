@@ -20,13 +20,13 @@ def scrape_lyrics_batch(songs_to_scrape):
     Batch scrape lyrics from Genius.com for multiple songs.
     
     Args:
-        songs_to_scrape: List of dicts with 'artist' and 'track' keys
+        songs_to_scrape: List of dicts with 'artist', 'track', and 'song_id' keys
     
     Returns:
-        Dict with 'successful', 'failed', 'total' counts
+        Dict with 'successful', 'failed', 'total' counts and 'failed_song_ids' list
     """
     if not songs_to_scrape:
-        return {'successful': 0, 'failed': 0, 'total': 0}
+        return {'successful': 0, 'failed': 0, 'total': 0, 'failed_song_ids': []}
     
     # Setup browser and login once
     playwright, browser, page = setup_browser()
@@ -36,6 +36,7 @@ def scrape_lyrics_batch(songs_to_scrape):
     
     successful = 0
     failed = 0
+    failed_song_ids = []  # Track which songs failed for deletion
     
     # Process each song
     for i, song in enumerate(songs_to_scrape, 1):
@@ -64,6 +65,7 @@ def scrape_lyrics_batch(songs_to_scrape):
             if not raw_lyrics:
                 print(f"    ✗ Failed to extract lyrics")
                 failed += 1
+                failed_song_ids.append((song_id, artist, track))
                 continue
             
             # Parse into sections
@@ -72,6 +74,7 @@ def scrape_lyrics_batch(songs_to_scrape):
             if not parsed_sections:
                 print(f"    ✗ No sections parsed")
                 failed += 1
+                failed_song_ids.append((song_id, artist, track))
                 continue
             
             # Save to Supabase
@@ -82,10 +85,12 @@ def scrape_lyrics_batch(songs_to_scrape):
                 print(f"    ✓ Saved {rows_saved} sections")
             else:
                 failed += 1
+                failed_song_ids.append((song_id, artist, track))
                 print(f"    ✗ Failed to save to database")
         
         except Exception as e:
             failed += 1
+            failed_song_ids.append((song_id, artist, track))
             print(f"    ✗ Error: {e}")
     
     # Close browser and stop Playwright
@@ -94,7 +99,12 @@ def scrape_lyrics_batch(songs_to_scrape):
     
     print(f"\n  Genius Scraping: {successful} successful, {failed} failed\n")
     
-    return {'successful': successful, 'failed': failed, 'total': len(songs_to_scrape)}
+    return {
+        'successful': successful,
+        'failed': failed,
+        'total': len(songs_to_scrape),
+        'failed_song_ids': failed_song_ids
+    }
 
 
 if __name__ == "__main__":
