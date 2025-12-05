@@ -86,3 +86,7 @@
 4. Click any song name → Lyrics modal opens
 5. See full song with word in context
 
+
+
+
+

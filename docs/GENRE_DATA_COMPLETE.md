@@ -74,3 +74,7 @@ The filter sidebar shows these main genres:
 
 **Status:** All genre data is now complete and filters should work perfectly! 🚀
 
+
+
+
+

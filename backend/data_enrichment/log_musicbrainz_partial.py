@@ -18,7 +18,7 @@ def log_musicbrainz_partial(artist_name, track_name):
     Returns:
         None (appends to log file)
     """
-    log_file = "musicbrainz_partial_metadata.txt"
+    log_file = "../logs/musicbrainz_partial_metadata.txt"
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_entry = f"{timestamp} - {artist_name} - {track_name} (missing: BPM, key, moods)\n"
     

@@ -17,7 +17,7 @@ def log_metadata_failure(artist_name, track_name):
     Returns:
         None (appends to log file)
     """
-    log_file = "metadata_not_found.txt"
+    log_file = "../logs/metadata_not_found.txt"
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_entry = f"{timestamp} - {artist_name} - {track_name} (no sources)\n"
     

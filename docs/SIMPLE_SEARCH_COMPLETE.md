@@ -107,3 +107,7 @@ If you enable "Show all matches" and "love" appears at the end of multiple lines
 
 Simple search is complete! Network search already has clickable song names. Both modes are fully functional.
 
+
+
+
+

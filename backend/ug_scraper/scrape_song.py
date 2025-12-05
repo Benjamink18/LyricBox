@@ -14,7 +14,7 @@ from .click_chords import click_chords
 from .extract_tonality import extract_tonality
 from .extract_chords import extract_chords
 from .process_chords import process_chords
-from .human_behavior import act_human
+from utils.human_behavior import act_human
 from .log_missing_chords import log_missing_chords
 
 

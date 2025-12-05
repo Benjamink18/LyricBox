@@ -76,3 +76,7 @@ Filter sidebar now loads genres directly from the database (not hardcoded).
 
 **Status:** Filters should now work! Test and let me know if anything's still broken. 🚀
 
+
+
+
+

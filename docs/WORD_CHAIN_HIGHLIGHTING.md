@@ -122,3 +122,7 @@ Makes it crystal clear what the checkbox does!
 
 **Status:** Word chain highlighting complete! 🚀
 
+
+
+
+
