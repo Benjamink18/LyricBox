@@ -11,16 +11,27 @@ Example: Capo 5, shape "Dm" → actual sound "Gm"
 def transpose_by_capo(chord, capo_fret):
     """
     Transpose a chord shape by the capo position to get the actual sounding chord.
+    Handles slash chords (e.g., D/F#) by transposing both parts.
     
     Args:
-        chord: Chord shape (e.g., "Dm", "Cadd9")
+        chord: Chord shape (e.g., "Dm", "Cadd9", "D/F#")
         capo_fret: Capo position (0 = no capo, 5 = 5th fret, etc.)
     
     Returns:
-        Actual sounding chord (e.g., "Gm", "Fadd9")
+        Actual sounding chord (e.g., "Gm", "Fadd9", "G/B")
     """
     if capo_fret == 0:
         return chord  # No capo, return as-is
+    
+    # Check for slash chord (e.g., D/F#)
+    import re
+    if '/' in chord:
+        parts = chord.split('/')
+        if len(parts) == 2:
+            # Transpose both the chord and the bass note
+            transposed_chord = transpose_by_capo(parts[0], capo_fret)
+            transposed_bass = transpose_by_capo(parts[1], capo_fret)
+            return f"{transposed_chord}/{transposed_bass}"
     
     # Chromatic scale
     notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
@@ -31,7 +42,6 @@ def transpose_by_capo(chord, capo_fret):
     }
     
     # Extract root note from chord
-    import re
     match = re.match(r'^([A-G][#b]?)', chord)
     if not match:
         return chord  # Can't parse, return as-is

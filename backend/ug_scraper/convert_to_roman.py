@@ -7,18 +7,28 @@ Assumes input chord is in C major. Preserves embellishments.
 def convert_to_roman(chord):
     """
     Convert a chord in C major scale framework to Roman numeral notation.
+    Handles slash chords (e.g., C/E) by converting both parts.
     
     All chords are analyzed within C major scale:
     - C = I, Dm = ii, Em = iii, F = IV, G = V, Am = vi, Bdim = vii°
     
     Args:
-        chord: Chord (e.g., "C", "Dm", "Am", "Fadd9")
+        chord: Chord (e.g., "C", "Dm", "Am", "Fadd9", "C/E")
     
     Returns:
-        Roman numeral representation (e.g., "I", "ii", "vi", "IVadd9")
+        Roman numeral representation (e.g., "I", "ii", "vi", "IVadd9", "I/iii")
     """
-    # Extract root note and quality
+    # Check for slash chord (e.g., C/E)
     import re
+    if '/' in chord:
+        parts = chord.split('/')
+        if len(parts) == 2:
+            # Convert both the chord and the bass note
+            roman_chord = convert_to_roman(parts[0])
+            roman_bass = convert_to_roman(parts[1])
+            return f"{roman_chord}/{roman_bass}"
+    
+    # Extract root note and quality
     match = re.match(r'^([A-G][#b]?)(m|dim|aug)?(.*)$', chord)
     if not match:
         return chord  # Return as-is if we can't parse it
