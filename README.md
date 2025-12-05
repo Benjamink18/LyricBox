@@ -192,4 +192,10 @@ python import_songs.py
 
 ---
 
+## Credits
+
+BPM and tempo data provided by [GetSongBPM](https://getsongbpm.com) - Free BPM database for developers.
+
+---
+
 *Personal use only - not for commercial distribution*
