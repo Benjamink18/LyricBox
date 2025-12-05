@@ -30,7 +30,7 @@ def search_song(page, search_query):
         try:
             search_box = page.locator(selector).first
             # Wait for it to be visible
-            search_box.wait_for(state="visible", timeout=5000)
+            search_box.wait_for(state="visible", timeout=2000)
             print(f"  Found search box with selector: {selector}")
             break
         except:
@@ -48,7 +48,7 @@ def search_song(page, search_query):
     search_box.press("Enter")
     
     # Wait for results to load
-    page.wait_for_timeout(3000)
+    page.wait_for_timeout(1500)
     
     print("  Search complete!")
     return True

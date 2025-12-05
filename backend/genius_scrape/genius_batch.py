@@ -3,6 +3,8 @@ GENIUS BATCH SCRAPER: Batch lyrics scraper for data enrichment pipeline
 Opens browser once, scrapes multiple songs, returns results.
 """
 
+import random
+
 from .setup_browser import setup_browser
 from .handle_cookies import handle_cookies
 from .genius_search import search_song
@@ -45,12 +47,15 @@ def scrape_lyrics_batch(songs_to_scrape):
         try:
             # Search for the song
             search_song(page, artist, track)
+            page.wait_for_timeout(random.randint(1000, 2000))
             
             # Click top result
             click_top_song(page)
+            page.wait_for_timeout(random.randint(1000, 2000))
             
             # Click Edit Lyrics
             click_edit_lyrics(page)
+            page.wait_for_timeout(random.randint(1000, 2000))
             
             # Extract lyrics
             raw_lyrics = extract_lyrics(page)
