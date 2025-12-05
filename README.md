@@ -18,6 +18,13 @@ A personal songwriting toolkit that shows you how words rhyme in real songs. Ins
 - **Hosting**: Cloudflare Pages
 - **Auth**: Cloudflare Access (Google Workspace)
 
+## Data Sources
+
+- **Lyrics**: Genius.com
+- **Chords**: Ultimate-Guitar.com
+- **Genres**: Musixmatch API
+- **BPM Data**: [GetSongBPM](https://getsongbpm.com)
+
 ## Quick Start
 
 ### 1. Set up Supabase
